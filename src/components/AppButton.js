@@ -1,11 +1,11 @@
 import React from 'react';
 import {View, Text, Image, StyleSheet} from 'react-native';
 
-export default function App(props) {
+export default function AppButton({name, onPress, style}) {
   return (
-    <View style={styles.container}>
-      <Text>jiba</Text>
-    </View>
+    <TouchableOpacity style={[styles.container, style]} onPress={onPress}>
+      <Text>{name}</Text>
+    </TouchableOpacity>
   );
 }
 
