@@ -1,18 +1,12 @@
 import React from 'react';
-import {View, Text, Image, StyleSheet} from 'react-native';
+import AppButton from './components/AppButton';
+import AppIcon from './components/AppIcon';
 
 export default function App(props) {
   return (
-    <View style={styles.container}>
-      <Text>jiba</Text>
-    </View>
+    <>
+      <AppButton title="button" onPress={() => alert('btn clicked')} />
+      <AppIcon />
+    </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
