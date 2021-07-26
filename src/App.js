@@ -1,12 +1,10 @@
 import React from 'react';
-import AppButton from './components/AppButton';
-import AppIcon from './components/AppIcon';
+import Routes from './navigation/Routes';
 
 export default function App(props) {
   return (
     <>
-      <AppButton title="button" onPress={() => alert('btn clicked')} />
-      <AppIcon />
+      <Routes />
     </>
   );
 }
