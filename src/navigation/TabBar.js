@@ -22,11 +22,19 @@ export default function TabBar(props) {
         component={DocStack}
         options={() => ({
           tabBarIcon: ({size, color}) => (
-            <Icon name="home" size={size} color={color} />
+            <Icon name="file-document-outline" size={size} color={color} />
           ),
         })}
       />
-      <Tab.Screen name="Account" component={ProfileStack} />
+      <Tab.Screen
+        name="Account"
+        component={ProfileStack}
+        options={() => ({
+          tabBarIcon: ({size, color}) => (
+            <Icon name="dots-horizontal" size={size} color={color} />
+          ),
+        })}
+      />
     </Tab.Navigator>
   );
 }

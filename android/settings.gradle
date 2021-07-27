@@ -1,4 +1,6 @@
 rootProject.name = 'flydocs'
+include ':react-native-perspective-image-cropper'
+project(':react-native-perspective-image-cropper').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-perspective-image-cropper/android')
 apply from: file("../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesSettingsGradle(settings)
 include ':app'
 include ':openCVLibrary310'
