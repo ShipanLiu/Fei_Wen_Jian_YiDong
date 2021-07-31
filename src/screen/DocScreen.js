@@ -1,4 +1,15 @@
-import React, {useContext, useState} from 'react';
+/*
+image picker data format:
+
+[{"bucketId": -1739773001, "chooseModel": 1, "duration": 0, "fileName": "IMG_20210726_200932.jpg",
+ "height": 1280, "localIdentifier": 32, "mime": "image/jpeg", "parentFolderName": "Camera",
+  "path": "content://media/external/file/32", "position": 1,
+  "realPath": "/storage/emulated/0/DCIM/Camera/IMG_20210726_200932.jpg",
+   "size": 123428, "type": "image", "width": 960}]
+
+*/
+
+import React, {Component} from 'react';
 import {
   View,
   Text,
@@ -9,32 +20,19 @@ import {
   Animated,
   TextInput,
   Image,
+  ImageBackground,
+  ScrollView,
+  TouchableOpacity,
 } from 'react-native';
 import ActionButton from 'react-native-simple-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
-import MultipleImagePicker from '@baronha/react-native-multiple-image-picker';
 
-export default function AddPostScreen({navigation}) {
-  const [image, setImage] = useState(null);
+import AppButton from '../components/AppButton';
+import imagePicker from '../hooks/imagePicker';
 
-  const handleOpenLibrary = async () => {
-    await MultipleImagePicker.openPicker({
-      mediaType: 'image',
-      isPreview: false,
-    })
-      .then(response => console.log(response))
-      .catch(err => console.log(err));
-  };
-
+export default function DocScreen({navigation}) {
   return (
     <View style={styles.container}>
-      <View style={styles.inputWrapper}>
-        <TextInput
-          placeholder="add something here"
-          multiline
-          numberOfLines={4}
-        />
-      </View>
       <ActionButton buttonColor="#2e64e5">
         <ActionButton.Item
           buttonColor="#9b59b6"
@@ -45,7 +43,8 @@ export default function AddPostScreen({navigation}) {
         <ActionButton.Item
           buttonColor="#3498db"
           title="Choose Photo"
-          onPress={() => handleOpenLibrary()}>
+          // onPress={handleOpenLibrary}
+        >
           <Icon name="md-images-outline" style={styles.actionButtonIcon} />
         </ActionButton.Item>
       </ActionButton>
@@ -63,5 +62,21 @@ const styles = StyleSheet.create({
     fontSize: 20,
     height: 22,
     color: 'white',
+  },
+  inputWrapper: {
+    marginTop: 30,
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+  },
+  images: {
+    width: 400,
+    height: 200,
+  },
+  cropperContainer: {
+    marginTop: 100,
+    width: 400,
+    height: 600,
   },
 });

@@ -3,7 +3,7 @@ import {View, Text, Image, StyleSheet} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 
 import DocScreen from '../screen/DocScreen';
-import CameraScreen from '../screen/CameraScreen';
+import ScannerScreen from '../screen/ScannerScreen';
 import ProfileScreen from '../screen/ProfileScreen';
 
 const Stack = createStackNavigator();
@@ -25,7 +25,7 @@ function DocStack(props) {
       />
       <Stack.Screen
         name="camera"
-        component={CameraScreen}
+        component={ScannerScreen}
         options={() => ({
           headerShown: false,
         })}
