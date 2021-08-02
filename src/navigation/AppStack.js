@@ -5,6 +5,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import DocScreen from '../screen/DocScreen';
 import ScannerScreen from '../screen/ScannerScreen';
 import ProfileScreen from '../screen/ProfileScreen';
+import PreviewScreen from '../screen/PreviewScreen';
 
 const Stack = createStackNavigator();
 
@@ -30,6 +31,13 @@ function DocStack(props) {
           headerShown: false,
         })}
       />
+      <Stack.Screen
+        name="preview"
+        component={PreviewScreen}
+        options={() => ({
+          title: 'Preview',
+        })}
+      />
     </Stack.Navigator>
   );
 }
@@ -52,13 +60,5 @@ function ProfileStack(props) {
     </Stack.Navigator>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
 
 export {DocStack, ProfileStack};

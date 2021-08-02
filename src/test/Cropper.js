@@ -107,8 +107,8 @@ class CustomCrop extends Component {
       bottomRight: this.viewCoordinatesToImageCoordinates(
         this.state.bottomRight,
       ),
-      // height: this.state.height,
-      // width: this.state.width,
+      height: this.state.height,
+      width: this.state.width,
     };
     return coordinates;
     console.log('cropped');
@@ -144,7 +144,7 @@ class CustomCrop extends Component {
           flex: 1,
           alignItems: 'center',
           justifyContent: 'center',
-          // backgroundColor: 'yellow',
+          backgroundColor: 'yellow',
           borderWidth: 2,
           overflow: 'hidden',
         }}>
