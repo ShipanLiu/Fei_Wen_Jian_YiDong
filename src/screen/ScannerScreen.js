@@ -55,18 +55,21 @@ export default function TestV1({navigation}) {
     bottomLeft: data.bottomLeft,
   });
 
+  //  TODO:   调整cropper的预览。
   const getCoordination = detectedRectangle => {
     // console.log(detectedRectangle);
     setOldCoordinates(createRectangle(detectedRectangle));
     setSize(detectedRectangle.dimensions);
+    console.log(oldCoordinates);
+    console.log(size);
   };
 
   const createRectRegion = position => {
     return {
-      x: (position.bottomLeft.x + position.topLeft.x) * 0.5,
-      y: (position.topLeft.y + position.topRight.y) * 0.5,
-      width: position.topRight.x - position.topLeft.x,
-      height: position.bottomLeft.y - position.topLeft.y,
+      x: (position.topRight.x + position.topLeft.x) * 0.5,
+      y: (position.bottomRight.y + position.topRight.y) * 0.5,
+      width: position.bottomRight.x - position.topRight.x,
+      height: position.topLeft.y - position.topRight.y,
     };
   };
 
@@ -192,6 +195,7 @@ export default function TestV1({navigation}) {
           getCoordination={getCoordination}
           // onPictureProcessed={onPictureProcessed}
           hideSkip
+          cameraIsOn={true}
         />
       )}
     </>
