@@ -27,13 +27,41 @@ import {
 } from 'react-native';
 import ActionButton from 'react-native-simple-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
+import imgArr from '../modal/data';
 
 import AppButton from '../components/AppButton';
 import imagePicker from '../hooks/imagePicker';
+import {DimensionsWidth, DimensionsHeight} from '../utils/dimension';
 
 export default function DocScreen({navigation}) {
+  const renderItem = ({item}) => {
+    return (
+      <TouchableOpacity onPress={() => {}} style={styles.itemContainer}>
+        <View style={styles.fileImageContainer}>
+          <Image
+            source={item.image}
+            resizeMode="contain"
+            style={styles.fileImage}
+          />
+        </View>
+        <View style={styles.fileNameContainer}>
+          <Text style={styles.fileName}>{item.title}</Text>
+        </View>
+      </TouchableOpacity>
+    );
+  };
   return (
     <View style={styles.container}>
+      <View style={styles.fileContainer}>
+        <FlatList
+          data={imgArr}
+          keyExtractor={item => item.id}
+          renderItem={renderItem}
+          // numColumns={2}
+          horizontal
+        />
+      </View>
+
       <ActionButton buttonColor="#2e64e5">
         <ActionButton.Item
           buttonColor="#9b59b6"
@@ -55,7 +83,7 @@ export default function DocScreen({navigation}) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    // flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -79,5 +107,23 @@ const styles = StyleSheet.create({
     marginTop: 100,
     width: 400,
     height: 600,
+  },
+  fileContainer: {},
+  itemContainer: {
+    flexDirection: 'column',
+    alignItems: 'center',
+    width: DimensionsWidth / 3,
+    height: DimensionsHeight / 3,
+    borderWidth: 2,
+    marginVertical: 10,
+    marginHorizontal: 30,
+  },
+  fileImageContainer: {
+    width: '100%',
+    height: 90,
+  },
+  fileImage: {
+    height: '100%',
+    width: '100%',
   },
 });
