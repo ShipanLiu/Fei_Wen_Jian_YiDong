@@ -24,9 +24,8 @@ import PhotoManipulator from 'react-native-photo-manipulator';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
-console.log(windowWidth);
 
-export default function TestV1({navigation}) {
+export default function TestV1({route, navigation}) {
   const [takenPhoto, setTakenPhoto] = useState(null);
   const [savePhoto, setSavePhoto] = useState([]);
   const [oldCoordinates, setOldCoordinates] = useState(null);
@@ -34,14 +33,15 @@ export default function TestV1({navigation}) {
   const [reCrop, setReCrop] = useState(false);
   const cropperRef = useRef(null);
 
-  useEffect(() => {}, [reCrop]);
-
   const onCancel = () => {
     navigation.navigate('docs');
   };
 
-  const onPictureTaken = data => {
-    console.log(data);
+  const onPictureTaken = () => {
+    console.log('44 ---> pic taken!!!');
+  };
+
+  const onPictureProcessed = data => {
     setTakenPhoto({
       initialImage: data.initialImage,
       croppedImage: data.croppedImage,
@@ -49,27 +49,24 @@ export default function TestV1({navigation}) {
   };
 
   const createRectangle = data => ({
-    topLeft: data.topLeft,
-    topRight: data.topRight,
-    bottomRight: data.bottomRight,
-    bottomLeft: data.bottomLeft,
+    topLeft: data.topRight,
+    topRight: data.bottomRight,
+    bottomRight: data.bottomLeft,
+    bottomLeft: data.topLeft,
   });
 
   //  TODO:   调整cropper的预览。
   const getCoordination = detectedRectangle => {
-    // console.log(detectedRectangle);
     setOldCoordinates(createRectangle(detectedRectangle));
     setSize(detectedRectangle.dimensions);
-    console.log(oldCoordinates);
-    console.log(size);
   };
 
   const createRectRegion = position => {
     return {
-      x: (position.topRight.x + position.topLeft.x) * 0.5,
-      y: (position.bottomRight.y + position.topRight.y) * 0.5,
-      width: position.bottomRight.x - position.topRight.x,
-      height: position.topLeft.y - position.topRight.y,
+      x: position.topLeft.x,
+      y: position.topLeft.y,
+      width: position.topRight.x - position.topLeft.x,
+      height: position.bottomLeft.y - position.topLeft.y,
     };
   };
 
@@ -88,29 +85,20 @@ export default function TestV1({navigation}) {
 
   const cropAction = async () => {
     const newCoordinates = cropperRef.current.crop();
-    console.log(newCoordinates);
     const rectRegion = createRectRegion(newCoordinates);
-    const targetSize = {height: size.height, width: size.width};
+    const targetSize = {
+      height: rectRegion.height + 10,
+      width: rectRegion.width + 10,
+    };
     const croppedImageUri = await photoManipulator(
       takenPhoto.initialImage,
       rectRegion,
       targetSize,
     );
-    console.log('外部输出' + croppedImageUri);
-    // setSavePhoto(preValue => [
-    //   ...preValue,
-    //   {
-    //     id: uuid.v4(),
-    //     coordinates: newCoordinates,
-    //     initialImage: takenPhoto.initialImage,
-    //     croppedImage: croppedImageUri,
-    //     height: size.height,
-    //     width: size.width,
-    //   },
-    // ]);
 
-    navigation.navigate('preview', {
-      imgObj: {
+    setSavePhoto(preValue => [
+      ...preValue,
+      {
         id: uuid.v4(),
         coordinates: newCoordinates,
         initialImage: takenPhoto.initialImage,
@@ -118,10 +106,24 @@ export default function TestV1({navigation}) {
         height: size.height,
         width: size.width,
       },
-    });
+    ]);
 
+    // navigation.navigate('preview', {
+    //   imgObj: {
+    //     id: uuid.v4(),
+    //     coordinates: newCoordinates,
+    //     initialImage: takenPhoto.initialImage,
+    //     croppedImage: croppedImageUri,
+    //     height: size.height,
+    //     width: size.width,
+    //   },
+    // });
+
+    // reopen the camera
     setTakenPhoto(null);
   };
+
+  console.log(savePhoto);
 
   return (
     <>
@@ -193,7 +195,7 @@ export default function TestV1({navigation}) {
           onPictureTaken={onPictureTaken}
           onCancel={onCancel}
           getCoordination={getCoordination}
-          // onPictureProcessed={onPictureProcessed}
+          onPictureProcessed={onPictureProcessed}
           hideSkip
           cameraIsOn={true}
         />
@@ -238,20 +240,3 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
 });
-
-const coords = {
-  coordinates: {
-    bottomLeft: [Object],
-    bottomRight: [Object],
-    height: 1280,
-    topLeft: [Object],
-    topRight: [Object],
-    width: 720,
-  },
-  croppedImage: null,
-  height: 1280,
-  id: '8095a565-c0f5-4f24-9e26-42af5ccb1309',
-  initialImage:
-    'file:///data/user/0/com.flydocs/cache/RNRectangleScanner/Ocbaa502d-f331-42c9-a66e-2768b0bc38a7.png',
-  width: 720,
-};

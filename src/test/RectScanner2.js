@@ -143,7 +143,6 @@ const styles = StyleSheet.create({
 
 export default class DocumentScanner extends PureComponent {
   static propTypes = {
-    getCoordination: PropTypes.func,
     cameraIsOn: PropTypes.bool,
     onLayout: PropTypes.func,
     onSkip: PropTypes.func,
@@ -157,7 +156,6 @@ export default class DocumentScanner extends PureComponent {
 
   static defaultProps = {
     cameraIsOn: undefined,
-    getCoordination: () => {},
     onLayout: () => {},
     onSkip: () => {},
     onCancel: () => {},
@@ -344,23 +342,19 @@ export default class DocumentScanner extends PureComponent {
       Animated.timing(this.state.overlayFlashOpacity, {
         toValue: 0.2,
         duration: 100,
-        useNativeDriver: true,
       }),
       Animated.timing(this.state.overlayFlashOpacity, {
         toValue: 0,
         duration: 50,
-        useNativeDriver: true,
       }),
       Animated.timing(this.state.overlayFlashOpacity, {
         toValue: 0.6,
         delay: 100,
         duration: 120,
-        useNativeDriver: true,
       }),
       Animated.timing(this.state.overlayFlashOpacity, {
         toValue: 0,
         duration: 90,
-        useNativeDriver: true,
       }),
     ]).start();
   }
@@ -445,12 +439,12 @@ export default class DocumentScanner extends PureComponent {
                     style={[styles.button, disabledStyle]}
                     onPress={cameraIsDisabled ? () => null : this.props.onSkip}
                     activeOpacity={0.8}>
-                    {/* <Icon
+                    <Icon
                       name="md-arrow-round-forward"
                       size={40}
                       color="white"
                       style={styles.buttonIcon}
-                    /> */}
+                    />
                     <Text style={styles.buttonText}>Skip</Text>
                   </TouchableOpacity>
                 </View>
@@ -508,12 +502,12 @@ export default class DocumentScanner extends PureComponent {
                   style={[styles.button, disabledStyle]}
                   onPress={cameraIsDisabled ? () => null : this.props.onSkip}
                   activeOpacity={0.8}>
-                  {/* <Icon
+                  <Icon
                     name="md-arrow-round-forward"
                     size={40}
                     color="white"
                     style={styles.buttonIcon}
-                  /> */}
+                  />
                   <Text style={styles.buttonText}>Skip</Text>
                 </TouchableOpacity>
               )}
@@ -580,12 +574,12 @@ export default class DocumentScanner extends PureComponent {
                   style={[styles.button, disabledStyle]}
                   onPress={cameraIsDisabled ? () => null : this.props.onSkip}
                   activeOpacity={0.8}>
-                  {/* <Icon
+                  <Icon
                     name="md-arrow-round-forward"
                     size={40}
                     color="white"
                     style={styles.buttonIcon}
-                  /> */}
+                  />
                   <Text style={styles.buttonText}>Skip</Text>
                 </TouchableOpacity>
               )}
@@ -648,15 +642,14 @@ export default class DocumentScanner extends PureComponent {
             borderColor="rgb(255,181,6)"
             borderWidth={4}
             // == These let you auto capture and change the overlay style on detection ==
-            detectedBackgroundColor="rgba(255,181,6, 0.3)"
-            detectedBorderWidth={6}
-            detectedBorderColor="rgb(255,218,124)"
-            onDetectedCapture={this.capture}
-            allowDetection
+            // detectedBackgroundColor="rgba(255,181,6, 0.3)"
+            // detectedBorderWidth={6}
+            // detectedBorderColor="rgb(255,218,124)"
+            // onDetectedCapture={this.capture}
+            // allowDetection
           />
         );
       }
-      console.log(this.state.detectedRectangle);
 
       // NOTE: I set the background color on here because for some reason the view doesn't line up correctly otherwise. It's a weird quirk I noticed.
       return (
@@ -675,16 +668,10 @@ export default class DocumentScanner extends PureComponent {
             enableTorch={this.state.flashEnabled}
             filterId={this.state.filterId}
             ref={this.camera}
-            capturedQuality={1}
-            onRectangleDetected={({detectedRectangle}) => {
-              this.setState({detectedRectangle});
-              // don't let it be 'false'
-              detectedRectangle &&
-                this.props.getCoordination(detectedRectangle);
-            }}
-            // onRectangleDetected={data =>
-            //   this.setState({detectedRectangle: data})
-            // }
+            capturedQuality={0.6}
+            onRectangleDetected={({detectedRectangle}) =>
+              this.setState({detectedRectangle})
+            }
             onDeviceSetup={this.onDeviceSetup}
             onTorchChanged={({enabled}) =>
               this.setState({flashEnabled: enabled})
@@ -745,12 +732,12 @@ export default class DocumentScanner extends PureComponent {
                 style={[styles.button, {marginTop: 8}]}
                 onPress={this.props.onSkip}
                 activeOpacity={0.8}>
-                {/* <Icon
+                <Icon
                   name="md-arrow-round-forward"
                   size={40}
                   color="white"
                   style={styles.buttonIcon}
-                /> */}
+                />
                 <Text style={styles.buttonText}>Skip</Text>
               </TouchableOpacity>
             )}

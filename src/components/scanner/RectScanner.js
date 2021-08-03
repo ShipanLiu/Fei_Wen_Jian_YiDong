@@ -156,7 +156,7 @@ export default class DocumentScanner extends PureComponent {
   };
 
   static defaultProps = {
-    cameraIsOn: undefined,
+    cameraIsOn: true,
     getCoordination: () => {},
     onLayout: () => {},
     onSkip: () => {},

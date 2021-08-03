@@ -23,6 +23,7 @@ import {
   ImageBackground,
   ScrollView,
   TouchableOpacity,
+  FlatList,
 } from 'react-native';
 import ActionButton from 'react-native-simple-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';

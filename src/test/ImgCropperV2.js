@@ -29,7 +29,7 @@ export default function ImgCropperV2(props) {
   const initialPath =
     'file:///data/user/0/com.flydocs/cache/RNRectangleScanner/O546507c7-6aa7-4d5b-aab3-89b704165704.png';
   const croppedPath =
-    'file:///data/user/0/com.flydocs/cache/RNRectangleScanner/Cafd87203-863a-461b-9a53-fb797e9debf2.png';
+    'file:///data/user/0/com.flydocs/cache/RNPM_6828020457820156662.jpg';
 
   const imgObj = {
     fileName: 'IMG_20210802_134501.jpg',

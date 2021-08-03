@@ -17,19 +17,24 @@ export default function PreviewScreen({route, navigation}) {
   console.log(imgObj);
   return (
     <View style={styles.container}>
-      <View style={{width: 300, height: 250}}>
+      {/* <View style={{width: 300, height: 250}}>
         <Image
           source={{uri: imgObj.initialImage}}
           style={{width: '100%', height: '100%'}}
         />
-      </View>
-      <View style={{width: 300, height: 250}}>
+      </View> */}
+      <View style={{width: 200, height: 300}}>
         <Image
+          // the key of checking a cropped image!!!!!
+          resizeMode="contain"
           source={{uri: imgObj.croppedImage}}
           style={{width: '100%', height: '100%'}}
         />
       </View>
-      <AppButton title="camera" onPress={() => navigation.navigate('camera')} />
+      <AppButton
+        title="camera"
+        onPress={() => navigation.navigate('camera', {openCam: 'open'})}
+      />
     </View>
   );
 }
