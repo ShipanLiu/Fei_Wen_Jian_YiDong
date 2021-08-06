@@ -33,7 +33,11 @@ import AppButton from '../components/AppButton';
 import imagePicker from '../hooks/imagePicker';
 import {DimensionsWidth, DimensionsHeight} from '../utils/dimension';
 
-export default function DocScreen({navigation}) {
+export default function DocScreen({navigation, route}) {
+  if (route) {
+    console.log(route.params);
+  }
+
   const renderItem = ({item}) => {
     return (
       <TouchableOpacity onPress={() => {}} style={styles.itemContainer}>
@@ -57,8 +61,7 @@ export default function DocScreen({navigation}) {
           data={imgArr}
           keyExtractor={item => item.id}
           renderItem={renderItem}
-          // numColumns={2}
-          horizontal
+          numColumns={2}
         />
       </View>
 

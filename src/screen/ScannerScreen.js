@@ -30,7 +30,6 @@ export default function TestV1({route, navigation}) {
   const [savePhoto, setSavePhoto] = useState([]);
   const [oldCoordinates, setOldCoordinates] = useState(null);
   const [size, setSize] = useState({height: 1280, width: 720});
-  const [reCrop, setReCrop] = useState(false);
   const cropperRef = useRef(null);
 
   const onCancel = () => {
@@ -87,8 +86,8 @@ export default function TestV1({route, navigation}) {
     const newCoordinates = cropperRef.current.crop();
     const rectRegion = createRectRegion(newCoordinates);
     const targetSize = {
-      height: rectRegion.height + 10,
-      width: rectRegion.width + 10,
+      height: rectRegion.height,
+      width: rectRegion.width,
     };
     const croppedImageUri = await photoManipulator(
       takenPhoto.initialImage,
@@ -164,14 +163,12 @@ export default function TestV1({route, navigation}) {
                   </TouchableOpacity>
                   <TouchableOpacity
                     style={styles.controlIcon}
-                    onPress={() => setReCrop(preValue => !preValue)}>
-                    <AppIcon
-                      name="crop"
-                      size={40}
-                      iconColor="tomato"
-                      backgroundColor="#fff"
-                    />
-                    <Text style={styles.iconText}>ReCrop</Text>
+                    onPress={() =>
+                      navigation.navigate('docs', {
+                        data: savePhoto,
+                      })
+                    }>
+                    <Text style={styles.iconText}>Done!</Text>
                   </TouchableOpacity>
 
                   <TouchableOpacity

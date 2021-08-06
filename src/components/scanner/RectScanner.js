@@ -655,11 +655,11 @@ export default class DocumentScanner extends PureComponent {
             borderColor="rgb(255,181,6)"
             borderWidth={4}
             // == These let you auto capture and change the overlay style on detection ==
-            // detectedBackgroundColor="rgba(255,181,6, 0.3)"
-            // detectedBorderWidth={6}
-            // detectedBorderColor="rgb(255,218,124)"
-            // onDetectedCapture={this.capture}
-            // allowDetection
+            detectedBackgroundColor="rgba(255,181,6, 0.3)"
+            detectedBorderWidth={6}
+            detectedBorderColor="rgb(255,218,124)"
+            onDetectedCapture={this.capture}
+            allowDetection
           />
         );
       }
@@ -683,9 +683,6 @@ export default class DocumentScanner extends PureComponent {
             ref={this.camera}
             capturedQuality={1}
             onRectangleDetected={({detectedRectangle}) => {
-              // setInterval(() => {
-              //   console.log('1秒');
-              // }, 3000);
               this.setState({detectedRectangle});
               // don't let it be 'false'
               detectedRectangle &&
