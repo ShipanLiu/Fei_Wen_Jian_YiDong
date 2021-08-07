@@ -5,7 +5,8 @@ import {createStackNavigator} from '@react-navigation/stack';
 import DocScreen from '../screen/DocScreen';
 import ScannerScreen from '../screen/ScannerScreen';
 import ProfileScreen from '../screen/ProfileScreen';
-import PreviewScreen from '../screen/PreviewScreen';
+// import PreviewScreen from '../screen/PreviewScreen';
+import UploadScreen from '../screen/UploadScreen';
 
 const Stack = createStackNavigator();
 
@@ -31,11 +32,18 @@ function DocStack(props) {
           headerShown: false,
         })}
       />
-      <Stack.Screen
+      {/* <Stack.Screen
         name="preview"
         component={PreviewScreen}
         options={() => ({
           title: 'Preview',
+        })}
+      /> */}
+      <Stack.Screen
+        name="upload"
+        component={UploadScreen}
+        options={() => ({
+          title: 'Upload',
         })}
       />
     </Stack.Navigator>

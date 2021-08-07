@@ -163,11 +163,12 @@ export default function TestV1({route, navigation}) {
                   </TouchableOpacity>
                   <TouchableOpacity
                     style={styles.controlIcon}
-                    onPress={() =>
-                      navigation.navigate('docs', {
-                        data: savePhoto,
-                      })
-                    }>
+                    onPress={() => {
+                      cropAction();
+                      navigation.navigate('upload', {
+                        imgArr: savePhoto,
+                      });
+                    }}>
                     <Text style={styles.iconText}>Done!</Text>
                   </TouchableOpacity>
 

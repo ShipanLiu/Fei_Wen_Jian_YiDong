@@ -12,10 +12,6 @@ export default function TabBar(props) {
     <Tab.Navigator
       tabBarOptions={{
         activeTintColor: '#2e64e5',
-        // activeTintColor: 'white',
-        // activeBackgroundColor: 'tomato',
-        // inactiveBackgroundColor: 'gray',
-        // inactiveTintColor: 'black',
       }}>
       <Tab.Screen
         name="Feed"

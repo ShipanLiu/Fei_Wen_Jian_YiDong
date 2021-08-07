@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     elevation: 3,
     borderRadius: 25,
     padding: 10,
-    width: '20%',
+    width: '100%',
   },
 
   text: {
