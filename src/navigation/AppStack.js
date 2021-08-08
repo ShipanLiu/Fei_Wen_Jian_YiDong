@@ -18,6 +18,7 @@ function DocStack(props) {
         headerStyle: {backgroundColor: 'tomato'},
         headerTintColor: '#fff',
         headerTitleAlign: 'center',
+        // headerLeft: null,
       }}>
       <Stack.Screen
         name="docs"
@@ -45,7 +46,6 @@ function DocStack(props) {
         component={UploadScreen}
         options={() => ({
           title: 'Upload',
-          headerLeft: null,
         })}
       />
     </Stack.Navigator>

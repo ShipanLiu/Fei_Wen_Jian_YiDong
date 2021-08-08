@@ -34,7 +34,12 @@ import {ImageContext} from '../store/context/ImageContext';
 
 export default function DocScreen({navigation}) {
   const {state, dispatch} = useContext(ImageContext);
-  console.log(state);
+
+  const handleReCrop = id => {
+    navigation.navigate('recrop', {
+      id: id,
+    });
+  };
 
   const renderItem = ({item}) => {
     return (
@@ -47,7 +52,7 @@ export default function DocScreen({navigation}) {
           />
         </View>
         <View style={styles.buttonContainer}>
-          <AppButton title="Recrop" />
+          <AppButton title="ReCrop" onPress={() => handleReCrop(item.id)} />
         </View>
       </View>
     );

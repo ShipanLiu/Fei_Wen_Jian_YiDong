@@ -89,6 +89,7 @@ export default function TestV1({route, navigation}) {
   const cropAction = async () => {
     const newCoordinates = cropperRef.current.crop();
     const rectRegion = createRectRegion(newCoordinates);
+    console.log(newCoordinates);
     const targetSize = {
       height: rectRegion.height,
       width: rectRegion.width,
