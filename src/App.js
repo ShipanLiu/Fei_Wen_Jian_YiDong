@@ -3,10 +3,12 @@ import Routes from './navigation/Routes';
 
 import {ImageProvider} from './store/context/ImageContext';
 
-export default function App(props) {
-  return (
-    <ImageProvider>
-      <Routes />
-    </ImageProvider>
-  );
+function App() {
+  return <Routes />;
 }
+
+export default () => (
+  <ImageProvider>
+    <App />
+  </ImageProvider>
+);

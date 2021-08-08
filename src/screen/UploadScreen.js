@@ -9,7 +9,7 @@ image picker data format:
 
 */
 
-import React, {Component} from 'react';
+import React, {Component, useContext} from 'react';
 import {
   View,
   Text,
@@ -30,9 +30,11 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 import AppButton from '../components/AppButton';
 import {DimensionsWidth, DimensionsHeight} from '../utils/dimension';
+import {ImageContext} from '../store/context/ImageContext';
 
-export default function DocScreen({navigation, route}) {
-  const {imgArr} = route.params;
+export default function DocScreen({navigation}) {
+  const {state, dispatch} = useContext(ImageContext);
+  console.log(state);
 
   const renderItem = ({item}) => {
     return (
@@ -51,7 +53,7 @@ export default function DocScreen({navigation, route}) {
     <View style={styles.container}>
       <View style={styles.fileContainer}>
         <FlatList
-          data={imgArr}
+          data={state}
           keyExtractor={item => item.id}
           renderItem={renderItem}
           horizontal
