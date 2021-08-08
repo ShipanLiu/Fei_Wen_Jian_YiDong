@@ -5,8 +5,8 @@ import {createStackNavigator} from '@react-navigation/stack';
 import DocScreen from '../screen/DocScreen';
 import ScannerScreen from '../screen/ScannerScreen';
 import ProfileScreen from '../screen/ProfileScreen';
-// import PreviewScreen from '../screen/PreviewScreen';
 import UploadScreen from '../screen/UploadScreen';
+import RecropScreen from '../screen/RecropScreen';
 
 const Stack = createStackNavigator();
 
@@ -17,6 +17,7 @@ function DocStack(props) {
       screenOptions={{
         headerStyle: {backgroundColor: 'tomato'},
         headerTintColor: '#fff',
+        headerTitleAlign: 'center',
       }}>
       <Stack.Screen
         name="docs"
@@ -32,18 +33,19 @@ function DocStack(props) {
           headerShown: false,
         })}
       />
-      {/* <Stack.Screen
-        name="preview"
-        component={PreviewScreen}
+      <Stack.Screen
+        name="recrop"
+        component={RecropScreen}
         options={() => ({
-          title: 'Preview',
+          title: 'recrop',
         })}
-      /> */}
+      />
       <Stack.Screen
         name="upload"
         component={UploadScreen}
         options={() => ({
           title: 'Upload',
+          headerLeft: null,
         })}
       />
     </Stack.Navigator>

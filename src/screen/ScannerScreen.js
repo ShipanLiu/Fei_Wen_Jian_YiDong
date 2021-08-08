@@ -4,7 +4,7 @@
 
 */
 
-import React, {useState, useRef, useEffect} from 'react';
+import React, {useState, useRef, useEffect, useContext} from 'react';
 import {
   View,
   Text,
@@ -15,12 +15,14 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import uuid from 'react-native-uuid';
+import PhotoManipulator from 'react-native-photo-manipulator';
 
 import RectScanner from '../components/scanner/RectScanner';
 import CustomCrop from '../components/scanner/Cropper';
 import AppIcon from '../components/AppIcon';
 import colors from '../utils/colors';
-import PhotoManipulator from 'react-native-photo-manipulator';
+import {ImageContext} from '../store/context/ImageContext';
+import * as actions from '../store/actions/actions';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -31,6 +33,8 @@ export default function TestV1({route, navigation}) {
   const [oldCoordinates, setOldCoordinates] = useState(null);
   const [size, setSize] = useState({height: 1280, width: 720});
   const cropperRef = useRef(null);
+
+  const {state, dispatch} = useContext(ImageContext);
 
   const onCancel = () => {
     navigation.navigate('docs');
@@ -107,6 +111,19 @@ export default function TestV1({route, navigation}) {
         ratio: rectRegion.width / rectRegion.height,
       },
     ]);
+
+    dispatch({
+      type: actions.ADD,
+      payload: {
+        id: uuid.v4(),
+        coordinates: newCoordinates,
+        initialImage: takenPhoto.initialImage,
+        croppedImage: croppedImageUri,
+        height: size.height,
+        width: size.width,
+        ratio: rectRegion.width / rectRegion.height,
+      },
+    });
   };
 
   const handlePlus = () => {
@@ -116,11 +133,10 @@ export default function TestV1({route, navigation}) {
 
   const handleDone = async () => {
     await cropAction();
-    console.log(savePhoto);
-    navigation.navigate('upload', {
-      imgArr: savePhoto,
-    });
+    navigation.navigate('upload');
   };
+
+  console.log(savePhoto);
 
   return (
     <>

@@ -9,11 +9,12 @@ export const initialState = [
       topRight: [Object],
     },
     croppedImage:
-      'file:///data/user/0/com.flydocs/cache/RNPM_5326055504788480105.jpg',
+      'file:///data/user/0/com.flydocs/cache/RNPM_3908260859340439601.jpg',
     height: 1280,
-    id: '2fe09a7c-033e-43d9-a149-e2ef3f5027f8',
+    id: '6654ee61-dcb2-4a0c-89d1-749fb1668287',
     initialImage:
-      'file:///data/user/0/com.flydocs/cache/RNRectangleScanner/O823ca5a8-ab12-4418-8553-a94a7db1e4ec.png',
+      'file:///data/user/0/com.flydocs/cache/RNRectangleScanner/Of5f073c0-a223-4f54-ba11-a88390778945.png',
+    ratio: 1.0677083333333337,
     width: 720,
   },
   {
@@ -24,11 +25,28 @@ export const initialState = [
       topRight: [Object],
     },
     croppedImage:
-      'file:///data/user/0/com.flydocs/cache/RNPM_166162410089552035.jpg',
+      'file:///data/user/0/com.flydocs/cache/RNPM_2348691667691106421.jpg',
     height: 1280,
-    id: '6068024a-324e-4f1d-850f-1ce4d7c1eb7d',
+    id: 'ee8a5f10-3496-4e92-b9d7-bf7ac4ad0e2a',
     initialImage:
-      'file:///data/user/0/com.flydocs/cache/RNRectangleScanner/O823ca5a8-ab12-4418-8553-a94a7db1e4ec.png',
+      'file:///data/user/0/com.flydocs/cache/RNRectangleScanner/Oa7653d79-0095-410c-b4b2-1f61571dbdbf.png',
+    ratio: 0.36768233675021256,
+    width: 720,
+  },
+  {
+    coordinates: {
+      bottomLeft: [Object],
+      bottomRight: [Object],
+      topLeft: [Object],
+      topRight: [Object],
+    },
+    croppedImage:
+      'file:///data/user/0/com.flydocs/cache/RNPM_516475351843073681.jpg',
+    height: 1280,
+    id: '782c48c3-669e-4b4f-8ba3-82555347bb0d',
+    initialImage:
+      'file:///data/user/0/com.flydocs/cache/RNRectangleScanner/O8fb264c7-d4d7-4c3f-a8aa-897cc40a1832.png',
+    ratio: 2.710290272675043,
     width: 720,
   },
 ];

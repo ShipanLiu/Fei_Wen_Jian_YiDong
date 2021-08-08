@@ -46,6 +46,9 @@ export default function DocScreen({navigation}) {
             style={styles.fileImage}
           />
         </View>
+        <View style={styles.buttonContainer}>
+          <AppButton title="Recrop" />
+        </View>
       </View>
     );
   };
@@ -79,14 +82,13 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     width: DimensionsWidth,
-    height: DimensionsHeight * 0.8,
-    borderWidth: 2,
-    backgroundColor: 'pink',
+    height: DimensionsHeight * 0.75,
     justifyContent: 'center',
+    borderWidth: 1,
   },
   fileImageContainer: {
-    width: DimensionsWidth * 0.8,
-    height: DimensionsHeight * 0.8,
+    width: '100%',
+    height: '100%',
   },
   fileImage: {
     height: '100%',
@@ -95,5 +97,10 @@ const styles = StyleSheet.create({
   uploadBtn: {
     alignSelf: 'center',
     width: DimensionsWidth / 3,
+  },
+  buttonContainer: {
+    position: 'absolute',
+    top: 10,
+    left: 10,
   },
 });
