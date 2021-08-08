@@ -36,7 +36,7 @@ export default function DocScreen({navigation, route}) {
 
   const renderItem = ({item}) => {
     return (
-      <View onPress={() => {}} style={styles.itemContainer}>
+      <View style={styles.itemContainer}>
         <View style={styles.fileImageContainer}>
           <Image
             source={{uri: item.croppedImage}}
@@ -44,9 +44,6 @@ export default function DocScreen({navigation, route}) {
             style={styles.fileImage}
           />
         </View>
-        {/* <View style={styles.fileNameContainer}>
-          <Text style={styles.fileName}>{item.title}</Text>
-        </View> */}
       </View>
     );
   };

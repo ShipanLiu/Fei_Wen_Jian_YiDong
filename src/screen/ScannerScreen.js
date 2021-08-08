@@ -104,25 +104,23 @@ export default function TestV1({route, navigation}) {
         croppedImage: croppedImageUri,
         height: size.height,
         width: size.width,
+        ratio: rectRegion.width / rectRegion.height,
       },
     ]);
+  };
 
-    // navigation.navigate('preview', {
-    //   imgObj: {
-    //     id: uuid.v4(),
-    //     coordinates: newCoordinates,
-    //     initialImage: takenPhoto.initialImage,
-    //     croppedImage: croppedImageUri,
-    //     height: size.height,
-    //     width: size.width,
-    //   },
-    // });
-
-    // reopen the camera
+  const handlePlus = () => {
+    cropAction();
     setTakenPhoto(null);
   };
 
-  console.log(savePhoto);
+  const handleDone = async () => {
+    await cropAction();
+    console.log(savePhoto);
+    navigation.navigate('upload', {
+      imgArr: savePhoto,
+    });
+  };
 
   return (
     <>
@@ -137,6 +135,17 @@ export default function TestV1({route, navigation}) {
             /> */}
             {takenPhoto.initialImage && (
               <View style={styles.customCropWrapper}>
+                <View style={styles.doneButton}>
+                  <TouchableOpacity onPress={handleDone}>
+                    <AppIcon
+                      name="check"
+                      size={40}
+                      iconColor="tomato"
+                      backgroundColor="#fff"
+                    />
+                  </TouchableOpacity>
+                </View>
+
                 <CustomCrop
                   // updateImage={this.updateImage.bind(this)}
                   rectangleCoordinates={oldCoordinates}
@@ -159,29 +168,31 @@ export default function TestV1({route, navigation}) {
                       iconColor="tomato"
                       backgroundColor="#fff"
                     />
-                    <Text style={styles.iconText}>Retake</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={styles.controlIcon}
-                    onPress={() => {
-                      cropAction();
-                      navigation.navigate('upload', {
-                        imgArr: savePhoto,
-                      });
-                    }}>
-                    <Text style={styles.iconText}>Done!</Text>
+                    {/* <Text style={styles.iconText}>Retake</Text> */}
                   </TouchableOpacity>
 
                   <TouchableOpacity
                     style={styles.controlIcon}
-                    onPress={cropAction}>
+                    onPress={() => cropAction(true)}>
                     <AppIcon
-                      name="thumb-up-outline"
+                      name="crop"
                       size={40}
                       iconColor="tomato"
                       backgroundColor="#fff"
                     />
-                    <Text style={styles.iconText}>More</Text>
+                    {/* <Text style={styles.iconText}>More</Text> */}
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    style={styles.controlIcon}
+                    onPress={handlePlus}>
+                    <AppIcon
+                      name="plus-box"
+                      size={40}
+                      iconColor="tomato"
+                      backgroundColor="#fff"
+                    />
+                    {/* <Text style={styles.iconText}>More</Text> */}
                   </TouchableOpacity>
                 </View>
               </View>
@@ -226,15 +237,23 @@ const styles = StyleSheet.create({
     bottom: 20,
     flexDirection: 'row',
     alignSelf: 'center',
+    zIndex: 100,
   },
   controlIcon: {
-    paddingHorizontal: '10%',
+    marginHorizontal: 40,
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
   },
   iconText: {
-    color: '#fff',
+    color: '#000',
     fontSize: 18,
+  },
+  doneButton: {
+    position: 'absolute',
+    right: 10,
+    top: 10,
+    alignItems: 'center',
+    zIndex: 100,
   },
 });
