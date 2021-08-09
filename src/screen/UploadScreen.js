@@ -26,7 +26,8 @@ import {
   FlatList,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-// import {imgArr} from '../modal/data';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import uuid from 'react-native-uuid';
 
 import AppButton from '../components/AppButton';
 import {DimensionsWidth, DimensionsHeight} from '../utils/dimension';
@@ -39,6 +40,24 @@ export default function DocScreen({navigation}) {
     navigation.navigate('recrop', {
       id: id,
     });
+  };
+
+  const handleUpload = async value => {
+    try {
+      const jsonValue = JSON.stringify(value);
+      const key = `file${Date.now()}`;
+      await AsyncStorage.setItem(key, jsonValue);
+      Alert.alert('SAVE', 'Are you sure', [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        {text: 'OK', onPress: () => navigation.navigate('docs', {id: key})},
+      ]);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const renderItem = ({item}) => {
@@ -69,7 +88,7 @@ export default function DocScreen({navigation}) {
           showsHorizontalScrollIndicator={false}
         />
         <View style={styles.uploadBtn}>
-          <AppButton title="upload" />
+          <AppButton title="upload" onPress={() => handleUpload(state)} />
         </View>
       </View>
     </View>

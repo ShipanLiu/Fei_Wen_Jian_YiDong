@@ -1,15 +1,14 @@
 /*
 image picker data format:
 
-[{"bucketId": -1739773001, "chooseModel": 1, "duration": 0, "fileName": "IMG_20210726_200932.jpg",
- "height": 1280, "localIdentifier": 32, "mime": "image/jpeg", "parentFolderName": "Camera",
-  "path": "content://media/external/file/32", "position": 1,
-  "realPath": "/storage/emulated/0/DCIM/Camera/IMG_20210726_200932.jpg",
-   "size": 123428, "type": "image", "width": 960}]
+[
+  {"_U": 0, "_V": 1, "_W": {"key": "file1", "value": [Array]}, "_X": null},
+  {"_U": 0, "_V": 1, "_W": {"key": "file1628513972518", "value": [Array]}, "_X": null}
+]
 
 */
 
-import React, {Component} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -24,9 +23,12 @@ import {
   ScrollView,
   TouchableOpacity,
   FlatList,
+  Button,
 } from 'react-native';
 import ActionButton from 'react-native-simple-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import imgArr from '../modal/data';
 
 import AppButton from '../components/AppButton';
@@ -34,9 +36,42 @@ import imagePicker from '../hooks/imagePicker';
 import {DimensionsWidth, DimensionsHeight} from '../utils/dimension';
 
 export default function DocScreen({navigation, route}) {
-  if (route) {
-    console.log(route.params);
-  }
+  const [allKeys, setAllKeys] = useState(null);
+  const [lastAddedkey, setLastAddedKey] = useState(null);
+  const [itemArr, setItemArr] = useState([]);
+
+  useEffect(() => {
+    getAllKeys();
+    getLastAddedKey();
+    getAllValues();
+  }, []);
+
+  const getAllKeys = async () => {
+    const keyArr = await AsyncStorage.getAllKeys();
+    setAllKeys(keyArr);
+  };
+
+  const getLastAddedKey = () => {
+    if (route) {
+      setLastAddedKey(route.params.id);
+    }
+  };
+
+  const getAllValues = () => {
+    try {
+      const keyValueArr = allKeys?.map(async key => {
+        const jsonValue = await AsyncStorage.getItem(key);
+        const parsedValue = JSON.parse(jsonValue);
+        return {
+          key: key,
+          value: parsedValue,
+        };
+      });
+      setItemArr(keyValueArr);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const renderItem = ({item}) => {
     return (
@@ -54,6 +89,7 @@ export default function DocScreen({navigation, route}) {
       </TouchableOpacity>
     );
   };
+
   return (
     <View style={styles.container}>
       <View style={styles.fileContainer}>
@@ -62,6 +98,23 @@ export default function DocScreen({navigation, route}) {
           keyExtractor={item => item.id}
           renderItem={renderItem}
           numColumns={2}
+        />
+        <Button
+          title="test"
+          onPress={() => {
+            // console.log(itemArr);
+            console.log(allKeys);
+          }}
+        />
+        <Button
+          title="clearall"
+          onPress={async () => {
+            try {
+              await AsyncStorage.clear();
+            } catch (error) {
+              console.log(error);
+            }
+          }}
         />
       </View>
 
