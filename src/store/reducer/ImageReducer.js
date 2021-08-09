@@ -31,6 +31,8 @@ export const imageReducer = (state, action) => {
           return imgObj;
         }
       });
+    case actions.TEST:
+      return state;
     default:
       return state;
   }
