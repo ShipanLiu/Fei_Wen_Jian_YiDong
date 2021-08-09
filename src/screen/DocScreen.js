@@ -6,6 +6,35 @@ image picker data format:
   {"_U": 0, "_V": 1, "_W": {"key": "file1628513972518", "value": [Array]}, "_X": null}
 ]
 
+[
+    {
+      _U: 0,
+      _V: 1,
+      _W: {
+        key: 'file1',
+        value: [
+          {
+            coordinates: {
+              bottomLeft: {x: 249, y: 782},
+              bottomRight: {x: 468.99999999999994, y: 783.0000000000001},
+              topLeft: {x: 256, y: 589},
+              topRight: {x: 461.99999999999994, y: 596},
+            },
+            croppedImage:
+              'file:///data/user/0/com.flydocs/cache/RNPM_6356447344025088661.jpg',
+            height: 1280,
+            id: 'ed1cb188-aff0-4aa6-b922-a8ee526ca43d',
+            initialImage:
+              'file:///data/user/0/com.flydocs/cache/RNRectangleScanner/O4aeb8bd4-818e-4a70-ba1e-0c91751ad66b.png',
+            ratio: 1.0673575129533677,
+            width: 720,
+          },
+        ],
+      },
+      _X: null,
+    },
+  ]
+
 */
 
 import React, {useState, useEffect} from 'react';
@@ -28,84 +57,87 @@ import {
 import ActionButton from 'react-native-simple-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-import imgArr from '../modal/data';
+import {useIsFocused} from '@react-navigation/native';
 
 import AppButton from '../components/AppButton';
 import imagePicker from '../hooks/imagePicker';
 import {DimensionsWidth, DimensionsHeight} from '../utils/dimension';
+import {imgArr} from '../modal/data';
 
 export default function DocScreen({navigation, route}) {
   const [allKeys, setAllKeys] = useState(null);
-  const [lastAddedkey, setLastAddedKey] = useState(null);
+  // const [lastAddedkey, setLastAddedKey] = useState(null);
   const [itemArr, setItemArr] = useState([]);
+
+  const isFocused = useIsFocused();
 
   useEffect(() => {
     getAllKeys();
-    getLastAddedKey();
-    getAllValues();
-  }, []);
+    // getLastAddedKey();
+  }, [isFocused]);
 
   const getAllKeys = async () => {
     const keyArr = await AsyncStorage.getAllKeys();
     setAllKeys(keyArr);
+    getAllValues(keyArr);
   };
 
-  const getLastAddedKey = () => {
-    if (route) {
-      setLastAddedKey(route.params.id);
-    }
-  };
+  // const getLastAddedKey = () => {
+  //   if (route) {
+  //     setLastAddedKey(route?.params.id);
+  //   }
+  // };
 
-  const getAllValues = () => {
+  const getAllValues = async keyArr => {
     try {
-      const keyValueArr = allKeys?.map(async key => {
+      keyArr.map(async key => {
         const jsonValue = await AsyncStorage.getItem(key);
         const parsedValue = JSON.parse(jsonValue);
-        return {
-          key: key,
-          value: parsedValue,
-        };
+        setItemArr(preValue => [
+          ...preValue,
+          {
+            key: key,
+            value: parsedValue,
+          },
+        ]);
       });
-      setItemArr(keyValueArr);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const renderItem = ({item}) => {
-    return (
-      <TouchableOpacity onPress={() => {}} style={styles.itemContainer}>
-        <View style={styles.fileImageContainer}>
-          <Image
-            source={item.image}
-            resizeMode="contain"
-            style={styles.fileImage}
-          />
-        </View>
-        <View style={styles.fileNameContainer}>
-          <Text style={styles.fileName}>{item.title}</Text>
-        </View>
-      </TouchableOpacity>
-    );
+  const handleTest = () => {
+    if (itemArr) {
+      itemArr.map(item => {
+        console.log(item.key);
+      });
+    }
   };
 
   return (
     <View style={styles.container}>
-      <View style={styles.fileContainer}>
-        <FlatList
-          data={imgArr}
-          keyExtractor={item => item.id}
-          renderItem={renderItem}
-          numColumns={2}
-        />
-        <Button
-          title="test"
-          onPress={() => {
-            // console.log(itemArr);
-            console.log(allKeys);
-          }}
-        />
+      <ScrollView style={styles.fileContainer}>
+        {itemArr &&
+          itemArr.map(item => {
+            return (
+              <TouchableOpacity
+                key={item.key}
+                onPress={() => {}}
+                style={styles.itemContainer}>
+                <View style={styles.fileImageContainer}>
+                  <Image
+                    source={{uri: item.value[0].croppedImage}}
+                    // source={{
+                    //   uri: 'file:///data/user/0/com.flydocs/cache/RNPM_6356447344025088661.jpg',
+                    // }}
+                    resizeMode="contain"
+                    style={styles.fileImage}
+                  />
+                </View>
+              </TouchableOpacity>
+            );
+          })}
+        <Button title="test" onPress={handleTest} />
         <Button
           title="clearall"
           onPress={async () => {
@@ -116,7 +148,7 @@ export default function DocScreen({navigation, route}) {
             }
           }}
         />
-      </View>
+      </ScrollView>
 
       <ActionButton buttonColor="#2e64e5">
         <ActionButton.Item
@@ -164,7 +196,9 @@ const styles = StyleSheet.create({
     width: 400,
     height: 600,
   },
-  fileContainer: {},
+  fileContainer: {
+    height: 300,
+  },
   itemContainer: {
     flexDirection: 'column',
     alignItems: 'center',

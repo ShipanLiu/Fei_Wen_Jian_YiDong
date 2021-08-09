@@ -32,6 +32,7 @@ import uuid from 'react-native-uuid';
 import AppButton from '../components/AppButton';
 import {DimensionsWidth, DimensionsHeight} from '../utils/dimension';
 import {ImageContext} from '../store/context/ImageContext';
+import * as actions from '../store/actions/actions';
 
 export default function DocScreen({navigation}) {
   const {state, dispatch} = useContext(ImageContext);
@@ -53,7 +54,13 @@ export default function DocScreen({navigation}) {
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
-        {text: 'OK', onPress: () => navigation.navigate('docs', {id: key})},
+        {
+          text: 'OK',
+          onPress: () => {
+            navigation.navigate('docs', {id: key});
+            dispatch({type: actions.REMOVE});
+          },
+        },
       ]);
     } catch (error) {
       console.log(error);
