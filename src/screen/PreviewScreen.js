@@ -1,3 +1,22 @@
+/*
+   const onViewRef = React.useRef((viewableItems)=> {
+      console.log(viewableItems)
+      // Use viewable items in state or as intended
+  })
+  const viewConfigRef = React.useRef({ viewAreaCoveragePercentThreshold: 50 })
+
+
+<FlatList
+      horizontal={true}
+      onViewableItemsChanged={onViewRef.current}
+      data={Object.keys(cards)}
+      keyExtractor={(_, index) => index.toString()}
+      viewabilityConfig={viewConfigRef.current}
+      renderItem={({ item, index }) => { ... }}
+/>
+
+*/
+
 import React, {useState, useEffect} from 'react';
 import {
   View,
@@ -14,9 +33,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useIsFocused} from '@react-navigation/native';
 
 import {DimensionsHeight, DimensionsWidth} from '../utils/dimension';
+import AppButton from '../components/AppButton';
+// import Icon from 'react-native-vector-icons/MaterialIcons';
+import Icon from 'react-native-vector-icons/Ionicons';
+import ActionButton from 'react-native-simple-action-button';
 
 export default function PreviewScreen({navigation, route}) {
   const [imgArr, setImgArr] = useState([]);
+  const [currentId, setCurrentId] = useState();
 
   const isFocused = useIsFocused();
 
@@ -35,19 +59,25 @@ export default function PreviewScreen({navigation, route}) {
     console.log(imgArr);
   };
 
+  const viewabilityConfig = {viewAreaCoveragePercentThreshold: 50};
+
+  const onViewableItemsChanged = ({viewableItems, changed}) => {
+    console.log('Visible items are', viewableItems);
+    console.log('Changed in this iteration', changed);
+  };
+
   const renderItem = ({item}) => {
     return (
-      <TouchableOpacity
-        style={styles.imageContainer}
-        onPress={() => alert('touched')}>
+      <View style={styles.imageContainer}>
         <View style={styles.imageWrapper}>
+          {/* <Icon name="more-vert" size={30} color="#000" style={styles.imageIcon}/> */}
           <Image
             style={styles.image}
             source={{uri: item.croppedImage}}
             resizeMode="contain"
           />
         </View>
-      </TouchableOpacity>
+      </View>
     );
   };
 
@@ -60,8 +90,14 @@ export default function PreviewScreen({navigation, route}) {
         horizontal
         pagingEnabled
         showsHorizontalScrollIndicator={false}
+        onEndReached={() => console.log('End reached')}
+        viewabilityConfig={viewabilityConfig}
+        onViewableItemsChanged={onViewableItemsChanged}
       />
-      {/* <Button title="test" onPress={handleTest} /> */}
+      <Text>{currentId}</Text>
+      <View>
+        <AppButton title="done" onPress={handleTest} />
+      </View>
     </View>
   );
 }
@@ -77,7 +113,7 @@ const styles = StyleSheet.create({
   imageWrapper: {
     borderWidth: 3,
     width: DimensionsWidth,
-    height: DimensionsHeight * 0.7,
+    height: DimensionsHeight * 0.75,
   },
   image: {
     width: '100%',
