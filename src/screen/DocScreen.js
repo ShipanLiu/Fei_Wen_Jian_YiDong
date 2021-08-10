@@ -1,18 +1,4 @@
 /*
-image picker data format:
-
-[
-  {"_U": 0, "_V": 1, "_W": {"key": "file1", "value": [Array]}, "_X": null},
-  {"_U": 0, "_V": 1, "_W": {"key": "file1628513972518", "value": [Array]}, "_X": null}
-]
-
-[
-    {
-      _U: 0,
-      _V: 1,
-      _W: {
-        key: 'file1',
-        value: [
           {
             coordinates: {
               bottomLeft: {x: 249, y: 782},
@@ -29,15 +15,21 @@ image picker data format:
             ratio: 1.0673575129533677,
             width: 720,
           },
-        ],
-      },
-      _X: null,
-    },
-  ]
 
 */
 
-import React, {useState, useEffect} from 'react';
+// const data = [
+//   [
+//     'file1628605929771',
+//     '[{"id":"4faf32bd-fda1-49b0-ae2f-436a643f6482","coordinates":{"topLeft":{"x":160.34033966064453,"y":214.61523151397705},"topRight":{"x":419.6706822713217,"y":267.9990162054698},"bottomLeft":{"x":165.68211873372394,"y":797.9697774251301},"bottomRight":{"x":416.00000000000006,"y":765.0010121663411}},"initialImage":"file:///data/user/0/com.flydocs/cache/RNRectangleScanner/Oe457b4b0-628d-42ff-b6fd-459364eef4e6.png","croppedImage":"file:///data/user/0/com.flydocs/cache/RNPM_2888852922222133756.jpg","height":1280,"width":720,"ratio":0.350187235421014}]',
+//   ],
+//   [
+//     'file1628607358203',
+//     '[{"id":"7efc17d6-bbba-4d6b-a4b0-4262e27afc8c","coordinates":{"topLeft":{"x":93.67479769388835,"y":196.9384803771973},"topRight":{"x":536.3450266520182,"y":273.97558975219727},"bottomLeft":{"x":80.68066341678302,"y":493.6816762288412},"bottomRight":{"x":538.3545252482097,"y":498.02248636881507}},"initialImage":"file:///data/user/0/com.flydocs/cache/RNRectangleScanner/Od495833c-718e-404c-b8e8-577d77a2d1cb.png","croppedImage":"file:///data/user/0/com.flydocs/cache/RNPM_7764999799947062194.jpg","height":1280,"width":720,"ratio":1.4917620189661966},{"id":"4f70617b-ce1a-46bc-b162-18cd1a3f895b","coordinates":{"topLeft":{"x":159,"y":215.99999999999997},"topRight":{"x":421,"y":265},"bottomLeft":{"x":168.99999999999997,"y":495.00000000000006},"bottomRight":{"x":417.99999999999994,"y":500}},"initialImage":"file:///data/user/0/com.flydocs/cache/RNRectangleScanner/O23d47691-9e8d-4d62-a52f-8889aedf705f.png","croppedImage":"file:///data/user/0/com.flydocs/cache/RNPM_7495665075596505288.jpg","height":1280,"width":720,"ratio":0.9390681003584226}]',
+//   ],
+// ];
+
+import React, {useState, useEffect, useRef} from 'react';
 import {
   View,
   Text,
@@ -66,8 +58,8 @@ import {imgArr} from '../modal/data';
 
 export default function DocScreen({navigation, route}) {
   const [allKeys, setAllKeys] = useState(null);
-  // const [lastAddedkey, setLastAddedKey] = useState(null);
   const [itemArr, setItemArr] = useState([]);
+  const scrollViewRef = useRef(null);
 
   const isFocused = useIsFocused();
 
@@ -78,29 +70,15 @@ export default function DocScreen({navigation, route}) {
 
   const getAllKeys = async () => {
     const keyArr = await AsyncStorage.getAllKeys();
+    console.log(keyArr);
     setAllKeys(keyArr);
     getAllValues(keyArr);
   };
 
-  // const getLastAddedKey = () => {
-  //   if (route) {
-  //     setLastAddedKey(route?.params.id);
-  //   }
-  // };
-
   const getAllValues = async keyArr => {
     try {
-      keyArr.map(async key => {
-        const jsonValue = await AsyncStorage.getItem(key);
-        const parsedValue = JSON.parse(jsonValue);
-        setItemArr(preValue => [
-          ...preValue,
-          {
-            key: key,
-            value: parsedValue,
-          },
-        ]);
-      });
+      const allItemArr = await AsyncStorage.multiGet(keyArr);
+      setItemArr(allItemArr);
     } catch (error) {
       console.log(error);
     }
@@ -108,48 +86,45 @@ export default function DocScreen({navigation, route}) {
 
   const handleTest = () => {
     if (itemArr) {
-      itemArr.map(item => {
-        console.log(item.key);
-      });
+      console.log(JSON.parse(itemArr[0][1])[0].croppedImage);
     }
+  };
+
+  const renderItem = ({item}) => {
+    return (
+      <TouchableOpacity
+        onPress={() => navigation.navigate('preview', {id: item[0]})}
+        style={styles.itemContainer}>
+        <View style={styles.fileImageContainer}>
+          <Image
+            source={{uri: JSON.parse(item[1])[0].croppedImage}}
+            resizeMode="contain"
+            style={styles.fileImage}
+          />
+        </View>
+      </TouchableOpacity>
+    );
   };
 
   return (
     <View style={styles.container}>
-      <ScrollView style={styles.fileContainer}>
-        {itemArr &&
-          itemArr.map(item => {
-            return (
-              <TouchableOpacity
-                key={item.key}
-                onPress={() => {}}
-                style={styles.itemContainer}>
-                <View style={styles.fileImageContainer}>
-                  <Image
-                    source={{uri: item.value[0].croppedImage}}
-                    // source={{
-                    //   uri: 'file:///data/user/0/com.flydocs/cache/RNPM_6356447344025088661.jpg',
-                    // }}
-                    resizeMode="contain"
-                    style={styles.fileImage}
-                  />
-                </View>
-              </TouchableOpacity>
-            );
-          })}
-        <Button title="test" onPress={handleTest} />
-        <Button
-          title="clearall"
-          onPress={async () => {
-            try {
-              await AsyncStorage.clear();
-            } catch (error) {
-              console.log(error);
-            }
-          }}
-        />
-      </ScrollView>
-
+      <FlatList
+        data={itemArr}
+        keyExtractor={item => item[0]}
+        renderItem={renderItem}
+        numColumns={2}
+      />
+      <Button title="test" onPress={handleTest} />
+      <Button
+        title="clearall"
+        onPress={async () => {
+          try {
+            await AsyncStorage.clear();
+          } catch (error) {
+            console.log(error);
+          }
+        }}
+      />
       <ActionButton buttonColor="#2e64e5">
         <ActionButton.Item
           buttonColor="#9b59b6"
@@ -197,7 +172,7 @@ const styles = StyleSheet.create({
     height: 600,
   },
   fileContainer: {
-    height: 300,
+    height: DimensionsHeight * 0.8,
   },
   itemContainer: {
     flexDirection: 'column',
@@ -217,3 +192,43 @@ const styles = StyleSheet.create({
     width: '100%',
   },
 });
+
+/*
+  <ScrollView
+        style={styles.fileContainer}
+        ref={scrollViewRef}
+        showsVerticalScrollIndicator={false}
+        onContentSizeChange={() => scrollViewRef.current.scrollToEnd()}>
+        {itemArr &&
+          itemArr.map(item => {
+            return (
+              <TouchableOpacity
+                key={item.key}
+                onPress={() => {}}
+                style={styles.itemContainer}>
+                <View style={styles.fileImageContainer}>
+                  <Image
+                    source={{uri: item.value[0].croppedImage}}
+                    // source={{
+                    //   uri: 'file:///data/user/0/com.flydocs/cache/RNPM_6356447344025088661.jpg',
+                    // }}
+                    resizeMode="contain"
+                    style={styles.fileImage}
+                  />
+                </View>
+              </TouchableOpacity>
+            );
+          })}
+        <Button title="test" onPress={handleTest} />
+        <Button
+          title="clearall"
+          onPress={async () => {
+            try {
+              await AsyncStorage.clear();
+            } catch (error) {
+              console.log(error);
+            }
+          }}
+        />
+      </ScrollView>
+*/

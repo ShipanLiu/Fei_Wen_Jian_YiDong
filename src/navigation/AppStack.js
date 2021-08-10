@@ -7,6 +7,7 @@ import ScannerScreen from '../screen/ScannerScreen';
 import ProfileScreen from '../screen/ProfileScreen';
 import UploadScreen from '../screen/UploadScreen';
 import RecropScreen from '../screen/RecropScreen';
+import PreviewScreen from '../screen/PreviewScreen';
 
 const Stack = createStackNavigator();
 
@@ -47,6 +48,13 @@ function DocStack(props) {
         component={UploadScreen}
         options={() => ({
           title: 'Upload',
+        })}
+      />
+      <Stack.Screen
+        name="preview"
+        component={PreviewScreen}
+        options={() => ({
+          title: 'preview',
         })}
       />
     </Stack.Navigator>
