@@ -1,23 +1,4 @@
-/*
-   const onViewRef = React.useRef((viewableItems)=> {
-      console.log(viewableItems)
-      // Use viewable items in state or as intended
-  })
-  const viewConfigRef = React.useRef({ viewAreaCoveragePercentThreshold: 50 })
-
-
-<FlatList
-      horizontal={true}
-      onViewableItemsChanged={onViewRef.current}
-      data={Object.keys(cards)}
-      keyExtractor={(_, index) => index.toString()}
-      viewabilityConfig={viewConfigRef.current}
-      renderItem={({ item, index }) => { ... }}
-/>
-
-*/
-
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {
   View,
   Text,
@@ -41,6 +22,10 @@ import ActionButton from 'react-native-simple-action-button';
 export default function PreviewScreen({navigation, route}) {
   const [imgArr, setImgArr] = useState([]);
   const [currentId, setCurrentId] = useState();
+  const viewConfigRef = useRef({viewAreaCoveragePercentThreshold: 50});
+  const onViewRef = useRef(viewableItems => {
+    console.log(viewableItems);
+  });
 
   const isFocused = useIsFocused();
 
@@ -58,8 +43,6 @@ export default function PreviewScreen({navigation, route}) {
   const handleTest = () => {
     console.log(imgArr);
   };
-
-  const viewabilityConfig = {viewAreaCoveragePercentThreshold: 50};
 
   const onViewableItemsChanged = ({viewableItems, changed}) => {
     console.log('Visible items are', viewableItems);
@@ -91,8 +74,8 @@ export default function PreviewScreen({navigation, route}) {
         pagingEnabled
         showsHorizontalScrollIndicator={false}
         onEndReached={() => console.log('End reached')}
-        viewabilityConfig={viewabilityConfig}
-        onViewableItemsChanged={onViewableItemsChanged}
+        viewabilityConfig={viewConfigRef.current}
+        onViewableItemsChanged={onViewRef.current}
       />
       <Text>{currentId}</Text>
       <View>
