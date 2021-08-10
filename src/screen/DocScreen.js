@@ -65,12 +65,10 @@ export default function DocScreen({navigation, route}) {
 
   useEffect(() => {
     getAllKeys();
-    // getLastAddedKey();
   }, [isFocused]);
 
   const getAllKeys = async () => {
     const keyArr = await AsyncStorage.getAllKeys();
-    console.log(keyArr);
     setAllKeys(keyArr);
     getAllValues(keyArr);
   };
