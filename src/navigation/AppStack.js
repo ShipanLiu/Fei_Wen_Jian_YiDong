@@ -8,6 +8,7 @@ import ProfileScreen from '../screen/ProfileScreen';
 import UploadScreen from '../screen/UploadScreen';
 import RecropScreen from '../screen/RecropScreen';
 import PreviewScreen from '../screen/PreviewScreen';
+import AddExtraImageScreen from '../screen/AddExtraImageScreen';
 
 const Stack = createStackNavigator();
 
@@ -55,6 +56,13 @@ function DocStack(props) {
         component={PreviewScreen}
         options={() => ({
           title: 'preview',
+        })}
+      />
+      <Stack.Screen
+        name="addextra"
+        component={AddExtraImageScreen}
+        options={() => ({
+          headerShown: false,
         })}
       />
     </Stack.Navigator>

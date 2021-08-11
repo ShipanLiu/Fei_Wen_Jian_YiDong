@@ -22,6 +22,7 @@ import CustomCrop from '../components/scanner/Cropper';
 import AppIcon from '../components/AppIcon';
 import colors from '../utils/colors';
 import {ImageContext} from '../store/context/ImageContext';
+import {extraImageContext} from '../store/context/extraImageContext';
 import * as actions from '../store/actions/actions';
 
 const windowWidth = Dimensions.get('window').width;
@@ -32,9 +33,21 @@ export default function TestV1({route, navigation}) {
   const [savePhoto, setSavePhoto] = useState([]);
   const [oldCoordinates, setOldCoordinates] = useState(null);
   const [size, setSize] = useState({height: 1280, width: 720});
+  const [isAddExtraImage, setIsAddExtraImage] = useState(false);
+  const [fileId, setFileId] = useState(null);
   const cropperRef = useRef(null);
 
   const {state, dispatch} = useContext(ImageContext);
+  const {state: extraImageState, dispatch: extraImagedispatch} =
+    useContext(extraImageContext);
+
+  useEffect(() => {
+    if (route.params) {
+      setIsAddExtraImage(true);
+      setFileId(route.params.fileId);
+      console.log(extraImageState);
+    }
+  }, []);
 
   const onCancel = () => {
     navigation.navigate('docs');
@@ -113,18 +126,33 @@ export default function TestV1({route, navigation}) {
       },
     ]);
 
-    dispatch({
-      type: actions.ADD,
-      payload: {
-        id: uuid.v4(),
-        coordinates: newCoordinates,
-        initialImage: takenPhoto.initialImage,
-        croppedImage: croppedImageUri,
-        height: size.height,
-        width: size.width,
-        ratio: rectRegion.width / rectRegion.height,
-      },
-    });
+    if (isAddExtraImage) {
+      extraImagedispatch({
+        type: actions.ADD,
+        payload: {
+          id: uuid.v4(),
+          coordinates: newCoordinates,
+          initialImage: takenPhoto.initialImage,
+          croppedImage: croppedImageUri,
+          height: size.height,
+          width: size.width,
+          ratio: rectRegion.width / rectRegion.height,
+        },
+      });
+    } else {
+      dispatch({
+        type: actions.ADD,
+        payload: {
+          id: uuid.v4(),
+          coordinates: newCoordinates,
+          initialImage: takenPhoto.initialImage,
+          croppedImage: croppedImageUri,
+          height: size.height,
+          width: size.width,
+          ratio: rectRegion.width / rectRegion.height,
+        },
+      });
+    }
   };
 
   const handlePlus = () => {
@@ -137,7 +165,7 @@ export default function TestV1({route, navigation}) {
     navigation.navigate('upload');
   };
 
-  console.log(savePhoto);
+  console.log(fileId);
 
   return (
     <>

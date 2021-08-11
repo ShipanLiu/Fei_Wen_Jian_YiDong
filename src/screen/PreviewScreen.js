@@ -183,6 +183,12 @@ export default function PreviewScreen({navigation, route}) {
           <AppButton title="delete" onPress={handleDelete} />
         </View>
         <View style={styles.singleButtonWrapper}>
+          <AppButton
+            title="ADD After"
+            onPress={() => navigation.navigate('camera', {fileId: fileId})}
+          />
+        </View>
+        <View style={styles.singleButtonWrapper}>
           <AppButton title="test" onPress={handleTest} />
         </View>
       </View>

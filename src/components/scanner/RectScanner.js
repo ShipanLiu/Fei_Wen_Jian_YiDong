@@ -642,7 +642,7 @@ export default class DocumentScanner extends PureComponent {
   // Renders either the camera view, a loading state, or an error message
   // letting the user know why camera use is not allowed
   renderCameraView() {
-    console.log('showScannerView is:' + this.state.showScannerView);
+    // console.log('showScannerView is:' + this.state.showScannerView);
     if (this.state.showScannerView) {
       const previewSize = this.getPreviewSize();
       let rectangleOverlay = null;
