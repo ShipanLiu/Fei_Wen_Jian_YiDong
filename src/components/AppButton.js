@@ -3,9 +3,18 @@ import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
 import colors from '../utils/colors';
 import {DimensionsWidth, DimensionsHeight} from '../utils/dimension';
 
-export default function AppButton({title, onPress, buttonStyle, textStyle}) {
+export default function AppButton({
+  title,
+  onPress,
+  buttonStyle,
+  textStyle,
+  ...restProps
+}) {
   return (
-    <TouchableOpacity style={[styles.button, buttonStyle]} onPress={onPress}>
+    <TouchableOpacity
+      style={[styles.button, buttonStyle]}
+      onPress={onPress}
+      {...restProps}>
       <Text style={[styles.text, textStyle]}>{title}</Text>
     </TouchableOpacity>
   );

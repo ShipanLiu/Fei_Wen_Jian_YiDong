@@ -1,0 +1,3 @@
+/*
+  the added extra image will be directly changed by using AsyncStorage
+*/
