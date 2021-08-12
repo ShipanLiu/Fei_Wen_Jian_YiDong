@@ -1,4 +1,4 @@
-import React, {useContext, useRef} from 'react';
+import React, {useContext, useRef, useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -11,17 +11,38 @@ import {
 } from 'react-native';
 import CustomCrop from '../components/scanner/Cropper';
 import PhotoManipulator from 'react-native-photo-manipulator';
+import {useIsFocused} from '@react-navigation/native';
 
 import AppButton from '../components/AppButton';
 import {ImageContext} from '../store/context/ImageContext';
+import {extraImageContext} from '../store/context/extraImageContext';
 import * as actions from '../store/actions/actions';
 
 export default function RecropScreen({navigation, route}) {
+  const [id, setId] = useState(null);
+  // if for extra image, the fileId exists, in other cases, it is null
+  const [fileId, setFileId] = useState(null);
+  const [targetImage, setTargetImage] = useState(null);
   const {state, dispatch} = useContext(ImageContext);
+  const {state: extraImageState, dispatch: extraImagedispatch} =
+    useContext(extraImageContext);
   const cropperRef = useRef(null);
 
-  const {id} = route.params;
-  const targetImage = state.find(item => item.id === id);
+  const isFocused = useIsFocused();
+
+  useEffect(() => {
+    getIdAndSetTargetImage();
+  }, [isFocused]);
+
+  const getIdAndSetTargetImage = () => {
+    const {id, fileId: targetFileId} = route.params;
+    if (targetFileId) {
+      setFileId(targetFileId);
+      setTargetImage(extraImageState.find(item => item.id === id));
+    } else {
+      setTargetImage(state.find(item => item.id === id));
+    }
+  };
 
   const createRectRegion = position => {
     return {
@@ -76,19 +97,33 @@ export default function RecropScreen({navigation, route}) {
       //   coordinates: newCoordinates,
       //   croppedImage: croppedImageUri,
       // });
-      dispatch({
-        type: actions.MODIFY,
-        payload: {
-          ...targetImage,
-          coordinates: newCoordinates,
-          croppedImage: croppedImageUri,
-        },
-      });
+      if (fileId) {
+        extraImagedispatch({
+          type: actions.MODIFY,
+          payload: {
+            ...targetImage,
+            coordinates: newCoordinates,
+            croppedImage: croppedImageUri,
+          },
+        });
+      } else {
+        dispatch({
+          type: actions.MODIFY,
+          payload: {
+            ...targetImage,
+            coordinates: newCoordinates,
+            croppedImage: croppedImageUri,
+          },
+        });
+      }
+
       navigation.navigate('upload');
     } catch (error) {
       console.log(error);
     }
   };
+
+  console.log('RescropSc:  ' + fileId);
 
   return (
     <View style={styles.container}>
@@ -97,17 +132,19 @@ export default function RecropScreen({navigation, route}) {
         <Button title="test" onPress={() => console.log('test')} />
       </View> */}
       <AppButton title="Done" onPress={handleDone} />
-      <CustomCrop
-        rectangleCoordinates={targetImage.coordinates}
-        initialImage={targetImage.initialImage}
-        height={targetImage.height}
-        width={targetImage.width}
-        ref={cropperRef}
-        overlayColor="rgba(18,190,210, 1)"
-        overlayStrokeColor="rgba(20,190,210, 1)"
-        handlerColor="rgba(20,150,160, 1)"
-        enablePanStrict={false}
-      />
+      {targetImage && (
+        <CustomCrop
+          rectangleCoordinates={targetImage.coordinates}
+          initialImage={targetImage.initialImage}
+          height={targetImage.height}
+          width={targetImage.width}
+          ref={cropperRef}
+          overlayColor="rgba(18,190,210, 1)"
+          overlayStrokeColor="rgba(20,190,210, 1)"
+          handlerColor="rgba(20,150,160, 1)"
+          enablePanStrict={false}
+        />
+      )}
     </View>
   );
 }

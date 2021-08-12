@@ -112,17 +112,25 @@ export default function DocScreen({navigation, route}) {
         renderItem={renderItem}
         numColumns={2}
       />
-      <Button title="test" onPress={handleTest} />
-      <Button
-        title="clearall"
-        onPress={async () => {
-          try {
-            await AsyncStorage.clear();
-          } catch (error) {
-            console.log(error);
-          }
-        }}
-      />
+      <View
+        style={{
+          flexDirection: 'row',
+          position: 'absolute',
+          bottom: 20,
+        }}>
+        <Button title="test" onPress={handleTest} />
+        <Button
+          title="clearall"
+          onPress={async () => {
+            try {
+              await AsyncStorage.clear();
+            } catch (error) {
+              console.log(error);
+            }
+          }}
+        />
+      </View>
+
       <ActionButton buttonColor="#2e64e5">
         <ActionButton.Item
           buttonColor="#9b59b6"
@@ -144,7 +152,7 @@ export default function DocScreen({navigation, route}) {
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },

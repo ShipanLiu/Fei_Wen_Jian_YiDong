@@ -15,7 +15,7 @@ const Stack = createStackNavigator();
 function DocStack(props) {
   return (
     <Stack.Navigator
-      initialRouteName="docs"
+      initialRouteName="upload"
       screenOptions={{
         headerStyle: {backgroundColor: 'tomato'},
         headerTintColor: '#fff',
@@ -49,6 +49,7 @@ function DocStack(props) {
         component={UploadScreen}
         options={() => ({
           title: 'Upload',
+          headerShown: false,
         })}
       />
       <Stack.Screen

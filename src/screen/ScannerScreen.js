@@ -30,7 +30,7 @@ const windowHeight = Dimensions.get('window').height;
 
 export default function TestV1({route, navigation}) {
   const [takenPhoto, setTakenPhoto] = useState(null);
-  const [savePhoto, setSavePhoto] = useState([]);
+  // const [savePhoto, setSavePhoto] = useState([]);
   const [oldCoordinates, setOldCoordinates] = useState(null);
   const [size, setSize] = useState({height: 1280, width: 720});
   const [isAddExtraImage, setIsAddExtraImage] = useState(false);
@@ -45,7 +45,6 @@ export default function TestV1({route, navigation}) {
     if (route.params) {
       setIsAddExtraImage(true);
       setFileId(route.params.fileId);
-      console.log(extraImageState);
     }
   }, []);
 
@@ -113,18 +112,18 @@ export default function TestV1({route, navigation}) {
       targetSize,
     );
 
-    setSavePhoto(preValue => [
-      ...preValue,
-      {
-        id: uuid.v4(),
-        coordinates: newCoordinates,
-        initialImage: takenPhoto.initialImage,
-        croppedImage: croppedImageUri,
-        height: size.height,
-        width: size.width,
-        ratio: rectRegion.width / rectRegion.height,
-      },
-    ]);
+    // setSavePhoto(preValue => [
+    //   ...preValue,
+    //   {
+    //     id: uuid.v4(),
+    //     coordinates: newCoordinates,
+    //     initialImage: takenPhoto.initialImage,
+    //     croppedImage: croppedImageUri,
+    //     height: size.height,
+    //     width: size.width,
+    //     ratio: rectRegion.width / rectRegion.height,
+    //   },
+    // ]);
 
     if (isAddExtraImage) {
       extraImagedispatch({
@@ -162,7 +161,12 @@ export default function TestV1({route, navigation}) {
 
   const handleDone = async () => {
     await cropAction();
-    navigation.navigate('upload');
+    if (isAddExtraImage) {
+      setIsAddExtraImage(false);
+      navigation.navigate('upload', {fileId: fileId});
+    } else {
+      navigation.navigate('upload');
+    }
   };
 
   console.log(fileId);
@@ -213,7 +217,6 @@ export default function TestV1({route, navigation}) {
                       iconColor="tomato"
                       backgroundColor="#fff"
                     />
-                    {/* <Text style={styles.iconText}>Retake</Text> */}
                   </TouchableOpacity>
 
                   <TouchableOpacity

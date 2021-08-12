@@ -7,9 +7,11 @@ image picker data format:
   "realPath": "/storage/emulated/0/DCIM/Camera/IMG_20210726_200932.jpg",
    "size": 123428, "type": "image", "width": 960}]
 
+
+add estra image:  get fileID --> display photos(+ recrop) ---> merge into Local Storage
 */
 
-import React, {Component, useContext} from 'react';
+import React, {useEffect, useContext, useState} from 'react';
 import {
   View,
   Text,
@@ -32,22 +34,47 @@ import uuid from 'react-native-uuid';
 import AppButton from '../components/AppButton';
 import {DimensionsWidth, DimensionsHeight} from '../utils/dimension';
 import {ImageContext} from '../store/context/ImageContext';
+import {extraImageContext} from '../store/context/extraImageContext';
+import {useIsFocused} from '@react-navigation/native';
 import * as actions from '../store/actions/actions';
 
-export default function DocScreen({navigation}) {
+export default function DocScreen({navigation, route}) {
   const {state, dispatch} = useContext(ImageContext);
+  // if for extra image, the fileId exists, in other cases, it is null
+  const [fileId, setFileId] = useState('file1628740968035');
+  const {state: extraImageState, dispatch: extraImagedispatch} =
+    useContext(extraImageContext);
+
+  const isFocused = useIsFocused;
+
+  useEffect(() => {
+    // getFileIdFromRoute();
+  }, []);
+
+  const getFileIdFromRoute = () => {
+    if (route.params) {
+      setFileId(route.params.fileId);
+    }
+  };
 
   const handleReCrop = id => {
-    navigation.navigate('recrop', {
-      id: id,
-    });
+    if (fileId) {
+      navigation.navigate('recrop', {
+        id: id,
+        fileId: fileId,
+      });
+    } else {
+      navigation.navigate('recrop', {
+        id: id,
+        fileId: undefined,
+      });
+    }
   };
 
   const handleUpload = async value => {
     try {
       const jsonValue = JSON.stringify(value);
       const key = `file${Date.now()}`;
-      await AsyncStorage.setItem(key, jsonValue);
       Alert.alert('SAVE', 'Are you sure', [
         {
           text: 'Cancel',
@@ -56,7 +83,8 @@ export default function DocScreen({navigation}) {
         },
         {
           text: 'OK',
-          onPress: () => {
+          onPress: async () => {
+            await AsyncStorage.setItem(key, jsonValue);
             navigation.navigate('docs', {id: key});
             dispatch({type: actions.REMOVE});
           },
@@ -64,6 +92,18 @@ export default function DocScreen({navigation}) {
       ]);
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const handleAddExtraImage = value => {
+    // AsyncStorage Merge
+  };
+
+  const handleClick = () => {
+    if (fileId) {
+      handleAddExtraImage(extraImageState);
+    } else {
+      handleUpload(state);
     }
   };
 
@@ -83,11 +123,14 @@ export default function DocScreen({navigation}) {
       </View>
     );
   };
+
+  console.log('uploadSc:  ' + fileId);
   return (
     <View style={styles.container}>
       <View style={styles.fileContainer}>
+        {/* if we want add extra image, then wen should display the state in extraImageContext */}
         <FlatList
-          data={state}
+          data={fileId ? extraImageState : state}
           keyExtractor={item => item.id}
           renderItem={renderItem}
           horizontal
@@ -95,7 +138,10 @@ export default function DocScreen({navigation}) {
           showsHorizontalScrollIndicator={false}
         />
         <View style={styles.uploadBtn}>
-          <AppButton title="upload" onPress={() => handleUpload(state)} />
+          <AppButton
+            title={fileId ? 'add to queue' : 'update'}
+            onPress={handleClick}
+          />
         </View>
       </View>
     </View>
