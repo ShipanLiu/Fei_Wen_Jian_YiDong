@@ -105,8 +105,11 @@ export default function PreviewScreen({navigation, route}) {
     flatListRef.current.scrollToIndex({animated: true, index: clickedIndex});
   };
 
-  const handleTest = () => {
-    console.log(currentIndex);
+  const handleTest = async () => {
+    const realImgArr = await AsyncStorage.getItem(fileId);
+    console.log(JSON.parse(realImgArr));
+    console.log(fileId);
+    // console.log(imgArr);
   };
 
   const renderItem = ({item}) => {

@@ -54,7 +54,6 @@ import {useIsFocused} from '@react-navigation/native';
 import AppButton from '../components/AppButton';
 import imagePicker from '../hooks/imagePicker';
 import {DimensionsWidth, DimensionsHeight} from '../utils/dimension';
-import {imgArr} from '../modal/data';
 
 export default function DocScreen({navigation, route}) {
   const [allKeys, setAllKeys] = useState(null);
@@ -83,9 +82,7 @@ export default function DocScreen({navigation, route}) {
   };
 
   const handleTest = () => {
-    if (itemArr) {
-      console.log(JSON.parse(itemArr[0][1])[0].croppedImage);
-    }
+    console.log(itemArr);
   };
 
   const renderItem = ({item}) => {

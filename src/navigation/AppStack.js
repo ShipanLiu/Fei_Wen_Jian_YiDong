@@ -15,7 +15,7 @@ const Stack = createStackNavigator();
 function DocStack(props) {
   return (
     <Stack.Navigator
-      initialRouteName="upload"
+      initialRouteName="docs"
       screenOptions={{
         headerStyle: {backgroundColor: 'tomato'},
         headerTintColor: '#fff',

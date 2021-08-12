@@ -40,16 +40,17 @@ import * as actions from '../store/actions/actions';
 
 export default function DocScreen({navigation, route}) {
   const {state, dispatch} = useContext(ImageContext);
+  const [imgArr, setImgArr] = useState([]);
   // if for extra image, the fileId exists, in other cases, it is null
-  const [fileId, setFileId] = useState('file1628740968035');
+  const [fileId, setFileId] = useState();
   const {state: extraImageState, dispatch: extraImagedispatch} =
     useContext(extraImageContext);
 
   const isFocused = useIsFocused;
 
   useEffect(() => {
-    // getFileIdFromRoute();
-  }, []);
+    getFileIdFromRoute();
+  }, [isFocused]);
 
   const getFileIdFromRoute = () => {
     if (route.params) {
@@ -95,8 +96,33 @@ export default function DocScreen({navigation, route}) {
     }
   };
 
-  const handleAddExtraImage = value => {
+  const handleAddExtraImage = async value => {
     // AsyncStorage Merge
+    try {
+      const jsonImgArr = await AsyncStorage.getItem(fileId);
+      const parsedImgArr = JSON.parse(jsonImgArr);
+      const concatArr = [...parsedImgArr, ...value];
+      Alert.alert('SAVE', 'Are you sure', [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        {
+          text: 'OK',
+          onPress: async () => {
+            console.log('erst: ' + imgArr);
+            console.log('zweite' + value);
+            const jsonValue = JSON.stringify(concatArr);
+            await AsyncStorage.setItem(fileId, jsonValue);
+            navigation.navigate('docs', {fileId: fileId});
+            extraImagedispatch({type: actions.REMOVE});
+          },
+        },
+      ]);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleClick = () => {
@@ -105,6 +131,13 @@ export default function DocScreen({navigation, route}) {
     } else {
       handleUpload(state);
     }
+  };
+
+  const handleTest = () => {
+    // console.log(fileId);
+    // console.log(extraImageState);
+    // console.log(state);
+    console.log(imgArr);
   };
 
   const renderItem = ({item}) => {
@@ -142,6 +175,7 @@ export default function DocScreen({navigation, route}) {
             title={fileId ? 'add to queue' : 'update'}
             onPress={handleClick}
           />
+          <AppButton title="test" onPress={handleTest} />
         </View>
       </View>
     </View>
@@ -174,6 +208,7 @@ const styles = StyleSheet.create({
   uploadBtn: {
     alignSelf: 'center',
     width: DimensionsWidth / 3,
+    flexDirection: 'row',
   },
   buttonContainer: {
     position: 'absolute',
@@ -181,3 +216,5 @@ const styles = StyleSheet.create({
     left: 10,
   },
 });
+
+// const zweite =
