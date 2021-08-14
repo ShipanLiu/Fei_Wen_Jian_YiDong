@@ -88,7 +88,13 @@ export default function DocScreen({navigation, route}) {
   const renderItem = ({item}) => {
     return (
       <TouchableOpacity
-        onPress={() => navigation.navigate('preview', {id: item[0]})}
+        onPress={() =>
+          navigation.navigate('gallery', {
+            id: item[0],
+            item: JSON.parse(item[1]),
+            length: JSON.parse(item[1]).length,
+          })
+        }
         style={styles.itemContainer}>
         <View style={styles.fileImageContainer}>
           <Image
@@ -180,15 +186,15 @@ const styles = StyleSheet.create({
   itemContainer: {
     flexDirection: 'column',
     alignItems: 'center',
-    width: DimensionsWidth / 3,
-    height: DimensionsHeight / 3,
+    width: DimensionsWidth / 2.2,
+    height: DimensionsHeight / 2.2,
     borderWidth: 2,
     marginVertical: 10,
-    marginHorizontal: 30,
+    marginHorizontal: 10,
   },
   fileImageContainer: {
     width: '100%',
-    height: 90,
+    height: '100%',
   },
   fileImage: {
     height: '100%',

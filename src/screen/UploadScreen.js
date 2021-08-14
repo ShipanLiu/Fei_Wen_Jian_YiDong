@@ -86,7 +86,7 @@ export default function DocScreen({navigation, route}) {
           text: 'OK',
           onPress: async () => {
             await AsyncStorage.setItem(key, jsonValue);
-            navigation.navigate('docs', {id: key});
+            navigation.navigate('docs', {id: key, index: undefined});
             dispatch({type: actions.REMOVE});
           },
         },
@@ -115,7 +115,11 @@ export default function DocScreen({navigation, route}) {
             console.log('zweite' + value);
             const jsonValue = JSON.stringify(concatArr);
             await AsyncStorage.setItem(fileId, jsonValue);
-            navigation.navigate('docs', {fileId: fileId});
+            navigation.navigate('gallery', {
+              id: fileId,
+              fileId: fileId,
+              index: parsedImgArr.length - 1,
+            });
             extraImagedispatch({type: actions.REMOVE});
           },
         },

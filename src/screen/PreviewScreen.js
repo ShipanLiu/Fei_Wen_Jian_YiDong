@@ -23,7 +23,7 @@ import ActionButton from 'react-native-simple-action-button';
 
 export default function PreviewScreen({navigation, route}) {
   const [fileId, setFileId] = useState(null);
-  const [imgArr, setImgArr] = useState([]);
+  const [imgArr, setImgArr] = useState(route.params.item);
   const [currentObj, setCurrentObj] = useState();
   const [currentIndex, setCurrentIndex] = useState();
 
@@ -31,22 +31,31 @@ export default function PreviewScreen({navigation, route}) {
   const onViewRef = useRef(({viewableItems}) => {
     setCurrentObj(viewableItems[0]);
     setCurrentIndex(viewableItems[0].index);
+    // console.log(viewableItems);
   });
   const flatListRef = useRef(null);
+  const previewFlatListRef = useRef(null);
 
   const isFocused = useIsFocused();
 
   useEffect(() => {
-    getImageArr();
+    let isMounted = true;
+    getImageArr(isMounted);
+    // prevent repetitive call of setState
+    return () => {
+      isMounted = false;
+    };
   }, [isFocused]);
 
-  const getImageArr = async () => {
+  const getImageArr = async isMounted => {
     try {
       const {id} = route.params;
       setFileId(id);
       const jsonArr = await AsyncStorage.getItem(id);
       const imageArray = JSON.parse(jsonArr);
-      setImgArr(imageArray);
+      if (isMounted) {
+        setImgArr(imageArray);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -160,9 +169,11 @@ export default function PreviewScreen({navigation, route}) {
           renderItem={renderPreview}
           horizontal
           showsHorizontalScrollIndicator={false}
+          ref={previewFlatListRef}
         />
       </View>
       <FlatList
+        initialScrollIndex={route.params.index}
         ref={flatListRef}
         data={imgArr}
         keyExtractor={item => item.id}
@@ -170,26 +181,22 @@ export default function PreviewScreen({navigation, route}) {
         horizontal
         pagingEnabled
         showsHorizontalScrollIndicator={false}
-        onEndReached={() => console.log(`End reached: ${currentIndex}`)}
+        onEndReached={() => previewFlatListRef.current.scrollToEnd()}
         viewabilityConfig={viewConfigRef.current}
         onViewableItemsChanged={onViewRef.current}
-        // onContentSizeChange={() =>
-        //   flatListRef.current.scrollToIndex({
-        //     animated: true,
-        //     index: 0,
-        //   })
-        // }
+        // onContentSizeChange={() => {}}
+        // onScroll={() => console.log('scrolled')}
       />
       <Text>{currentObj?.index}</Text>
       <View style={styles.buttonContainer}>
         <View style={styles.singleButtonWrapper}>
-          <AppButton title="delete" onPress={handleDelete} />
+          <AppButton
+            title="back"
+            onPress={() => navigation.goBack('gallery')}
+          />
         </View>
         <View style={styles.singleButtonWrapper}>
-          <AppButton
-            title="ADD After"
-            onPress={() => navigation.navigate('camera', {fileId: fileId})}
-          />
+          <AppButton title="Done" onPress={() => navigation.navigate('docs')} />
         </View>
         <View style={styles.singleButtonWrapper}>
           <AppButton title="test" onPress={handleTest} />
