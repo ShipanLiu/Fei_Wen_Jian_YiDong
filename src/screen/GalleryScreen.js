@@ -22,9 +22,6 @@ import ActionButton from 'react-native-simple-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function GalleryScreen({navigation, route}) {
-  const [checkBox, setCheckBox] = useState(
-    Array(route.params.length).fill(false),
-  );
   const [showCheckBox, setShowCheckBox] = useState(false);
   const [fileId, setFileId] = useState(null);
   const [imgArr, setImgArr] = useState(route.params.item);
@@ -48,43 +45,107 @@ export default function GalleryScreen({navigation, route}) {
       setFileId(id);
       const jsonArr = await AsyncStorage.getItem(id);
       const imageArray = JSON.parse(jsonArr);
-      if (isMounted) {
-        setImgArr(imageArray);
+      if (isMounted && imageArray) {
+        setImgArr(createNewImageArray(imageArray));
       }
     } catch (error) {
       console.log(error);
     }
   };
 
-  const handleSingleCheckBoxClick = CheckBoxindex => {
-    const newCheckBox = checkBox.map((item, index) => {
-      if (index === CheckBoxindex) {
-        return !item;
+  const setChangesToAsyncStorage = async value => {
+    try {
+      const jsonValue = JSON.stringify(value);
+      await AsyncStorage.setItem(fileId, jsonValue);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const createNewImageArray = oldImageArray => {
+    return oldImageArray.map(itemObj => ({
+      checked: false,
+      ...itemObj,
+    }));
+  };
+
+  const handleSingleCheckBoxClick = item => {
+    const newImgArr = imgArr.map(obj => {
+      if (obj.id === item.id) {
+        obj['checked'] = !obj.checked;
+        return obj;
       } else {
-        return item;
+        return obj;
       }
     });
-    console.log(newCheckBox);
-    setCheckBox(newCheckBox);
+    setImgArr(newImgArr);
   };
 
   const handleCancel = () => {
     setShowCheckBox(false);
     // set all checkbox to false(back to initial state)
-    setCheckBox(checkBox.map(item => false));
+    const newImgArr = imgArr.map(obj => {
+      obj['checked'] = false;
+      return obj;
+    });
+    setImgArr(newImgArr);
+  };
+
+  const handlePressDeleteOk = async () => {
+    const newImgArr = imgArr.filter(obj => obj.checked === false);
+    // if delete all, the folder will also be deleted
+    if (newImgArr.length === 0) {
+      try {
+        setShowCheckBox(false);
+        setImgArr(newImgArr);
+        await AsyncStorage.removeItem(fileId);
+        navigation.navigate('docs');
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      setShowCheckBox(false);
+      setImgArr(newImgArr);
+      setChangesToAsyncStorage(newImgArr);
+    }
   };
 
   const handleDelete = () => {
-    console.log('delete');
+    if (imgArr.length === 1) {
+      Alert.alert('Last Page', 'Are you sure to delete this File?', [
+        {
+          text: 'Cancel',
+          onPress: handleCancel,
+          style: 'cancel',
+        },
+        {text: 'OK', onPress: handlePressDeleteOk},
+      ]);
+    } else {
+      handlePressDeleteOk();
+    }
+  };
+
+  const handleLongPress = item => {
+    setShowCheckBox(true);
+    handleSingleCheckBoxClick(item);
+  };
+
+  const handleShortPress = (item, index) => {
+    {
+      if (showCheckBox) {
+        handleSingleCheckBoxClick(item);
+      } else {
+        navigation.navigate('preview', {
+          id: fileId,
+          index: index,
+          item: route.params.item,
+        });
+      }
+    }
   };
 
   const handleTest = async () => {
-    console.log(route.params.length);
-
-    // const realImgArr = await AsyncStorage.getItem(fileId);
-    // console.log(JSON.parse(realImgArr));
-    // console.log(fileId);
-    // console.log(imgArr);
+    console.log(imgArr);
   };
 
   const renderItem = ({item, index}) => {
@@ -92,22 +153,16 @@ export default function GalleryScreen({navigation, route}) {
       <TouchableOpacity
         style={styles.imageContainer}
         delayLongPress={500}
-        onLongPress={() => setShowCheckBox(true)}
-        onPress={() =>
-          navigation.navigate('preview', {
-            id: fileId,
-            index: index,
-            item: route.params.item,
-          })
-        }>
+        onLongPress={() => handleLongPress(item)}
+        onPress={() => handleShortPress(item, index)}>
         <View style={styles.imageIndex}>
           <Text style={styles.indexText}>{index + 1}</Text>
         </View>
         {showCheckBox && (
           <View style={styles.checkboxWrapper}>
             <CheckBox
-              value={checkBox[index]}
-              onChange={() => handleSingleCheckBoxClick(index)}
+              value={item.checked}
+              onValueChange={value => handleSingleCheckBoxClick(item, value)}
             />
           </View>
         )}
@@ -153,12 +208,6 @@ export default function GalleryScreen({navigation, route}) {
         // onScroll={() => console.log('scrolled')}
       />
       <View style={styles.buttonContainer}>
-        <View style={styles.singleButtonWrapper}>
-          <AppButton
-            title="ADD After"
-            // onPress={() => navigation.navigate('camera', {fileId: fileId})}
-          />
-        </View>
         <View style={styles.singleButtonWrapper}>
           <AppButton title="test" onPress={handleTest} />
         </View>

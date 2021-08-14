@@ -58,13 +58,22 @@ import {DimensionsWidth, DimensionsHeight} from '../utils/dimension';
 export default function DocScreen({navigation, route}) {
   const [allKeys, setAllKeys] = useState(null);
   const [itemArr, setItemArr] = useState([]);
-  const scrollViewRef = useRef(null);
+  const flatListRef = useRef(null);
 
   const isFocused = useIsFocused();
 
   useEffect(() => {
+    // clearAll();
     getAllKeys();
   }, [isFocused]);
+
+  const clearAll = async () => {
+    try {
+      await AsyncStorage.clear();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const getAllKeys = async () => {
     const keyArr = await AsyncStorage.getAllKeys();
@@ -110,10 +119,15 @@ export default function DocScreen({navigation, route}) {
   return (
     <View style={styles.container}>
       <FlatList
+        ref={flatListRef}
         data={itemArr}
         keyExtractor={item => item[0]}
         renderItem={renderItem}
         numColumns={2}
+        showsVerticalScrollIndicator={false}
+        onContentSizeChange={() => {
+          flatListRef.current.scrollToEnd({animated: true});
+        }}
       />
       <View
         style={{

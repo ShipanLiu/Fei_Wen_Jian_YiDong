@@ -86,7 +86,11 @@ export default function DocScreen({navigation, route}) {
           text: 'OK',
           onPress: async () => {
             await AsyncStorage.setItem(key, jsonValue);
-            navigation.navigate('docs', {id: key, index: undefined});
+            navigation.navigate('docs', {
+              id: key,
+              index: undefined,
+              fromCamera: true,
+            });
             dispatch({type: actions.REMOVE});
           },
         },

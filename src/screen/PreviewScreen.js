@@ -31,7 +31,6 @@ export default function PreviewScreen({navigation, route}) {
   const onViewRef = useRef(({viewableItems}) => {
     setCurrentObj(viewableItems[0]);
     setCurrentIndex(viewableItems[0].index);
-    // console.log(viewableItems);
   });
   const flatListRef = useRef(null);
   const previewFlatListRef = useRef(null);
