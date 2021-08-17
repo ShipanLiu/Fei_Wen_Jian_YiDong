@@ -30,12 +30,14 @@ import {
 import Icon from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import uuid from 'react-native-uuid';
+import {useIsFocused} from '@react-navigation/native';
 
 import AppButton from '../components/AppButton';
 import {DimensionsWidth, DimensionsHeight} from '../utils/dimension';
 import {ImageContext} from '../store/context/ImageContext';
 import {extraImageContext} from '../store/context/extraImageContext';
-import {useIsFocused} from '@react-navigation/native';
+import FileNameModal from '../components/FileNameModal';
+
 import * as actions from '../store/actions/actions';
 
 export default function DocScreen({navigation, route}) {
@@ -43,6 +45,7 @@ export default function DocScreen({navigation, route}) {
   const [imgArr, setImgArr] = useState([]);
   // if for extra image, the fileId exists, in other cases, it is null
   const [fileId, setFileId] = useState();
+  const [showModal, setShowModal] = useState(false);
   const {state: extraImageState, dispatch: extraImagedispatch} =
     useContext(extraImageContext);
 
@@ -72,29 +75,22 @@ export default function DocScreen({navigation, route}) {
     }
   };
 
+  const openModal = () => {
+    setShowModal(true);
+  };
+
   const handleUpload = async value => {
     try {
+      // openModal()
       const jsonValue = JSON.stringify(value);
       const key = `file${Date.now()}`;
-      Alert.alert('SAVE', 'Are you sure', [
-        {
-          text: 'Cancel',
-          onPress: () => console.log('Cancel Pressed'),
-          style: 'cancel',
-        },
-        {
-          text: 'OK',
-          onPress: async () => {
-            await AsyncStorage.setItem(key, jsonValue);
-            navigation.navigate('docs', {
-              id: key,
-              index: undefined,
-              fromCamera: true,
-            });
-            dispatch({type: actions.REMOVE});
-          },
-        },
-      ]);
+      await AsyncStorage.setItem(key, jsonValue);
+      navigation.navigate('docs', {
+        id: key,
+        index: undefined,
+        fromCamera: true,
+      });
+      dispatch({type: actions.REMOVE});
     } catch (error) {
       console.log(error);
     }
@@ -145,7 +141,8 @@ export default function DocScreen({navigation, route}) {
     // console.log(fileId);
     // console.log(extraImageState);
     // console.log(state);
-    console.log(imgArr);
+    // console.log(imgArr);
+    setShowModal(true);
   };
 
   const renderItem = ({item}) => {
@@ -165,9 +162,9 @@ export default function DocScreen({navigation, route}) {
     );
   };
 
-  console.log('uploadSc:  ' + fileId);
   return (
     <View style={styles.container}>
+      <FileNameModal visible={showModal} />
       <View style={styles.fileContainer}>
         {/* if we want add extra image, then wen should display the state in extraImageContext */}
         <FlatList

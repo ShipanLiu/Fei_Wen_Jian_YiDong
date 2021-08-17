@@ -9,13 +9,14 @@ import UploadScreen from '../screen/UploadScreen';
 import RecropScreen from '../screen/RecropScreen';
 import PreviewScreen from '../screen/PreviewScreen';
 import GalleryScreen from '../screen/GalleryScreen';
+import TeachMachineTest from '../test/TeachMachineTest';
 
 const Stack = createStackNavigator();
 
 function DocStack(props) {
   return (
     <Stack.Navigator
-      initialRouteName="docs"
+      initialRouteName="test"
       screenOptions={{
         headerStyle: {backgroundColor: 'tomato'},
         headerTintColor: '#fff',
@@ -63,6 +64,13 @@ function DocStack(props) {
       <Stack.Screen
         name="gallery"
         component={GalleryScreen}
+        options={() => ({
+          headerShown: false,
+        })}
+      />
+      <Stack.Screen
+        name="test"
+        component={TeachMachineTest}
         options={() => ({
           headerShown: false,
         })}

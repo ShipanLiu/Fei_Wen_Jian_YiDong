@@ -54,12 +54,13 @@ export default function GalleryScreen({navigation, route}) {
   };
 
   const setChangesToAsyncStorage = async value => {
-    try {
-      const jsonValue = JSON.stringify(value);
-      await AsyncStorage.setItem(fileId, jsonValue);
-    } catch (error) {
-      console.log(error);
-    }
+    // try {
+    //   const jsonValue = JSON.stringify(value);
+    //   await AsyncStorage.setItem(fileId, jsonValue);
+    // } catch (error) {
+    //   console.log(error);
+    // }
+    console.log('async later');
   };
 
   const createNewImageArray = oldImageArray => {

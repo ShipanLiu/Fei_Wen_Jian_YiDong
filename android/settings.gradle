@@ -1,15 +1,11 @@
 rootProject.name = 'flydocs'
-include ':react-native-perspective-image-cropper'
-project(':react-native-perspective-image-cropper').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-perspective-image-cropper/android')
+apply from: new File(["node", "--print", "require.resolve('react-native-unimodules/package.json')"].execute().text.trim(), "../gradle.groovy"); includeUnimodulesProjects()
+apply from: new File(["node", "--print", "require.resolve('@react-native-community/cli-platform-android/package.json')"].execute().text.trim(), "../native_modules.gradle"); applyNativeModulesSettingsGradle(settings)
 apply from: file("../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesSettingsGradle(settings)
 include ':app'
 
 include ':react-native-fs'
 project(':react-native-fs').projectDir = new File(settingsDir, '../node_modules/react-native-fs/android')
 
-// include ':openCVLibrary310'
-// project(':openCVLibrary310').projectDir = new File(rootProject.projectDir,'../node_modules/react-native-document-scanner/android/openCVLibrary310')
-// include ':openCVLibrary310'
-// project(':openCVLibrary310').projectDir = new File(rootProject.projectDir,'../node_modules/@woonivers/react-native-document-scanner/android/openCVLibrary310')
 include ':openCVLibrary310'
 project(':openCVLibrary310').projectDir = new File(rootProject.projectDir,'../node_modules/react-native-rectangle-scanner/android/openCVLibrary310')
