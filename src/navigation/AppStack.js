@@ -10,13 +10,16 @@ import RecropScreen from '../screen/RecropScreen';
 import PreviewScreen from '../screen/PreviewScreen';
 import GalleryScreen from '../screen/GalleryScreen';
 import TeachMachineTest from '../test/TeachMachineTest';
+import TMTest2 from '../test/TMTest2';
+import TMTest3 from '../test/TMTest3';
+import KnnImageClassifier from '../test/Knn-Image-Classifier';
 
 const Stack = createStackNavigator();
 
 function DocStack(props) {
   return (
     <Stack.Navigator
-      initialRouteName="test"
+      initialRouteName="docs"
       screenOptions={{
         headerStyle: {backgroundColor: 'tomato'},
         headerTintColor: '#fff',
@@ -69,8 +72,22 @@ function DocStack(props) {
         })}
       />
       <Stack.Screen
-        name="test"
-        component={TeachMachineTest}
+        name="test2"
+        component={TMTest2}
+        options={() => ({
+          headerShown: false,
+        })}
+      />
+      <Stack.Screen
+        name="test3"
+        component={TMTest3}
+        options={() => ({
+          headerShown: false,
+        })}
+      />
+      <Stack.Screen
+        name="knn"
+        component={KnnImageClassifier}
         options={() => ({
           headerShown: false,
         })}

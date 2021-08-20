@@ -37,7 +37,7 @@ LogBox.ignoreLogs(['Require cycle:']);
 
 export default function TeachMachineTest(props) {
   const [url, setUrl] = useState(
-    'https://www.appointmed.com/blog/wp-content/uploads/2017/11/rechnung-merkmale-appointmed.png',
+    'https://static01.nyt.com/images/2019/06/17/science/17DOGS/17DOGS-mobileMasterAt3x-v2.jpg',
   );
   const [displayText, setDisplayText] = useState('loading');
 
@@ -48,9 +48,9 @@ export default function TeachMachineTest(props) {
       setDisplayText('fetching url');
       setDisplayText('resizing image');
       const croppedData = await cropPicture(url);
+      // console.log(croppedData);
       setDisplayText('creating tensor');
       const tensor = await convertBase64ToTensor(croppedData.base64);
-      console.log(tensor);
       setDisplayText('predcting....');
       const prediction = await startPrediction(model, tensor);
       console.log(prediction);
@@ -69,6 +69,7 @@ export default function TeachMachineTest(props) {
         value={url}
       />
       <Button title="classify Image" onPress={() => getPrediction(url)} />
+      <Button title="test" onPress={() => {}} />
       <Image style={styles.imageStyle} source={{uri: url}} />
       <Text>{displayText}</Text>
     </View>

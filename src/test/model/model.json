@@ -743,10 +743,7 @@
                     {
                       "name": "block_2_add",
                       "class_name": "Add",
-                      "config": {
-                        "name": "block_2_add",
-                        "trainable": true
-                      },
+                      "config": {"name": "block_2_add", "trainable": true},
                       "inbound_nodes": [
                         [
                           ["block_1_project_BN", 0, 0, {}],
@@ -1225,10 +1222,7 @@
                     {
                       "name": "block_4_add",
                       "class_name": "Add",
-                      "config": {
-                        "name": "block_4_add",
-                        "trainable": true
-                      },
+                      "config": {"name": "block_4_add", "trainable": true},
                       "inbound_nodes": [
                         [
                           ["block_3_project_BN", 0, 0, {}],
@@ -1466,10 +1460,7 @@
                     {
                       "name": "block_5_add",
                       "class_name": "Add",
-                      "config": {
-                        "name": "block_5_add",
-                        "trainable": true
-                      },
+                      "config": {"name": "block_5_add", "trainable": true},
                       "inbound_nodes": [
                         [
                           ["block_4_add", 0, 0, {}],
@@ -1948,10 +1939,7 @@
                     {
                       "name": "block_7_add",
                       "class_name": "Add",
-                      "config": {
-                        "name": "block_7_add",
-                        "trainable": true
-                      },
+                      "config": {"name": "block_7_add", "trainable": true},
                       "inbound_nodes": [
                         [
                           ["block_6_project_BN", 0, 0, {}],
@@ -2189,10 +2177,7 @@
                     {
                       "name": "block_8_add",
                       "class_name": "Add",
-                      "config": {
-                        "name": "block_8_add",
-                        "trainable": true
-                      },
+                      "config": {"name": "block_8_add", "trainable": true},
                       "inbound_nodes": [
                         [
                           ["block_7_add", 0, 0, {}],
@@ -2430,10 +2415,7 @@
                     {
                       "name": "block_9_add",
                       "class_name": "Add",
-                      "config": {
-                        "name": "block_9_add",
-                        "trainable": true
-                      },
+                      "config": {"name": "block_9_add", "trainable": true},
                       "inbound_nodes": [
                         [
                           ["block_8_add", 0, 0, {}],
@@ -2898,10 +2880,7 @@
                     {
                       "name": "block_11_add",
                       "class_name": "Add",
-                      "config": {
-                        "name": "block_11_add",
-                        "trainable": true
-                      },
+                      "config": {"name": "block_11_add", "trainable": true},
                       "inbound_nodes": [
                         [
                           ["block_10_project_BN", 0, 0, {}],
@@ -3139,10 +3118,7 @@
                     {
                       "name": "block_12_add",
                       "class_name": "Add",
-                      "config": {
-                        "name": "block_12_add",
-                        "trainable": true
-                      },
+                      "config": {"name": "block_12_add", "trainable": true},
                       "inbound_nodes": [
                         [
                           ["block_11_add", 0, 0, {}],
@@ -3621,10 +3597,7 @@
                     {
                       "name": "block_14_add",
                       "class_name": "Add",
-                      "config": {
-                        "name": "block_14_add",
-                        "trainable": true
-                      },
+                      "config": {"name": "block_14_add", "trainable": true},
                       "inbound_nodes": [
                         [
                           ["block_13_project_BN", 0, 0, {}],
@@ -3862,10 +3835,7 @@
                     {
                       "name": "block_15_add",
                       "class_name": "Add",
-                      "config": {
-                        "name": "block_15_add",
-                        "trainable": true
-                      },
+                      "config": {"name": "block_15_add", "trainable": true},
                       "inbound_nodes": [
                         [
                           ["block_14_add", 0, 0, {}],
@@ -4215,10 +4185,7 @@
                       "seed": null
                     }
                   },
-                  "bias_initializer": {
-                    "class_name": "Zeros",
-                    "config": {}
-                  },
+                  "bias_initializer": {"class_name": "Zeros", "config": {}},
                   "kernel_regularizer": null,
                   "bias_regularizer": null,
                   "activity_regularizer": null,
@@ -4245,10 +4212,7 @@
                       "seed": null
                     }
                   },
-                  "bias_initializer": {
-                    "class_name": "Zeros",
-                    "config": {}
-                  },
+                  "bias_initializer": {"class_name": "Zeros", "config": {}},
                   "kernel_regularizer": null,
                   "bias_regularizer": null,
                   "activity_regularizer": null,
@@ -4273,21 +4237,9 @@
     {
       "paths": ["./model.weights.bin"],
       "weights": [
-        {
-          "name": "Conv1/kernel",
-          "shape": [3, 3, 3, 16],
-          "dtype": "float32"
-        },
-        {
-          "name": "bn_Conv1/gamma",
-          "shape": [16],
-          "dtype": "float32"
-        },
-        {
-          "name": "bn_Conv1/beta",
-          "shape": [16],
-          "dtype": "float32"
-        },
+        {"name": "Conv1/kernel", "shape": [3, 3, 3, 16], "dtype": "float32"},
+        {"name": "bn_Conv1/gamma", "shape": [16], "dtype": "float32"},
+        {"name": "bn_Conv1/beta", "shape": [16], "dtype": "float32"},
         {
           "name": "expanded_conv_depthwise/depthwise_kernel",
           "shape": [3, 3, 16, 1],
@@ -4323,16 +4275,8 @@
           "shape": [1, 1, 8, 48],
           "dtype": "float32"
         },
-        {
-          "name": "block_1_expand_BN/gamma",
-          "shape": [48],
-          "dtype": "float32"
-        },
-        {
-          "name": "block_1_expand_BN/beta",
-          "shape": [48],
-          "dtype": "float32"
-        },
+        {"name": "block_1_expand_BN/gamma", "shape": [48], "dtype": "float32"},
+        {"name": "block_1_expand_BN/beta", "shape": [48], "dtype": "float32"},
         {
           "name": "block_1_depthwise/depthwise_kernel",
           "shape": [3, 3, 48, 1],
@@ -4353,31 +4297,15 @@
           "shape": [1, 1, 48, 8],
           "dtype": "float32"
         },
-        {
-          "name": "block_1_project_BN/gamma",
-          "shape": [8],
-          "dtype": "float32"
-        },
-        {
-          "name": "block_1_project_BN/beta",
-          "shape": [8],
-          "dtype": "float32"
-        },
+        {"name": "block_1_project_BN/gamma", "shape": [8], "dtype": "float32"},
+        {"name": "block_1_project_BN/beta", "shape": [8], "dtype": "float32"},
         {
           "name": "block_2_expand/kernel",
           "shape": [1, 1, 8, 48],
           "dtype": "float32"
         },
-        {
-          "name": "block_2_expand_BN/gamma",
-          "shape": [48],
-          "dtype": "float32"
-        },
-        {
-          "name": "block_2_expand_BN/beta",
-          "shape": [48],
-          "dtype": "float32"
-        },
+        {"name": "block_2_expand_BN/gamma", "shape": [48], "dtype": "float32"},
+        {"name": "block_2_expand_BN/beta", "shape": [48], "dtype": "float32"},
         {
           "name": "block_2_depthwise/depthwise_kernel",
           "shape": [3, 3, 48, 1],
@@ -4398,31 +4326,15 @@
           "shape": [1, 1, 48, 8],
           "dtype": "float32"
         },
-        {
-          "name": "block_2_project_BN/gamma",
-          "shape": [8],
-          "dtype": "float32"
-        },
-        {
-          "name": "block_2_project_BN/beta",
-          "shape": [8],
-          "dtype": "float32"
-        },
+        {"name": "block_2_project_BN/gamma", "shape": [8], "dtype": "float32"},
+        {"name": "block_2_project_BN/beta", "shape": [8], "dtype": "float32"},
         {
           "name": "block_3_expand/kernel",
           "shape": [1, 1, 8, 48],
           "dtype": "float32"
         },
-        {
-          "name": "block_3_expand_BN/gamma",
-          "shape": [48],
-          "dtype": "float32"
-        },
-        {
-          "name": "block_3_expand_BN/beta",
-          "shape": [48],
-          "dtype": "float32"
-        },
+        {"name": "block_3_expand_BN/gamma", "shape": [48], "dtype": "float32"},
+        {"name": "block_3_expand_BN/beta", "shape": [48], "dtype": "float32"},
         {
           "name": "block_3_depthwise/depthwise_kernel",
           "shape": [3, 3, 48, 1],
@@ -4443,31 +4355,15 @@
           "shape": [1, 1, 48, 16],
           "dtype": "float32"
         },
-        {
-          "name": "block_3_project_BN/gamma",
-          "shape": [16],
-          "dtype": "float32"
-        },
-        {
-          "name": "block_3_project_BN/beta",
-          "shape": [16],
-          "dtype": "float32"
-        },
+        {"name": "block_3_project_BN/gamma", "shape": [16], "dtype": "float32"},
+        {"name": "block_3_project_BN/beta", "shape": [16], "dtype": "float32"},
         {
           "name": "block_4_expand/kernel",
           "shape": [1, 1, 16, 96],
           "dtype": "float32"
         },
-        {
-          "name": "block_4_expand_BN/gamma",
-          "shape": [96],
-          "dtype": "float32"
-        },
-        {
-          "name": "block_4_expand_BN/beta",
-          "shape": [96],
-          "dtype": "float32"
-        },
+        {"name": "block_4_expand_BN/gamma", "shape": [96], "dtype": "float32"},
+        {"name": "block_4_expand_BN/beta", "shape": [96], "dtype": "float32"},
         {
           "name": "block_4_depthwise/depthwise_kernel",
           "shape": [3, 3, 96, 1],
@@ -4488,31 +4384,15 @@
           "shape": [1, 1, 96, 16],
           "dtype": "float32"
         },
-        {
-          "name": "block_4_project_BN/gamma",
-          "shape": [16],
-          "dtype": "float32"
-        },
-        {
-          "name": "block_4_project_BN/beta",
-          "shape": [16],
-          "dtype": "float32"
-        },
+        {"name": "block_4_project_BN/gamma", "shape": [16], "dtype": "float32"},
+        {"name": "block_4_project_BN/beta", "shape": [16], "dtype": "float32"},
         {
           "name": "block_5_expand/kernel",
           "shape": [1, 1, 16, 96],
           "dtype": "float32"
         },
-        {
-          "name": "block_5_expand_BN/gamma",
-          "shape": [96],
-          "dtype": "float32"
-        },
-        {
-          "name": "block_5_expand_BN/beta",
-          "shape": [96],
-          "dtype": "float32"
-        },
+        {"name": "block_5_expand_BN/gamma", "shape": [96], "dtype": "float32"},
+        {"name": "block_5_expand_BN/beta", "shape": [96], "dtype": "float32"},
         {
           "name": "block_5_depthwise/depthwise_kernel",
           "shape": [3, 3, 96, 1],
@@ -4533,31 +4413,15 @@
           "shape": [1, 1, 96, 16],
           "dtype": "float32"
         },
-        {
-          "name": "block_5_project_BN/gamma",
-          "shape": [16],
-          "dtype": "float32"
-        },
-        {
-          "name": "block_5_project_BN/beta",
-          "shape": [16],
-          "dtype": "float32"
-        },
+        {"name": "block_5_project_BN/gamma", "shape": [16], "dtype": "float32"},
+        {"name": "block_5_project_BN/beta", "shape": [16], "dtype": "float32"},
         {
           "name": "block_6_expand/kernel",
           "shape": [1, 1, 16, 96],
           "dtype": "float32"
         },
-        {
-          "name": "block_6_expand_BN/gamma",
-          "shape": [96],
-          "dtype": "float32"
-        },
-        {
-          "name": "block_6_expand_BN/beta",
-          "shape": [96],
-          "dtype": "float32"
-        },
+        {"name": "block_6_expand_BN/gamma", "shape": [96], "dtype": "float32"},
+        {"name": "block_6_expand_BN/beta", "shape": [96], "dtype": "float32"},
         {
           "name": "block_6_depthwise/depthwise_kernel",
           "shape": [3, 3, 96, 1],
@@ -4578,31 +4442,15 @@
           "shape": [1, 1, 96, 24],
           "dtype": "float32"
         },
-        {
-          "name": "block_6_project_BN/gamma",
-          "shape": [24],
-          "dtype": "float32"
-        },
-        {
-          "name": "block_6_project_BN/beta",
-          "shape": [24],
-          "dtype": "float32"
-        },
+        {"name": "block_6_project_BN/gamma", "shape": [24], "dtype": "float32"},
+        {"name": "block_6_project_BN/beta", "shape": [24], "dtype": "float32"},
         {
           "name": "block_7_expand/kernel",
           "shape": [1, 1, 24, 144],
           "dtype": "float32"
         },
-        {
-          "name": "block_7_expand_BN/gamma",
-          "shape": [144],
-          "dtype": "float32"
-        },
-        {
-          "name": "block_7_expand_BN/beta",
-          "shape": [144],
-          "dtype": "float32"
-        },
+        {"name": "block_7_expand_BN/gamma", "shape": [144], "dtype": "float32"},
+        {"name": "block_7_expand_BN/beta", "shape": [144], "dtype": "float32"},
         {
           "name": "block_7_depthwise/depthwise_kernel",
           "shape": [3, 3, 144, 1],
@@ -4623,31 +4471,15 @@
           "shape": [1, 1, 144, 24],
           "dtype": "float32"
         },
-        {
-          "name": "block_7_project_BN/gamma",
-          "shape": [24],
-          "dtype": "float32"
-        },
-        {
-          "name": "block_7_project_BN/beta",
-          "shape": [24],
-          "dtype": "float32"
-        },
+        {"name": "block_7_project_BN/gamma", "shape": [24], "dtype": "float32"},
+        {"name": "block_7_project_BN/beta", "shape": [24], "dtype": "float32"},
         {
           "name": "block_8_expand/kernel",
           "shape": [1, 1, 24, 144],
           "dtype": "float32"
         },
-        {
-          "name": "block_8_expand_BN/gamma",
-          "shape": [144],
-          "dtype": "float32"
-        },
-        {
-          "name": "block_8_expand_BN/beta",
-          "shape": [144],
-          "dtype": "float32"
-        },
+        {"name": "block_8_expand_BN/gamma", "shape": [144], "dtype": "float32"},
+        {"name": "block_8_expand_BN/beta", "shape": [144], "dtype": "float32"},
         {
           "name": "block_8_depthwise/depthwise_kernel",
           "shape": [3, 3, 144, 1],
@@ -4668,31 +4500,15 @@
           "shape": [1, 1, 144, 24],
           "dtype": "float32"
         },
-        {
-          "name": "block_8_project_BN/gamma",
-          "shape": [24],
-          "dtype": "float32"
-        },
-        {
-          "name": "block_8_project_BN/beta",
-          "shape": [24],
-          "dtype": "float32"
-        },
+        {"name": "block_8_project_BN/gamma", "shape": [24], "dtype": "float32"},
+        {"name": "block_8_project_BN/beta", "shape": [24], "dtype": "float32"},
         {
           "name": "block_9_expand/kernel",
           "shape": [1, 1, 24, 144],
           "dtype": "float32"
         },
-        {
-          "name": "block_9_expand_BN/gamma",
-          "shape": [144],
-          "dtype": "float32"
-        },
-        {
-          "name": "block_9_expand_BN/beta",
-          "shape": [144],
-          "dtype": "float32"
-        },
+        {"name": "block_9_expand_BN/gamma", "shape": [144], "dtype": "float32"},
+        {"name": "block_9_expand_BN/beta", "shape": [144], "dtype": "float32"},
         {
           "name": "block_9_depthwise/depthwise_kernel",
           "shape": [3, 3, 144, 1],
@@ -4713,16 +4529,8 @@
           "shape": [1, 1, 144, 24],
           "dtype": "float32"
         },
-        {
-          "name": "block_9_project_BN/gamma",
-          "shape": [24],
-          "dtype": "float32"
-        },
-        {
-          "name": "block_9_project_BN/beta",
-          "shape": [24],
-          "dtype": "float32"
-        },
+        {"name": "block_9_project_BN/gamma", "shape": [24], "dtype": "float32"},
+        {"name": "block_9_project_BN/beta", "shape": [24], "dtype": "float32"},
         {
           "name": "block_10_expand/kernel",
           "shape": [1, 1, 24, 144],
@@ -4733,11 +4541,7 @@
           "shape": [144],
           "dtype": "float32"
         },
-        {
-          "name": "block_10_expand_BN/beta",
-          "shape": [144],
-          "dtype": "float32"
-        },
+        {"name": "block_10_expand_BN/beta", "shape": [144], "dtype": "float32"},
         {
           "name": "block_10_depthwise/depthwise_kernel",
           "shape": [3, 3, 144, 1],
@@ -4763,11 +4567,7 @@
           "shape": [32],
           "dtype": "float32"
         },
-        {
-          "name": "block_10_project_BN/beta",
-          "shape": [32],
-          "dtype": "float32"
-        },
+        {"name": "block_10_project_BN/beta", "shape": [32], "dtype": "float32"},
         {
           "name": "block_11_expand/kernel",
           "shape": [1, 1, 32, 192],
@@ -4778,11 +4578,7 @@
           "shape": [192],
           "dtype": "float32"
         },
-        {
-          "name": "block_11_expand_BN/beta",
-          "shape": [192],
-          "dtype": "float32"
-        },
+        {"name": "block_11_expand_BN/beta", "shape": [192], "dtype": "float32"},
         {
           "name": "block_11_depthwise/depthwise_kernel",
           "shape": [3, 3, 192, 1],
@@ -4808,11 +4604,7 @@
           "shape": [32],
           "dtype": "float32"
         },
-        {
-          "name": "block_11_project_BN/beta",
-          "shape": [32],
-          "dtype": "float32"
-        },
+        {"name": "block_11_project_BN/beta", "shape": [32], "dtype": "float32"},
         {
           "name": "block_12_expand/kernel",
           "shape": [1, 1, 32, 192],
@@ -4823,11 +4615,7 @@
           "shape": [192],
           "dtype": "float32"
         },
-        {
-          "name": "block_12_expand_BN/beta",
-          "shape": [192],
-          "dtype": "float32"
-        },
+        {"name": "block_12_expand_BN/beta", "shape": [192], "dtype": "float32"},
         {
           "name": "block_12_depthwise/depthwise_kernel",
           "shape": [3, 3, 192, 1],
@@ -4853,11 +4641,7 @@
           "shape": [32],
           "dtype": "float32"
         },
-        {
-          "name": "block_12_project_BN/beta",
-          "shape": [32],
-          "dtype": "float32"
-        },
+        {"name": "block_12_project_BN/beta", "shape": [32], "dtype": "float32"},
         {
           "name": "block_13_expand/kernel",
           "shape": [1, 1, 32, 192],
@@ -4868,11 +4652,7 @@
           "shape": [192],
           "dtype": "float32"
         },
-        {
-          "name": "block_13_expand_BN/beta",
-          "shape": [192],
-          "dtype": "float32"
-        },
+        {"name": "block_13_expand_BN/beta", "shape": [192], "dtype": "float32"},
         {
           "name": "block_13_depthwise/depthwise_kernel",
           "shape": [3, 3, 192, 1],
@@ -4898,11 +4678,7 @@
           "shape": [56],
           "dtype": "float32"
         },
-        {
-          "name": "block_13_project_BN/beta",
-          "shape": [56],
-          "dtype": "float32"
-        },
+        {"name": "block_13_project_BN/beta", "shape": [56], "dtype": "float32"},
         {
           "name": "block_14_expand/kernel",
           "shape": [1, 1, 56, 336],
@@ -4913,11 +4689,7 @@
           "shape": [336],
           "dtype": "float32"
         },
-        {
-          "name": "block_14_expand_BN/beta",
-          "shape": [336],
-          "dtype": "float32"
-        },
+        {"name": "block_14_expand_BN/beta", "shape": [336], "dtype": "float32"},
         {
           "name": "block_14_depthwise/depthwise_kernel",
           "shape": [3, 3, 336, 1],
@@ -4943,11 +4715,7 @@
           "shape": [56],
           "dtype": "float32"
         },
-        {
-          "name": "block_14_project_BN/beta",
-          "shape": [56],
-          "dtype": "float32"
-        },
+        {"name": "block_14_project_BN/beta", "shape": [56], "dtype": "float32"},
         {
           "name": "block_15_expand/kernel",
           "shape": [1, 1, 56, 336],
@@ -4958,11 +4726,7 @@
           "shape": [336],
           "dtype": "float32"
         },
-        {
-          "name": "block_15_expand_BN/beta",
-          "shape": [336],
-          "dtype": "float32"
-        },
+        {"name": "block_15_expand_BN/beta", "shape": [336], "dtype": "float32"},
         {
           "name": "block_15_depthwise/depthwise_kernel",
           "shape": [3, 3, 336, 1],
@@ -4988,11 +4752,7 @@
           "shape": [56],
           "dtype": "float32"
         },
-        {
-          "name": "block_15_project_BN/beta",
-          "shape": [56],
-          "dtype": "float32"
-        },
+        {"name": "block_15_project_BN/beta", "shape": [56], "dtype": "float32"},
         {
           "name": "block_16_expand/kernel",
           "shape": [1, 1, 56, 336],
@@ -5003,11 +4763,7 @@
           "shape": [336],
           "dtype": "float32"
         },
-        {
-          "name": "block_16_expand_BN/beta",
-          "shape": [336],
-          "dtype": "float32"
-        },
+        {"name": "block_16_expand_BN/beta", "shape": [336], "dtype": "float32"},
         {
           "name": "block_16_depthwise/depthwise_kernel",
           "shape": [3, 3, 336, 1],
@@ -5043,41 +4799,17 @@
           "shape": [1, 1, 112, 1280],
           "dtype": "float32"
         },
-        {
-          "name": "Conv_1_bn/gamma",
-          "shape": [1280],
-          "dtype": "float32"
-        },
-        {
-          "name": "Conv_1_bn/beta",
-          "shape": [1280],
-          "dtype": "float32"
-        },
+        {"name": "Conv_1_bn/gamma", "shape": [1280], "dtype": "float32"},
+        {"name": "Conv_1_bn/beta", "shape": [1280], "dtype": "float32"},
         {
           "name": "dense_Dense3/kernel",
           "shape": [1280, 100],
           "dtype": "float32"
         },
-        {
-          "name": "dense_Dense3/bias",
-          "shape": [100],
-          "dtype": "float32"
-        },
-        {
-          "name": "dense_Dense4/kernel",
-          "shape": [100, 8],
-          "dtype": "float32"
-        },
-        {
-          "name": "bn_Conv1/moving_mean",
-          "shape": [16],
-          "dtype": "float32"
-        },
-        {
-          "name": "bn_Conv1/moving_variance",
-          "shape": [16],
-          "dtype": "float32"
-        },
+        {"name": "dense_Dense3/bias", "shape": [100], "dtype": "float32"},
+        {"name": "dense_Dense4/kernel", "shape": [100, 8], "dtype": "float32"},
+        {"name": "bn_Conv1/moving_mean", "shape": [16], "dtype": "float32"},
+        {"name": "bn_Conv1/moving_variance", "shape": [16], "dtype": "float32"},
         {
           "name": "expanded_conv_depthwise_BN/moving_mean",
           "shape": [16],
@@ -5578,11 +5310,7 @@
           "shape": [112],
           "dtype": "float32"
         },
-        {
-          "name": "Conv_1_bn/moving_mean",
-          "shape": [1280],
-          "dtype": "float32"
-        },
+        {"name": "Conv_1_bn/moving_mean", "shape": [1280], "dtype": "float32"},
         {
           "name": "Conv_1_bn/moving_variance",
           "shape": [1280],
