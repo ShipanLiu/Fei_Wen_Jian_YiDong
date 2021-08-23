@@ -1,6 +1,9 @@
 import React from 'react';
-import {View, Text, Image, StyleSheet} from 'react-native';
+import {View, Text, Image, StyleSheet, LogBox} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import DocScreen from '../screen/DocScreen';
 import ScannerScreen from '../screen/ScannerScreen';
@@ -14,9 +17,13 @@ import TMTest2 from '../test/TMTest2';
 import TMTest3 from '../test/TMTest3';
 import KnnImageClassifier from '../test/Knn-Image-Classifier';
 
+LogBox.ignoreLogs([
+  ' If you want to use Reanimated 2 then go through our installation steps https://docs.swmansion.com/react-native-reanimated/docs/installation',
+]);
+
 const Stack = createStackNavigator();
 
-function DocStack(props) {
+function DocStack({navigation}) {
   return (
     <Stack.Navigator
       initialRouteName="docs"
@@ -25,13 +32,25 @@ function DocStack(props) {
         headerTintColor: '#fff',
         headerTitleAlign: 'center',
         // headerLeft: null,
+        headerLeft: ({color, size}) => (
+          <Ionicons.Button
+            name="ios-menu"
+            color={color}
+            backgroundColor="tomato"
+            iconStyle={{
+              color: 'pink',
+            }}
+            size={30}
+            onPress={() => navigation.openDrawer()}
+          />
+        ),
       }}>
       <Stack.Screen
         name="docs"
         component={DocScreen}
         options={() => ({
           title: 'My Docs',
-          headerLeft: null,
+          // headerLeft: null,
         })}
       />
       <Stack.Screen
