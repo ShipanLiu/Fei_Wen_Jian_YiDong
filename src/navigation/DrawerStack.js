@@ -1,5 +1,6 @@
 import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, Button} from 'react-native';
+import {View, StyleSheet, TouchableOpacity, Button} from 'react-native';
+import {Title, TouchableRipple} from 'react-native-paper';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -70,7 +71,25 @@ const DrawerStack = () => {
           ),
         })}
       />
-      <Drawer.Screen name="edit-profile" component={EditProfileScreen} />
+      <Drawer.Screen
+        name="edit-profile"
+        component={EditProfileScreen}
+        options={({color, size}) => ({
+          title: 'Edit Profile',
+          headerTitleAlign: 'center',
+          headerLeft: () => (
+            <TouchableOpacity
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+              }}
+              onPress={() => navigation.navigate('profile')}>
+              <Ionicons name="chevron-back-sharp" color={color} size={40} />
+              <Title>Back</Title>
+            </TouchableOpacity>
+          ),
+        })}
+      />
     </Drawer.Navigator>
   );
 };
