@@ -10,10 +10,10 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-export default function MessageScreen(props) {
+export default function SettingScreen(props) {
   return (
     <View style={styles.container}>
-      <Text>MessageScreen</Text>
+      <Text>SettingScreen</Text>
     </View>
   );
 }

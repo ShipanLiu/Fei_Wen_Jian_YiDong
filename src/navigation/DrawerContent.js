@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Image,
@@ -23,71 +23,67 @@ import {
 import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import IonIcon from 'react-native-vector-icons/Octicons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function DrawerContent(props) {
   const [isSwitchOn, setIsSwitchOn] = useState(false);
+  const [avatarSrc, setAvatarSrc] = useState(
+    'https://upload.wikimedia.org/wikipedia/commons/9/9a/Gull_portrait_ca_usa.jpg',
+  );
+  const [userName, setUserName] = useState('Unknown');
+  const [email, setEmail] = useState('unknown@unknown.com');
+
+  useEffect(() => {
+    getUserInfo();
+  }, []);
 
   const toggleTheme = () => {
     setIsSwitchOn(!isSwitchOn);
+  };
+
+  const getUserInfo = async () => {
+    try {
+      const allKeys = await AsyncStorage.getAllKeys();
+      if (allKeys.includes('profile')) {
+        const userInfoObj = await AsyncStorage.getItem('profile');
+        setAvatarSrc(userInfoObj.avatarSrc);
+        setUserName(userInfoObj.userName);
+        setEmail(userInfoObj.email);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
     <View style={styles.container}>
       <DrawerContentScrollView {...props}>
         <View style={styles.drawerContent}>
-          <View style={styles.userInfoSection}>
+          <TouchableRipple
+            style={styles.userInfoSection}
+            onPress={() => props.navigation.navigate('profile-edit')}>
             <View style={styles.userWrapper}>
               <Avatar.Image
                 source={{
-                  uri: 'https://upload.wikimedia.org/wikipedia/commons/9/9a/Gull_portrait_ca_usa.jpg',
+                  uri: avatarSrc,
                 }}
                 size={50}
               />
               <View style={styles.userNameWrapper}>
-                <Title style={styles.title}>Shipan Liu</Title>
-                <Caption style={styles.caption}>
-                  liushipan1998@gmail.com
-                </Caption>
+                <Title style={styles.title}>{userName}</Title>
+                <Caption style={styles.caption}>{email}</Caption>
               </View>
             </View>
-            <View style={styles.followWrapper}>
-              <View style={styles.section}>
-                <Paragraph style={styles.paragraph}>52</Paragraph>
-                <Caption>following</Caption>
-              </View>
-              <View style={styles.section}>
-                <Paragraph style={styles.paragraph}>31</Paragraph>
-                <Caption>Followers</Caption>
-              </View>
-            </View>
-          </View>
+          </TouchableRipple>
           <Divider style={styles.divider} />
           <Drawer.Section style={styles.drawerSection}>
             <DrawerItem
               icon={({color, size}) => (
-                <Icon name="home-outline" color={color} size={size} />
+                <Icon name="wechat" color={color} size={size} />
               )}
-              label="Home"
+              label="Chat"
               onPress={() => {
-                // props.navigation.navigate('Home');
-              }}
-            />
-            <DrawerItem
-              icon={({color, size}) => (
-                <Icon name="account-outline" color={color} size={size} />
-              )}
-              label="Profile"
-              onPress={() => {
-                // props.navigation.navigate('Profile');
-              }}
-            />
-            <DrawerItem
-              icon={({color, size}) => (
-                <Icon name="bookmark-outline" color={color} size={size} />
-              )}
-              label="Bookmarks"
-              onPress={() => {
-                // props.navigation.navigate('BookmarkScreen');
+                props.navigation.navigate('drawer-chat');
               }}
             />
             <DrawerItem
@@ -96,7 +92,7 @@ export default function DrawerContent(props) {
               )}
               label="Settings"
               onPress={() => {
-                // props.navigation.navigate('SettingsScreen');
+                props.navigation.navigate('drawer-setting');
               }}
             />
             <DrawerItem
@@ -105,12 +101,11 @@ export default function DrawerContent(props) {
               )}
               label="Support"
               onPress={() => {
-                // props.navigation.navigate('SupportScreen');
+                props.navigation.navigate('drawer-support');
               }}
             />
           </Drawer.Section>
-          <Divider />
-          <Drawer.Section>
+          {/* <Drawer.Section>
             <TouchableRipple
               onPress={() => {
                 toggleTheme();
@@ -122,7 +117,7 @@ export default function DrawerContent(props) {
                 </View>
               </View>
             </TouchableRipple>
-          </Drawer.Section>
+          </Drawer.Section> */}
         </View>
       </DrawerContentScrollView>
       <Drawer.Section style={styles.bottomDrawerSection}>

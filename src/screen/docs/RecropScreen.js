@@ -72,10 +72,8 @@ export default function RecropScreen({navigation, route}) {
       const rectRegion = createRectRegion(newCoordinates);
       // console.log(newCoordinates);
       const targetSize = {
-        // height: rectRegion.height,
-        // width: rectRegion.width,
-        width: (targetImage.height / rectRegion.height) * rectRegion.width,
-        height: targetImage.height,
+        height: rectRegion.height,
+        width: rectRegion.width,
       };
       const croppedImageUri = await photoManipulator(
         targetImage.initialImage,

@@ -17,6 +17,9 @@ import {useIsFocused} from '@react-navigation/native';
 
 import {DimensionsHeight, DimensionsWidth} from '../../utils/dimension';
 import AppButton from '../../components/AppButton';
+// import Icon from 'react-native-vector-icons/MaterialIcons';
+import Icon from 'react-native-vector-icons/Ionicons';
+import ActionButton from 'react-native-simple-action-button';
 
 export default function PreviewScreen({navigation, route}) {
   const [fileId, setFileId] = useState(null);
@@ -32,6 +35,7 @@ export default function PreviewScreen({navigation, route}) {
   const flatListRef = useRef(null);
   const previewFlatListRef = useRef(null);
 
+  //  if use [isFocused] in useEffect will cause 'Can't perform a React state update on an unmounted component'
   const isFocused = useIsFocused();
 
   useEffect(() => {
@@ -41,7 +45,7 @@ export default function PreviewScreen({navigation, route}) {
     return () => {
       isMounted = false;
     };
-  }, [isFocused]);
+  }, []);
 
   const getImageArr = async isMounted => {
     try {
@@ -132,33 +136,33 @@ export default function PreviewScreen({navigation, route}) {
     );
   };
 
-  const renderPreview = ({item}) => {
-    const {id, croppedImage} = item;
-    return (
-      <TouchableHighlight onPress={() => handleSpring(item)}>
-        <View
-          style={[
-            styles.previewItemWrapper,
-            {
-              borderWidth: item.id === currentObj?.item.id ? 3 : 0,
-              borderColor:
-                item.id === currentObj?.item.id ? '#05F505' : 'transparent',
-            },
-          ]}>
-          {/* <Text>{id}</Text> */}
-          <Image
-            source={{uri: croppedImage}}
-            resizeMode="cover"
-            style={styles.previewImage}
-          />
-        </View>
-      </TouchableHighlight>
-    );
-  };
+  // const renderPreview = ({item}) => {
+  //   const {id, croppedImage} = item;
+  //   return (
+  //     <TouchableHighlight onPress={() => handleSpring(item)}>
+  //       <View
+  //         style={[
+  //           styles.previewItemWrapper,
+  //           {
+  //             borderWidth: item.id === currentObj?.item.id ? 3 : 0,
+  //             borderColor:
+  //               item.id === currentObj?.item.id ? '#05F505' : 'transparent',
+  //           },
+  //         ]}>
+  //         {/* <Text>{id}</Text> */}
+  //         <Image
+  //           source={{uri: croppedImage}}
+  //           resizeMode="cover"
+  //           style={styles.previewImage}
+  //         />
+  //       </View>
+  //     </TouchableHighlight>
+  //   );
+  // };
 
   return (
     <View style={styles.container}>
-      <View style={styles.previewContainer}>
+      {/* <View style={styles.previewContainer}>
         <FlatList
           data={imgArr}
           keyExtractor={item => item.id}
@@ -167,7 +171,7 @@ export default function PreviewScreen({navigation, route}) {
           showsHorizontalScrollIndicator={false}
           ref={previewFlatListRef}
         />
-      </View>
+      </View> */}
       <FlatList
         initialScrollIndex={route.params.index}
         ref={flatListRef}
@@ -177,7 +181,7 @@ export default function PreviewScreen({navigation, route}) {
         horizontal
         pagingEnabled
         showsHorizontalScrollIndicator={false}
-        onEndReached={() => previewFlatListRef.current.scrollToEnd()}
+        // onEndReached={() => previewFlatListRef.current.scrollToEnd()}
         viewabilityConfig={viewConfigRef.current}
         onViewableItemsChanged={onViewRef.current}
         // onContentSizeChange={() => {}}

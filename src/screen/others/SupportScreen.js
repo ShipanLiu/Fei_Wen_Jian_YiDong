@@ -1,10 +1,19 @@
 import React from 'react';
-import {View, Text, Image, StyleSheet} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  SafeAreaView,
+  Dimensions,
+  Button,
+  TouchableOpacity,
+} from 'react-native';
 
-export default function ProfileScreen(props) {
+export default function SupportScreen(props) {
   return (
     <View style={styles.container}>
-      <Text>this is Profile Screen</Text>
+      <Text>SupportScreen</Text>
     </View>
   );
 }

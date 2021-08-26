@@ -2,8 +2,6 @@
  {"bottomLeft": {"x": 511, "y": 730}, "bottomRight": {"x": 507, "y": 521},
 "dimensions": {"height": 1280, "width": 720}, "topLeft": {"x": 347, "y": 721}, "topRight": {"x": 348, "y": 449}}
 
-
-problem: if the coordinates aren't detected, it will use the default coordinates.
 */
 
 import React, {useState, useRef, useEffect, useContext} from 'react';
@@ -22,11 +20,10 @@ import PhotoManipulator from 'react-native-photo-manipulator';
 import RectScanner from '../../components/scanner/RectScanner';
 import CustomCrop from '../../components/scanner/Cropper';
 import AppIcon from '../../components/AppIcon';
-import AppButton from '../../components/AppButton';
+import colors from '../../utils/colors';
 import {ImageContext} from '../../store/context/ImageContext';
 import {extraImageContext} from '../../store/context/extraImageContext';
 import * as actions from '../../store/actions/actions';
-// import * as ImageManipulator from 'expo-image-manipulator';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -38,7 +35,6 @@ export default function TestV1({route, navigation}) {
   const [size, setSize] = useState({height: 1280, width: 720});
   const [isAddExtraImage, setIsAddExtraImage] = useState(false);
   const [fileId, setFileId] = useState(null);
-  const [reRender, setRerender] = useState(false);
   const cropperRef = useRef(null);
 
   const {state, dispatch} = useContext(ImageContext);
@@ -74,59 +70,10 @@ export default function TestV1({route, navigation}) {
     bottomLeft: data.topLeft,
   });
 
-  const createBottomLeft = (modifiedRectAngle, size) => {
-    if (
-      modifiedRectAngle['bottomLeft'].x < 70 ||
-      modifiedRectAngle['bottomLeft'].y > size.height - 70
-    ) {
-      if (
-        modifiedRectAngle['bottomLeft'].x < 70 &&
-        modifiedRectAngle['bottomLeft'].y > size.height - 70
-      ) {
-        return {x: 75, y: size.height - 75};
-      } else if (modifiedRectAngle['bottomLeft'].x < 70) {
-        return {x: 75, y: modifiedRectAngle['bottomLeft'].y};
-      } else if (modifiedRectAngle['bottomLeft'].y > size.height - 70) {
-        return {x: modifiedRectAngle['bottomLeft'].x, y: size.height - 70};
-      }
-    } else {
-      return modifiedRectAngle['bottomLeft'];
-    }
-  };
-  const createBottomRight = (modifiedRectAngle, size) => {
-    if (
-      modifiedRectAngle['bottomRight'].x > size.width - 70 ||
-      modifiedRectAngle['bottomRight'].y > size.height - 70
-    ) {
-      if (
-        modifiedRectAngle['bottomRight'].x > size.width - 70 &&
-        modifiedRectAngle['bottomRight'].y > size.height - 70
-      ) {
-        return {x: size.width - 70, y: size.height - 70};
-      } else if (modifiedRectAngle['bottomRight'].x > size.width - 70) {
-        return {x: size.width - 70, y: modifiedRectAngle['bottomRight'].y};
-      } else if (modifiedRectAngle['bottomRight'].y > size.height - 70) {
-        return {x: modifiedRectAngle['bottomRight'].x, y: size.height - 70};
-      }
-    } else {
-      return modifiedRectAngle['bottomRight'];
-    }
-  };
-
   //  TODO:   调整cropper的预览。
   const getCoordination = detectedRectangle => {
-    const modifiedRectAngle = createRectangle(detectedRectangle);
-    console.log(modifiedRectAngle);
-    const size = detectedRectangle.dimensions;
-    const bottomLeft =
-      detectedRectangle && createBottomLeft(modifiedRectAngle, size);
-    const bottomRight =
-      detectedRectangle && createBottomRight(modifiedRectAngle, size);
-    setOldCoordinates({bottomLeft, bottomRight, ...modifiedRectAngle});
-    // setOldCoordinates(modifiedRectAngle);
-    setSize(size);
-    // TODO: write some angorithms and keep the corner above the bottom
-    // console.log(createRectangle(detectedRectangle));
+    setOldCoordinates(createRectangle(detectedRectangle));
+    setSize(detectedRectangle.dimensions);
   };
 
   const createRectRegion = position => {
@@ -154,39 +101,16 @@ export default function TestV1({route, navigation}) {
   const cropAction = async () => {
     const newCoordinates = cropperRef.current.crop();
     const rectRegion = createRectRegion(newCoordinates);
-    // crop image by using photoManipulator module
+    console.log(newCoordinates);
     const targetSize = {
-      // height: (size.width * size.height) / rectRegion.width,
-      height: size.height,
-      width: (size.height / rectRegion.height) * rectRegion.width,
+      height: rectRegion.height,
+      width: rectRegion.width,
     };
     const croppedImageUri = await photoManipulator(
       takenPhoto.initialImage,
       rectRegion,
       targetSize,
     );
-
-    // const actions = [
-    //   {
-    //     crop: {
-    //       originX: newCoordinates.x,
-    //       originY: newCoordinates.y,
-    //       width: newCoordinates.width,
-    //       height: newCoordinates.height,
-    //     },
-    //   },
-    //   {
-    //     resize: {
-    //       width: ,
-    //       height: BITMAP_DIMENSION,
-    //     },
-    //   },
-    // ];
-    // const saveOptions = {
-    //   compress: 1,
-    //   format: ImageManipulator.SaveFormat.JPEG,
-    //   base64: true,
-    // };
 
     // setSavePhoto(preValue => [
     //   ...preValue,
@@ -245,15 +169,7 @@ export default function TestV1({route, navigation}) {
     }
   };
 
-  const handleRerender = () => {
-    console.log('iba');
-    setRerender(preValue => !preValue);
-  };
-
-  const handleTest = () => {
-    console.log(oldCoordinates);
-    console.log(size);
-  };
+  console.log(fileId);
 
   return (
     <>
@@ -278,6 +194,7 @@ export default function TestV1({route, navigation}) {
                     />
                   </TouchableOpacity>
                 </View>
+
                 <CustomCrop
                   // updateImage={this.updateImage.bind(this)}
                   rectangleCoordinates={oldCoordinates}
@@ -290,7 +207,6 @@ export default function TestV1({route, navigation}) {
                   handlerColor="rgba(20,150,160, 1)"
                   enablePanStrict={false}
                 />
-
                 <View style={styles.controlContainer}>
                   <TouchableOpacity
                     style={styles.controlIcon}
@@ -305,7 +221,7 @@ export default function TestV1({route, navigation}) {
 
                   <TouchableOpacity
                     style={styles.controlIcon}
-                    onPress={handleRerender}>
+                    onPress={() => cropAction(true)}>
                     <AppIcon
                       name="crop"
                       size={40}
@@ -324,10 +240,6 @@ export default function TestV1({route, navigation}) {
                       iconColor="tomato"
                       backgroundColor="#fff"
                     />
-                    {/* <Text style={styles.iconText}>More</Text> */}
-                  </TouchableOpacity>
-                  <TouchableOpacity style={styles.controlIcon}>
-                    <AppButton title="test" size={40} onPress={handleTest} />
                     {/* <Text style={styles.iconText}>More</Text> */}
                   </TouchableOpacity>
                 </View>
@@ -368,15 +280,12 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '92%',
   },
-  customCrop: {
-    flex: 1,
-    bottom: 90,
-  },
   controlContainer: {
+    position: 'absolute',
+    bottom: 20,
     flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    alignItems: 'center',
-    marginBottom: 15,
+    alignSelf: 'center',
+    zIndex: 100,
   },
   controlIcon: {
     marginHorizontal: 40,

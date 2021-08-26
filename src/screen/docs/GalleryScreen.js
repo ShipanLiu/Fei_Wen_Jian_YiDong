@@ -14,12 +14,12 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useIsFocused} from '@react-navigation/native';
-import CheckBox from '@react-native-community/checkbox';
-import ActionButton from 'react-native-simple-action-button';
-import Icon from 'react-native-vector-icons/Ionicons';
 
 import {DimensionsHeight, DimensionsWidth} from '../../utils/dimension';
 import AppButton from '../../components/AppButton';
+import CheckBox from '@react-native-community/checkbox';
+import ActionButton from 'react-native-simple-action-button';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function GalleryScreen({navigation, route}) {
   const [showCheckBox, setShowCheckBox] = useState(false);
@@ -28,6 +28,7 @@ export default function GalleryScreen({navigation, route}) {
 
   const flatListRef = useRef(null);
 
+  //  if use [isFocused] in useEffect will cause 'Can't perform a React state update on an unmounted component'
   const isFocused = useIsFocused();
 
   useEffect(() => {
@@ -37,7 +38,7 @@ export default function GalleryScreen({navigation, route}) {
     return () => {
       isMounted = false;
     };
-  }, [isFocused]);
+  }, []);
 
   const getImageArr = async isMounted => {
     try {

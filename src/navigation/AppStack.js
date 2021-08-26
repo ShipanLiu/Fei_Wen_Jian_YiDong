@@ -5,13 +5,13 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
-import DocScreen from '../screen/DocScreen';
-import ScannerScreen from '../screen/ScannerScreen';
-import ProfileScreen from '../screen/ProfileScreen';
-import UploadScreen from '../screen/UploadScreen';
-import RecropScreen from '../screen/RecropScreen';
-import PreviewScreen from '../screen/PreviewScreen';
-import GalleryScreen from '../screen/GalleryScreen';
+import DocScreen from '../screen/docs/DocScreen';
+import ScannerScreen from '../screen/docs/ScannerScreen';
+import ProfileScreen from '../screen/profile/ProfileScreen';
+import UploadScreen from '../screen/docs/UploadScreen';
+import RecropScreen from '../screen/docs/RecropScreen';
+import PreviewScreen from '../screen/docs/PreviewScreen';
+import GalleryScreen from '../screen/docs/GalleryScreen';
 import TeachMachineTest from '../test/TeachMachineTest';
 import TMTest2 from '../test/TMTest2';
 import TMTest3 from '../test/TMTest3';
@@ -114,24 +114,4 @@ function DocStack({navigation}) {
     </Stack.Navigator>
   );
 }
-
-function ProfileStack(props) {
-  return (
-    <Stack.Navigator
-      initialRouteName="profile"
-      screenOptions={{
-        headerStyle: {backgroundColor: 'tomato'},
-        headerTintColor: '#fff',
-      }}>
-      <Stack.Screen
-        name="profile"
-        component={ProfileScreen}
-        options={() => ({
-          headerShown: false,
-        })}
-      />
-    </Stack.Navigator>
-  );
-}
-
-export {DocStack, ProfileStack};
+export {DocStack};

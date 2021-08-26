@@ -51,6 +51,8 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useIsFocused} from '@react-navigation/native';
 
+import AppButton from '../../components/AppButton';
+import imagePicker from '../../hooks/imagePicker';
 import {DimensionsWidth, DimensionsHeight} from '../../utils/dimension';
 
 export default function DocScreen({navigation, route}) {
