@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, Image, StyleSheet, LogBox} from 'react-native';
+import {View, Text, Image, StyleSheet} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -13,13 +13,10 @@ import RecropScreen from '../screen/docs/RecropScreen';
 import PreviewScreen from '../screen/docs/PreviewScreen';
 import GalleryScreen from '../screen/docs/GalleryScreen';
 import TeachMachineTest from '../test/TeachMachineTest';
-import TMTest2 from '../test/TMTest2';
-import TMTest3 from '../test/TMTest3';
-import KnnImageClassifier from '../test/Knn-Image-Classifier';
-
-LogBox.ignoreLogs([
-  ' If you want to use Reanimated 2 then go through our installation steps https://docs.swmansion.com/react-native-reanimated/docs/installation',
-]);
+import EditProfileScreen from '../screen/profile/EditProfileScreen';
+// import TMTest2 from '../test/TMTest2';
+// import TMTest3 from '../test/TMTest3';
+// import KnnImageClassifier from '../test/Knn-Image-Classifier';
 
 const Stack = createStackNavigator();
 
@@ -90,28 +87,8 @@ function DocStack({navigation}) {
           headerShown: false,
         })}
       />
-      <Stack.Screen
-        name="test2"
-        component={TMTest2}
-        options={() => ({
-          headerShown: false,
-        })}
-      />
-      <Stack.Screen
-        name="test3"
-        component={TMTest3}
-        options={() => ({
-          headerShown: false,
-        })}
-      />
-      <Stack.Screen
-        name="knn"
-        component={KnnImageClassifier}
-        options={() => ({
-          headerShown: false,
-        })}
-      />
     </Stack.Navigator>
   );
 }
+
 export {DocStack};

@@ -61,7 +61,7 @@ export default function DrawerContent(props) {
         <View style={styles.drawerContent}>
           <TouchableRipple
             style={styles.userInfoSection}
-            onPress={() => props.navigation.navigate('profile-edit')}>
+            onPress={() => props.navigation.navigate('profile')}>
             <View style={styles.userWrapper}>
               <Avatar.Image
                 source={{
@@ -77,6 +77,15 @@ export default function DrawerContent(props) {
           </TouchableRipple>
           <Divider style={styles.divider} />
           <Drawer.Section style={styles.drawerSection}>
+            <DrawerItem
+              icon={({color, size}) => (
+                <Icon name="home" color={color} size={size} />
+              )}
+              label="Home"
+              onPress={() => {
+                props.navigation.navigate('tabBar');
+              }}
+            />
             <DrawerItem
               icon={({color, size}) => (
                 <Icon name="wechat" color={color} size={size} />
