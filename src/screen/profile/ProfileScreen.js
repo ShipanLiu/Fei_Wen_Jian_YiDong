@@ -12,26 +12,29 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function ProfileScreen(props) {
-  const [avatarSrc, setAvatarSrc] = useState(
-    'https://upload.wikimedia.org/wikipedia/commons/9/9a/Gull_portrait_ca_usa.jpg',
-  );
-  const [userName, setUserName] = useState('Unknown');
-  const [email, setEmail] = useState('unknown@unknown.com');
-  const [phone, setPhone] = useState('+49-1783051055');
+export default function ProfileScreen({navigation}) {
+  const [avatarSrc, setAvatarSrc] = useState(null);
+  const [userName, setUserName] = useState(null);
+  const [email, setEmail] = useState(null);
+  const [phone, setPhone] = useState(null);
 
   useEffect(() => {
-    getUserInfo();
-  }, []);
+    const unsubscribe = navigation.addListener('focus', () => {
+      getUserInfo();
+    });
+    return unsubscribe;
+  }, [navigation]);
 
   const getUserInfo = async () => {
     try {
       const allKeys = await AsyncStorage.getAllKeys();
       if (allKeys.includes('profile')) {
-        const userInfoObj = await AsyncStorage.getItem('profile');
+        const value = await AsyncStorage.getItem('profile');
+        const userInfoObj = JSON.parse(value);
         setAvatarSrc(userInfoObj.avatarSrc);
         setUserName(userInfoObj.userName);
         setEmail(userInfoObj.email);
+        setPhone(userInfoObj.phone);
       }
     } catch (error) {
       console.log(error);
@@ -86,7 +89,7 @@ export default function ProfileScreen(props) {
         <TouchableRipple onPress={() => {}}>
           <View style={styles.menuItem}>
             <FontAwesome5 name="signature" color="#FF6347" size={25} />
-            <Text style={styles.menuItemText}>Create Signature</Text>
+            <Text style={styles.menuItemText}>My Signature</Text>
           </View>
         </TouchableRipple>
         <TouchableRipple onPress={() => {}}>

@@ -77,8 +77,10 @@ export default function DocScreen({navigation, route}) {
 
   const getAllKeys = async () => {
     const keyArr = await AsyncStorage.getAllKeys();
-    setAllKeys(keyArr);
-    getAllValues(keyArr);
+    // kick the 'profile' key out of the keyArr.
+    const filteredKeyArr = keyArr.filter(key => key !== 'profile');
+    setAllKeys(filteredKeyArr);
+    getAllValues(filteredKeyArr);
   };
 
   const getAllValues = async keyArr => {

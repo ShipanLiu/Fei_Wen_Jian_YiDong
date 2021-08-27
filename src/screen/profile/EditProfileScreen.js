@@ -14,29 +14,131 @@ import {
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
-
+import * as ImagePicker from 'expo-image-picker';
 import BottomSheet from 'reanimated-bottom-sheet';
 import Animated from 'react-native-reanimated';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function EditProfileScreen(props) {
-  const [image, setImage] = useState(
-    'https://upload.wikimedia.org/wikipedia/commons/9/9a/Gull_portrait_ca_usa.jpg',
-  );
-
+export default function EditProfileScreen({navigation}) {
   const [userInfoObj, setUserInfoObj] = useState({
-    userName: 'Unknown',
-    phone: '',
-    email: '',
-    avatarSrc:
-      'https://upload.wikimedia.org/wikipedia/commons/9/9a/Gull_portrait_ca_usa.jpg',
+    userName: null,
+    phone: null,
+    email: null,
+    avatarSrc: null,
   });
 
   const bs = useRef(null);
   const fall = new Animated.Value(1);
 
-  const takePhotoFromCamera = () => {};
+  useEffect(() => {
+    getLibraryPermission();
+    getCameraPermission();
+    getUserInfo();
+  }, []);
 
-  const choosePhotoFromLibrary = () => {};
+  const getUserInfo = async () => {
+    try {
+      const allKeys = await AsyncStorage.getAllKeys();
+      //  if the profile key already exists
+      if (allKeys.includes('profile')) {
+        const value = await AsyncStorage.getItem('profile');
+        const parsedUserInfoObj = JSON.parse(value);
+        setUserInfoObj(preValue => ({
+          ...preValue,
+          avatarSrc: parsedUserInfoObj.avatarSrc,
+        }));
+        setUserInfoObj(preValue => ({
+          ...preValue,
+          userName: parsedUserInfoObj.userName,
+        }));
+        setUserInfoObj(preValue => ({
+          ...preValue,
+          email: parsedUserInfoObj.email,
+        }));
+        setUserInfoObj(preValue => ({
+          ...preValue,
+          phone: parsedUserInfoObj.phone,
+        }));
+      } else {
+        //  if the profile key haven't been set, the set a default value
+        setUserInfoObj({
+          avatarSrc:
+            'https://upload.wikimedia.org/wikipedia/commons/9/9a/Gull_portrait_ca_usa.jpg',
+          userName: null,
+          mail: null,
+          phone: null,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getLibraryPermission = async () => {
+    try {
+      await ImagePicker.requestMediaLibraryPermissionsAsync;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getCameraPermission = async () => {
+    try {
+      await ImagePicker.requestCameraPermissionsAsync;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const choosePhotoFromLibrary = async () => {
+    try {
+      //  close the bottom modal
+      bs.current.snapTo(1);
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [3, 4],
+        quality: 1,
+      });
+
+      if (!result.cancelled) {
+        setUserInfoObj(preValue => ({...preValue, avatarSrc: result.uri}));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const takePhotoFromCamera = async () => {
+    try {
+      //  close the bottom modal
+      bs.current.snapTo(1);
+      let result = await ImagePicker.launchCameraAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [3, 4],
+        quality: 1,
+      });
+
+      if (!result.cancelled) {
+        setUserInfoObj(preValue => ({...preValue, avatarSrc: result.uri}));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleSubmit = async () => {
+    try {
+      const jsonValue = JSON.stringify(userInfoObj);
+      AsyncStorage.setItem('profile', jsonValue);
+      navigation.navigate('tabBar');
+    } catch (error) {}
+  };
+
+  const handleTest = () => {
+    console.log(userInfoObj);
+  };
 
   //  the inner of bottomSheet
   const renderInner = () => (
@@ -100,7 +202,7 @@ export default function EditProfileScreen(props) {
               }}>
               <ImageBackground
                 source={{
-                  uri: image,
+                  uri: userInfoObj.avatarSrc,
                 }}
                 style={{height: 100, width: 100}}
                 imageStyle={{borderRadius: 15}}>
@@ -138,7 +240,8 @@ export default function EditProfileScreen(props) {
             onChangeText={value =>
               setUserInfoObj(preValue => ({...preValue, userName: value}))
             }
-            placeholder="User Name"
+            value={userInfoObj.userName}
+            placeholder={userInfoObj.userName ? '' : 'User Name'}
             placeholderTextColor="#666666"
             autoCorrect={false}
             style={[
@@ -156,7 +259,8 @@ export default function EditProfileScreen(props) {
             onChangeText={value =>
               setUserInfoObj(preValue => ({...preValue, phone: value}))
             }
-            placeholder="Phone"
+            value={userInfoObj.phone}
+            placeholder={userInfoObj.phone ? '' : 'Phone'}
             placeholderTextColor="#666666"
             keyboardType="number-pad"
             autoCorrect={false}
@@ -174,7 +278,8 @@ export default function EditProfileScreen(props) {
             onChangeText={value =>
               setUserInfoObj(preValue => ({...preValue, email: value}))
             }
-            placeholder="Email"
+            value={userInfoObj.email}
+            placeholder={userInfoObj.phone ? '' : 'Emial'}
             placeholderTextColor="#666666"
             keyboardType="email-address"
             autoCorrect={false}
@@ -186,8 +291,11 @@ export default function EditProfileScreen(props) {
             ]}
           />
         </View>
-        <TouchableOpacity style={styles.commandButton} onPress={() => {}}>
+        <TouchableOpacity style={styles.commandButton} onPress={handleSubmit}>
           <Text style={styles.panelButtonTitle}>Submit</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.commandButton} onPress={handleTest}>
+          <Text style={styles.panelButtonTitle}>test</Text>
         </TouchableOpacity>
       </Animated.View>
     </View>

@@ -26,7 +26,6 @@ import IonIcon from 'react-native-vector-icons/Octicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function DrawerContent(props) {
-  const [isSwitchOn, setIsSwitchOn] = useState(false);
   const [avatarSrc, setAvatarSrc] = useState(
     'https://upload.wikimedia.org/wikipedia/commons/9/9a/Gull_portrait_ca_usa.jpg',
   );
@@ -37,23 +36,22 @@ export default function DrawerContent(props) {
     getUserInfo();
   }, []);
 
-  const toggleTheme = () => {
-    setIsSwitchOn(!isSwitchOn);
-  };
-
   const getUserInfo = async () => {
     try {
       const allKeys = await AsyncStorage.getAllKeys();
       if (allKeys.includes('profile')) {
-        const userInfoObj = await AsyncStorage.getItem('profile');
-        setAvatarSrc(userInfoObj.avatarSrc);
-        setUserName(userInfoObj.userName);
-        setEmail(userInfoObj.email);
+        const value = await AsyncStorage.getItem('profile');
+        const parsedUserInfoObj = JSON.parse(value);
+        setAvatarSrc(parsedUserInfoObj.avatarSrc);
+        setUserName(parsedUserInfoObj.userName);
+        setEmail(parsedUserInfoObj.email);
       }
     } catch (error) {
       console.log(error);
     }
   };
+
+  const handleTest = () => {};
 
   return (
     <View style={styles.container}>
@@ -77,6 +75,13 @@ export default function DrawerContent(props) {
           </TouchableRipple>
           <Divider style={styles.divider} />
           <Drawer.Section style={styles.drawerSection}>
+            <DrawerItem
+              icon={({color, size}) => (
+                <Icon name="home" color={color} size={size} />
+              )}
+              label="test"
+              onPress={handleTest}
+            />
             <DrawerItem
               icon={({color, size}) => (
                 <Icon name="home" color={color} size={size} />
