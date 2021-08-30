@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {View, StyleSheet, TouchableOpacity, Button} from 'react-native';
 import {Title, TouchableRipple} from 'react-native-paper';
 import {createDrawerNavigator} from '@react-navigation/drawer';
@@ -58,9 +58,20 @@ const DrawerStack = () => {
       <Drawer.Screen
         name="profile"
         component={ProfileScreen}
-        options={() => ({
+        options={({color, size}) => ({
           title: '',
-          headerRight: ({color, size}) => (
+          headerLeft: () => (
+            <TouchableOpacity
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+              }}
+              onPress={() => navigation.goBack()}>
+              <Ionicons name="chevron-back-sharp" color={color} size={40} />
+              <Title>Back</Title>
+            </TouchableOpacity>
+          ),
+          headerRight: () => (
             <Icon
               style={styles.userEdit}
               name="account-edit-outline"

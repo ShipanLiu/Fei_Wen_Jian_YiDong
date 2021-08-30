@@ -34,7 +34,7 @@ export default function DrawerContent(props) {
 
   useEffect(() => {
     getUserInfo();
-  }, []);
+  });
 
   const getUserInfo = async () => {
     try {
@@ -50,8 +50,6 @@ export default function DrawerContent(props) {
       console.log(error);
     }
   };
-
-  const handleTest = () => {};
 
   return (
     <View style={styles.container}>
@@ -75,13 +73,6 @@ export default function DrawerContent(props) {
           </TouchableRipple>
           <Divider style={styles.divider} />
           <Drawer.Section style={styles.drawerSection}>
-            <DrawerItem
-              icon={({color, size}) => (
-                <Icon name="home" color={color} size={size} />
-              )}
-              label="test"
-              onPress={handleTest}
-            />
             <DrawerItem
               icon={({color, size}) => (
                 <Icon name="home" color={color} size={size} />

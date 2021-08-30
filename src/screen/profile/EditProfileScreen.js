@@ -133,7 +133,10 @@ export default function EditProfileScreen({navigation}) {
       const jsonValue = JSON.stringify(userInfoObj);
       AsyncStorage.setItem('profile', jsonValue);
       navigation.navigate('tabBar');
-    } catch (error) {}
+      navigation.openDrawer();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleTest = () => {
