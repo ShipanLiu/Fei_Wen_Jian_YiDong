@@ -126,7 +126,7 @@ export default function RecropScreen({navigation, route}) {
   console.log('RescropSc:  ' + fileId);
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       {/* <View style={styles.doneButton}>
         <AppButton title="Done" onPress={handleDone} />
         <Button title="test" onPress={() => console.log('test')} />
@@ -145,7 +145,7 @@ export default function RecropScreen({navigation, route}) {
           enablePanStrict={false}
         />
       )}
-    </View>
+    </SafeAreaView>
   );
 }
 

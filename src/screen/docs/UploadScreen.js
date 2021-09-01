@@ -26,6 +26,7 @@ import {
   ScrollView,
   TouchableOpacity,
   FlatList,
+  SafeAreaView,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -163,7 +164,7 @@ export default function DocScreen({navigation, route}) {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <FileNameModal visible={showModal} />
       <View style={styles.fileContainer}>
         {/* if we want add extra image, then wen should display the state in extraImageContext */}
@@ -183,7 +184,7 @@ export default function DocScreen({navigation, route}) {
           <AppButton title="test" onPress={handleTest} />
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 

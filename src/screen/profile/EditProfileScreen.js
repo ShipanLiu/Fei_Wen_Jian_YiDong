@@ -177,7 +177,7 @@ export default function EditProfileScreen({navigation}) {
   );
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <BottomSheet
         ref={bs}
         snapPoints={[330, 0]}
@@ -301,7 +301,7 @@ export default function EditProfileScreen({navigation}) {
           <Text style={styles.panelButtonTitle}>test</Text>
         </TouchableOpacity>
       </Animated.View>
-    </View>
+    </SafeAreaView>
   );
 }
 

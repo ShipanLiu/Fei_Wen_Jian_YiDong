@@ -180,7 +180,7 @@ export default function GalleryScreen({navigation, route}) {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         {showCheckBox && (
           <View style={styles.headerButtonWrapper}>
@@ -228,7 +228,7 @@ export default function GalleryScreen({navigation, route}) {
           <Icon name="md-images-outline" style={styles.actionButtonIcon} />
         </ActionButton.Item>
       </ActionButton>
-    </View>
+    </SafeAreaView>
   );
 }
 

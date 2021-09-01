@@ -1,7 +1,7 @@
 import React from 'react';
-import Routes from './navigation/Routes';
 import {LogBox} from 'react-native';
 
+import Routes from './navigation/Routes';
 import {ImageProvider} from './store/context/ImageContext';
 import {ExtraImageProvider} from './store/context/extraImageContext';
 

@@ -123,7 +123,7 @@ export default function PreviewScreen({navigation, route}) {
 
   const renderItem = ({item}) => {
     return (
-      <View style={styles.imageContainer}>
+      <SafeAreaView style={styles.imageContainer}>
         <View style={styles.imageWrapper}>
           {/* <Icon name="more-vert" size={30} color="#000" style={styles.imageIcon}/> */}
           <Image
@@ -132,7 +132,7 @@ export default function PreviewScreen({navigation, route}) {
             resizeMode="contain"
           />
         </View>
-      </View>
+      </SafeAreaView>
     );
   };
 

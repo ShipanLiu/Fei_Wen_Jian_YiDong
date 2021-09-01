@@ -13,6 +13,7 @@ import {
   Button,
   Dimensions,
   TouchableOpacity,
+  SafeAreaView,
 } from 'react-native';
 import uuid from 'react-native-uuid';
 import PhotoManipulator from 'react-native-photo-manipulator';
@@ -174,7 +175,7 @@ export default function TestV1({route, navigation}) {
   return (
     <>
       {takenPhoto ? (
-        <View>
+        <SafeAreaView>
           <View style={styles.cropperContainer}>
             {/* <Image
               source={{
@@ -246,7 +247,7 @@ export default function TestV1({route, navigation}) {
               </View>
             )}
           </View>
-        </View>
+        </SafeAreaView>
       ) : (
         <RectScanner
           onPictureTaken={onPictureTaken}

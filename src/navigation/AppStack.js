@@ -1,5 +1,6 @@
 import React from 'react';
-import {View, Text, Image, StyleSheet} from 'react-native';
+import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
+import {Title} from 'react-native-paper';
 import {createStackNavigator} from '@react-navigation/stack';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -14,6 +15,8 @@ import PreviewScreen from '../screen/docs/PreviewScreen';
 import GalleryScreen from '../screen/docs/GalleryScreen';
 import TeachMachineTest from '../test/TeachMachineTest';
 import EditProfileScreen from '../screen/profile/EditProfileScreen';
+import SignatureScreen from '../screen/others/SignatureScreen';
+import SettingScreen from '../screen/others/SettingScreen';
 // import TMTest2 from '../test/TMTest2';
 // import TMTest3 from '../test/TMTest3';
 // import KnnImageClassifier from '../test/Knn-Image-Classifier';
@@ -91,4 +94,58 @@ function DocStack({navigation}) {
   );
 }
 
-export {DocStack};
+function SettingStack({navigation}) {
+  return (
+    <Stack.Navigator
+      initialRouteName="setting"
+      screenOptions={(color, size) => ({
+        headerStyle: {backgroundColor: 'tomato'},
+        headerTintColor: '#fff',
+        headerTitleAlign: 'center',
+      })}>
+      <Stack.Screen
+        name="setting"
+        component={SettingScreen}
+        options={() => ({
+          title: 'Settings',
+          headerLeft: () => (
+            <TouchableOpacity
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+              }}
+              onPress={() => {
+                navigation.goBack();
+                // navigation.openDrawer();
+              }}>
+              <Ionicons name="chevron-back-sharp" color="#fff" size={40} />
+              <Title style={{color: '#fff'}}>Back</Title>
+            </TouchableOpacity>
+          ),
+        })}
+      />
+      <Stack.Screen
+        name="signature"
+        component={SignatureScreen}
+        options={() => ({
+          title: 'Signature',
+          headerLeft: () => (
+            <TouchableOpacity
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+              }}
+              onPress={() => {
+                navigation.navigate('setting');
+              }}>
+              <Ionicons name="chevron-back-sharp" color="#fff" size={40} />
+              <Title style={{color: '#fff'}}>Back</Title>
+            </TouchableOpacity>
+          ),
+        })}
+      />
+    </Stack.Navigator>
+  );
+}
+
+export {DocStack, SettingStack};

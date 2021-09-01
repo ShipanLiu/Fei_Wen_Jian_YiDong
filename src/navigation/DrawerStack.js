@@ -9,8 +9,9 @@ import {useNavigation} from '@react-navigation/native';
 
 // TabBar has to be Wrapped in DrawerStack
 import TabBar from './TabBar';
+import {SettingStack} from './AppStack';
+import {DocStack} from './AppStack';
 import MessageScreen from '../screen/chat/MessageScreen';
-import SettingScreen from '../screen/others/SettingScreen';
 import SupportScreen from '../screen/others/SupportScreen';
 import EditProfileScreen from '../screen/profile/EditProfileScreen';
 import ProfileScreen from '../screen/profile/ProfileScreen';
@@ -42,9 +43,10 @@ const DrawerStack = () => {
       />
       <Drawer.Screen
         name="drawer-setting"
-        component={SettingScreen}
+        component={SettingStack}
         options={{
           title: 'Settings',
+          headerShown: false,
         }}
       />
       <Drawer.Screen

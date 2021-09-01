@@ -45,6 +45,7 @@ import {
   TouchableOpacity,
   FlatList,
   Button,
+  SafeAreaView,
 } from 'react-native';
 import ActionButton from 'react-native-simple-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -119,7 +120,7 @@ export default function DocScreen({navigation, route}) {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <FlatList
         ref={flatListRef}
         data={itemArr}
@@ -165,7 +166,7 @@ export default function DocScreen({navigation, route}) {
           <Icon name="md-images-outline" style={styles.actionButtonIcon} />
         </ActionButton.Item>
       </ActionButton>
-    </View>
+    </SafeAreaView>
   );
 }
 

@@ -4,6 +4,7 @@ export default {
   black: '#000',
   white: '#fff',
   danger: '#ff5252',
+  textGray: '#777',
   //  gray mute
   mGray: '#6e6969',
   // light gray(normally for background)
