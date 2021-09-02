@@ -1,4 +1,7 @@
 get started!!!
 
-1. navigation(tabbar + stack) ---> component + screens(functional requirements) ---> test
-2. state management
+Signature part TODO:
+
+1. modal close (tab outside)
+2. use FlatList
+3. UI color
