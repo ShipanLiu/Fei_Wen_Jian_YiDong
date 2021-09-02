@@ -1,3 +1,8 @@
+/*
+  don't need tabBar anymore
+
+*/
+
 import React from 'react';
 import {View, Text, Image, StyleSheet} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -6,6 +11,8 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {DocStack, HomeTopBar} from './AppStack';
 import SharedScreen from '../screen/chat/SharedScreen';
 import PrivateScreen from '../screen/chat/PrivateScreen';
+import Test1 from '../screen/test/Test1';
+import Test2 from '../screen/test/Test2';
 
 const Tab = createBottomTabNavigator();
 
@@ -47,21 +54,15 @@ export default function TabBar(props) {
       />
       <Tab.Screen
         name="tab-screen1"
-        component={SharedScreen}
+        component={Test1}
         options={() => ({
-          tabBarIcon: ({size, color}) => (
-            <Icon name="share-variant" size={size} color={color} />
-          ),
           tabBarLabel: 'test1',
         })}
       />
       <Tab.Screen
         name="tab-screen2"
-        component={SharedScreen}
+        component={Test2}
         options={() => ({
-          tabBarIcon: ({size, color}) => (
-            <Icon name="share-variant" size={size} color={color} />
-          ),
           tabBarLabel: 'test2',
         })}
       />

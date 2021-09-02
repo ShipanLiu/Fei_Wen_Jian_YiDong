@@ -77,7 +77,7 @@ export default function DrawerContent(props) {
               icon={({color, size}) => (
                 <Icon name="home" color={color} size={size} />
               )}
-              label="Home"
+              label="Dashboard"
               onPress={() => {
                 props.navigation.navigate('tabBar');
               }}
@@ -107,6 +107,24 @@ export default function DrawerContent(props) {
               label="Support"
               onPress={() => {
                 props.navigation.navigate('drawer-support');
+              }}
+            />
+            <DrawerItem
+              icon={({color, size}) => (
+                <Icon name="account-check-outline" color={color} size={size} />
+              )}
+              label="Test1"
+              onPress={() => {
+                props.navigation.navigate('drawer-test1');
+              }}
+            />
+            <DrawerItem
+              icon={({color, size}) => (
+                <Icon name="account-check-outline" color={color} size={size} />
+              )}
+              label="Test2"
+              onPress={() => {
+                props.navigation.navigate('drawer-test2');
               }}
             />
           </Drawer.Section>

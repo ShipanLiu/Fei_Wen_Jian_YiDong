@@ -10,11 +10,13 @@ import {useNavigation, DrawerActions} from '@react-navigation/native';
 // TabBar has to be Wrapped in DrawerStack
 import TabBar from './TabBar';
 import {SettingStack} from './AppStack';
-import {DocStack} from './AppStack';
+import {DocStack, HomeTopBar} from './AppStack';
 import MessageScreen from '../screen/chat/MessageScreen';
 import SupportScreen from '../screen/others/SupportScreen';
 import EditProfileScreen from '../screen/profile/EditProfileScreen';
 import ProfileScreen from '../screen/profile/ProfileScreen';
+import Test1 from '../screen/test/Test1';
+import Test2 from '../screen/test/Test2';
 import colors from '../utils/colors';
 
 import DrawerContent from './DrawerContent';
@@ -44,7 +46,7 @@ const DrawerStack = () => {
       }}>
       <Drawer.Screen
         name="tabBar"
-        component={TabBar}
+        component={HomeTopBar}
         headerTitleAlign="center"
         options={{
           title: 'Dashboard',
@@ -119,6 +121,16 @@ const DrawerStack = () => {
             </TouchableOpacity>
           ),
         })}
+      />
+      <Drawer.Screen
+        name="drawer-test1"
+        component={Test1}
+        options={{headerShown: false}}
+      />
+      <Drawer.Screen
+        name="drawer-test2"
+        component={Test2}
+        options={{headerShown: false}}
       />
     </Drawer.Navigator>
   );

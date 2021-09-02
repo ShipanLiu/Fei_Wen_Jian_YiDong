@@ -2358,6 +2358,11 @@ acorn@^8.2.4:
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-8.4.1.tgz#56c36251fc7cabc7096adc18f05afe814321a28c"
   integrity sha512-asabaBSkEKosYKMITunzX177CXxQ4Q8BSSzMTKD+FefUhipQC70gfW5SiUDhYQ3vk8G+81HqQk7Fv9OXwwn9KA==
 
+add@^2.0.6:
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/add/-/add-2.0.6.tgz#248f0a9f6e5a528ef2295dbeec30532130ae2235"
+  integrity sha1-JI8Kn25aUo7yKV2+7DBTITCuIjU=
+
 agent-base@6:
   version "6.0.2"
   resolved "https://registry.yarnpkg.com/agent-base/-/agent-base-6.0.2.tgz#49fff58577cfee3f37176feab4c22e00f86d7f77"
@@ -7001,6 +7006,11 @@ react-is@^16.13.0, react-is@^16.7.0, react-is@^16.8.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
 
+react-native-anchor-carousel@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/react-native-anchor-carousel/-/react-native-anchor-carousel-4.0.1.tgz#47d556b408a94a4e7e0f564a93a00aecdf60d031"
+  integrity sha512-MF5N7Z4CAg99ojh1EU9BtNJJjBvcHLLjuX8/k/IOLmBasipZfkDx723972OEZZPt1iKJCe1ESOICDLRnZZRtTg==
+
 react-native-codegen@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/react-native-codegen/-/react-native-codegen-0.0.6.tgz#b3173faa879cf71bfade8d030f9c4698388f6909"
@@ -8756,6 +8766,11 @@ yargs@^16.0.3, yargs@^16.1.1:
     string-width "^4.2.0"
     y18n "^5.0.5"
     yargs-parser "^20.2.2"
+
+yarn@^1.22.11:
+  version "1.22.11"
+  resolved "https://registry.yarnpkg.com/yarn/-/yarn-1.22.11.tgz#d0104043e7349046e0e2aec977c24be106925ed6"
+  integrity sha512-AWje4bzqO9RUn3sdnM5N8n4ZJ0BqCc/kqFJvpOI5/EVkINXui0yuvU7NDCEF//+WaxHuNay2uOHxA4+tq1P3cg==
 
 yocto-queue@^0.1.0:
   version "0.1.0"
