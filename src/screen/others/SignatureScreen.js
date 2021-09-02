@@ -111,9 +111,9 @@ const styles = StyleSheet.create({
   },
   modalView: {
     borderWidth: 3,
-    marginTop: DimensionsHeight / 4,
+    // marginTop: DimensionsHeight / 4,
     marginHorizontal: 10,
-    height: DimensionsHeight / 2,
+    // height: DimensionsHeight / 2,
     backgroundColor: 'white',
     borderRadius: 5,
     alignItems: 'center',

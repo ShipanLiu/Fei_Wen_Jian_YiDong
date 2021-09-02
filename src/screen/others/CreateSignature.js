@@ -87,9 +87,9 @@ export default function CreateSignature({setModalVisible}) {
         autoClear={true}
         onGetData={handleData}
       />
-      <Button mode="contained" onPress={handleTest}>
+      {/* <Button mode="contained" onPress={handleTest}>
         test
-      </Button>
+      </Button> */}
     </View>
   );
 }

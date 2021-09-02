@@ -5,7 +5,7 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, DrawerActions} from '@react-navigation/native';
 
 // TabBar has to be Wrapped in DrawerStack
 import TabBar from './TabBar';
@@ -15,8 +15,10 @@ import MessageScreen from '../screen/chat/MessageScreen';
 import SupportScreen from '../screen/others/SupportScreen';
 import EditProfileScreen from '../screen/profile/EditProfileScreen';
 import ProfileScreen from '../screen/profile/ProfileScreen';
+import colors from '../utils/colors';
 
 import DrawerContent from './DrawerContent';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 const Drawer = createDrawerNavigator();
 
@@ -26,12 +28,27 @@ const DrawerStack = () => {
     <Drawer.Navigator
       drawerContent={props => <DrawerContent {...props} />}
       initialRouteName="tabBar"
-      screenOptions={{}}>
+      screenOptions={{
+        headerTitleStyle: {color: '#fff'},
+        headerStyle: {backgroundColor: colors.menuColor},
+        headerTitleAlign: 'center',
+        headerLeft: ({color, size}) => (
+          <Ionicons.Button
+            name="ios-menu"
+            color={colors.white}
+            backgroundColor={colors.menuColor}
+            size={30}
+            onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
+          />
+        ),
+      }}>
       <Drawer.Screen
         name="tabBar"
         component={TabBar}
+        headerTitleAlign="center"
         options={{
-          headerShown: false,
+          title: 'Dashboard',
+          // headerShown: false,
         }}
       />
       <Drawer.Screen

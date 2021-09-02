@@ -20,7 +20,7 @@ export default function SettingScreen({navigation}) {
       <View style={styles.menuWrapper}>
         <TouchableRipple onPress={() => navigation.navigate('signature')}>
           <View style={styles.menuItem}>
-            <FontAwesome5 name="signature" color="#FF6347" size={30} />
+            <FontAwesome5 name="signature" color={colors.menuColor} size={30} />
             <Text style={styles.menuItemText}>My Signature</Text>
           </View>
         </TouchableRipple>
@@ -45,6 +45,7 @@ const styles = StyleSheet.create({
   menuItemText: {
     marginLeft: 10,
     fontSize: 20,
+    fontWeight: 'bold',
     color: colors.textGray,
   },
 });

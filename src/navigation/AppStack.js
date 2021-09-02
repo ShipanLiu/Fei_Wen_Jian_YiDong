@@ -5,7 +5,9 @@ import {createStackNavigator} from '@react-navigation/stack';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 
+import colors from '../utils/colors';
 import DocScreen from '../screen/docs/DocScreen';
 import ScannerScreen from '../screen/docs/ScannerScreen';
 import ProfileScreen from '../screen/profile/ProfileScreen';
@@ -17,11 +19,14 @@ import TeachMachineTest from '../test/TeachMachineTest';
 import EditProfileScreen from '../screen/profile/EditProfileScreen';
 import SignatureScreen from '../screen/others/SignatureScreen';
 import SettingScreen from '../screen/others/SettingScreen';
+import MessageScreen from '../screen/chat/MessageScreen';
+import TabBar from './TabBar';
 // import TMTest2 from '../test/TMTest2';
 // import TMTest3 from '../test/TMTest3';
 // import KnnImageClassifier from '../test/Knn-Image-Classifier';
 
 const Stack = createStackNavigator();
+const TopTab = createMaterialTopTabNavigator();
 
 function DocStack({navigation}) {
   return (
@@ -31,6 +36,7 @@ function DocStack({navigation}) {
         headerStyle: {backgroundColor: 'tomato'},
         headerTintColor: '#fff',
         headerTitleAlign: 'center',
+        headerShown: false,
         // headerLeft: null,
         headerLeft: ({color, size}) => (
           <Ionicons.Button
@@ -99,7 +105,7 @@ function SettingStack({navigation}) {
     <Stack.Navigator
       initialRouteName="setting"
       screenOptions={(color, size) => ({
-        headerStyle: {backgroundColor: 'tomato'},
+        headerStyle: {backgroundColor: colors.menuColor},
         headerTintColor: '#fff',
         headerTitleAlign: 'center',
       })}>
@@ -148,4 +154,31 @@ function SettingStack({navigation}) {
   );
 }
 
-export {DocStack, SettingStack};
+function HomeTopBar() {
+  return (
+    <TopTab.Navigator
+      initialRouteName="topTab-doc"
+      screenOptions={{
+        tabBarActiveTintColor: '#fff',
+        tabBarLabelStyle: {fontSize: 12},
+        tabBarStyle: {backgroundColor: colors.menuColor},
+      }}>
+      <TopTab.Screen
+        name="topTab-doc"
+        component={DocStack}
+        options={{
+          title: 'Docs',
+        }}
+      />
+      <TopTab.Screen
+        name="topTab-message"
+        component={MessageScreen}
+        options={{
+          title: 'message',
+        }}
+      />
+    </TopTab.Navigator>
+  );
+}
+
+export {DocStack, SettingStack, HomeTopBar};

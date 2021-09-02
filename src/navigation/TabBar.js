@@ -3,7 +3,7 @@ import {View, Text, Image, StyleSheet} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import {DocStack} from './AppStack';
+import {DocStack, HomeTopBar} from './AppStack';
 import SharedScreen from '../screen/chat/SharedScreen';
 import PrivateScreen from '../screen/chat/PrivateScreen';
 
@@ -17,7 +17,7 @@ export default function TabBar(props) {
       }}>
       <Tab.Screen
         name="tab-home"
-        component={DocStack}
+        component={HomeTopBar}
         options={() => ({
           tabBarIcon: ({size, color}) => (
             <Icon name="file-document-outline" size={size} color={color} />
@@ -43,6 +43,26 @@ export default function TabBar(props) {
             <Icon name="share-variant" size={size} color={color} />
           ),
           tabBarLabel: 'Share',
+        })}
+      />
+      <Tab.Screen
+        name="tab-screen1"
+        component={SharedScreen}
+        options={() => ({
+          tabBarIcon: ({size, color}) => (
+            <Icon name="share-variant" size={size} color={color} />
+          ),
+          tabBarLabel: 'test1',
+        })}
+      />
+      <Tab.Screen
+        name="tab-screen2"
+        component={SharedScreen}
+        options={() => ({
+          tabBarIcon: ({size, color}) => (
+            <Icon name="share-variant" size={size} color={color} />
+          ),
+          tabBarLabel: 'test2',
         })}
       />
     </Tab.Navigator>
