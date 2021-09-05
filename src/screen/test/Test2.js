@@ -21,17 +21,29 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import colors from '../../utils/colors';
 import {DimensionsHeight, DimensionsWidth} from '../../utils/dimension';
 
-export default function Test2(props) {
+export default function Test2({navigation}) {
   const [searchQuery, setSearchQuery] = useState('');
   return (
     <SafeAreaView style={{flex: 1}}>
       <View style={styles.container}>
-        <Searchbar
-          style={styles.searchBox}
-          placeholder="search"
-          value={searchQuery}
-          onChangeText={setSearchQuery}
-        />
+        <Button
+          style={styles.button}
+          mode="contained"
+          onPress={() => navigation.navigate('common-screen')}>
+          Common Screen
+        </Button>
+        <Button
+          style={styles.button}
+          mode="contained"
+          onPress={() => navigation.navigate('premium-screen')}>
+          Premium Screen
+        </Button>
+        <Button
+          style={styles.button}
+          mode="contained"
+          onPress={() => navigation.navigate('search-screen')}>
+          Search Screen
+        </Button>
       </View>
     </SafeAreaView>
   );
@@ -41,10 +53,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    backgroundColor: colors.black,
   },
-  searchBox: {
-    marginVertical: 10,
-    width: '93%',
+  button: {
+    marginTop: 10,
   },
 });

@@ -124,6 +124,9 @@ export default function DocScreen({navigation, route}) {
 
   return (
     <SafeAreaView style={styles.container}>
+      <View style={styles.userForeHead}>
+        <Text>jier</Text>
+      </View>
       <FlatList
         ref={flatListRef}
         data={itemArr}
@@ -143,7 +146,7 @@ export default function DocScreen({navigation, route}) {
         }}>
         <Button title="test" onPress={handleTest} />
         <Button
-          title="clearall"
+          title="clear all"
           onPress={async () => {
             try {
               await AsyncStorage.clear();
@@ -182,6 +185,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  userForeHead: {
+    backgroundColor: colors.menuColor,
+    height: '20%',
+    width: '100%',
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
   },
   actionButtonIcon: {
     fontSize: 20,

@@ -21,10 +21,14 @@ import SignatureScreen from '../screen/others/SignatureScreen';
 import SettingScreen from '../screen/others/SettingScreen';
 import MessageScreen from '../screen/chat/MessageScreen';
 import TabBar from './TabBar';
+import CommonScreen from '../screen/test/CommonScreen';
+import PremiumScreen from '../screen/test/PremiumScreen';
+import SearchScreen from '../screen/test/SearchScreen';
 
 import PrivateScreen from '../screen/chat/PrivateScreen';
 import SharedScreen from '../screen/chat/SharedScreen';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
+import Test2 from '../screen/test/Test2';
 
 // import TMTest2 from '../test/TMTest2';
 // import TMTest3 from '../test/TMTest3';
@@ -207,6 +211,17 @@ function SettingStack({navigation}) {
   );
 }
 
+function TestStack() {
+  return (
+    <Stack.Navigator initialRouteName="go-to">
+      <Stack.Screen name="go-to" component={Test2} />
+      <Stack.Screen name="common-screen" component={CommonScreen} />
+      <Stack.Screen name="premium-screen" component={PremiumScreen} />
+      <Stack.Screen name="search-screen" component={SearchScreen} />
+    </Stack.Navigator>
+  );
+}
+
 //  like the TopBar in Fileee DashBoard
 function HomeTopBar() {
   return (
@@ -235,4 +250,11 @@ function HomeTopBar() {
   );
 }
 
-export {DocStack, PrivateStack, ShareStack, SettingStack, HomeTopBar};
+export {
+  DocStack,
+  PrivateStack,
+  ShareStack,
+  SettingStack,
+  TestStack,
+  HomeTopBar,
+};

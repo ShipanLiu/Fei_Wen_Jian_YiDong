@@ -108,8 +108,6 @@ export default function Test1(props) {
   return (
     <SafeAreaView style={{flex: 1}}>
       <ScrollView style={styles.container}>
-        {/* <View style={styles.carouselContentContainer}>
-          <View style={{...StyleSheet.absoluteFill}}> */}
         <ImageBackground
           source={{uri: background.uri}}
           style={styles.imageBg}
@@ -129,75 +127,9 @@ export default function Test1(props) {
               inActiveOpacity={0.6}
             />
           </View>
-          {/* <Text style={styles.titleText}>Recent Viewed</Text>
-          <View style={styles.carouselContainerView}>
-            <Carousel
-              style={styles.carousel}
-              data={gallery}
-              renderItem={renderItem}
-              // here the itemWidth is already given
-              itemWidth={200}
-              containerWidth={DimensionsWidth - 20}
-              separatorWidth={10}
-              ref={carouselRef}
-              inActiveScale={0.95}
-              inActiveOpacity={0.6}
-            />
-          </View>
-          <Text style={styles.titleText}>All Docs</Text>
-          <View style={styles.carouselContainerView}>
-            <Carousel
-              style={styles.carousel}
-              data={gallery}
-              renderItem={renderItem}
-              // here the itemWidth is already given
-              itemWidth={200}
-              containerWidth={DimensionsWidth - 20}
-              separatorWidth={10}
-              ref={carouselRef}
-              inActiveScale={0.95}
-              inActiveOpacity={0.6}
-            />
-          </View>
-          <Text style={styles.titleText}>Shared</Text>
-          <View style={styles.carouselContainerView}>
-            <Carousel
-              style={styles.carousel}
-              data={gallery}
-              renderItem={renderItem}
-              // here the itemWidth is already given
-              itemWidth={200}
-              containerWidth={DimensionsWidth - 20}
-              separatorWidth={10}
-              ref={carouselRef}
-              inActiveScale={0.95}
-              inActiveOpacity={0.6}
-            />
-          </View> */}
+
           <Text>jier</Text>
-          {/* info part */}
-          {/* <View style={styles.movieInfoContainer}>
-              <View style={{justifyContent: 'center'}}>
-                <Text style={styles.movieName}>{background.name}</Text>
-                <Text style={styles.movieStat}>{background.stat}</Text>
-              </View>
-              <TouchableOpacity style={styles.playIconContainer}>
-                <FontAwesome5
-                  name="play"
-                  size={22}
-                  color="#02ad94"
-                  style={{marginLeft: 4}}
-                />
-              </TouchableOpacity>
-            </View>
-            <View style={{paddingHorizontal: 14, marginTop: 14}}>
-              <Text style={{color: 'white', opacity: 0.8, lineHeight: 20}}>
-                {background.desc}
-              </Text>
-            </View> */}
         </ImageBackground>
-        {/* </View>
-        </View> */}
       </ScrollView>
     </SafeAreaView>
   );

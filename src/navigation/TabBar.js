@@ -10,7 +10,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import colors from '../utils/colors';
 
-import {DocStack, PrivateStack, ShareStack} from './AppStack';
+import {DocStack, PrivateStack, ShareStack, TestStack} from './AppStack';
 import SharedScreen from '../screen/chat/SharedScreen';
 import PrivateScreen from '../screen/chat/PrivateScreen';
 import Test1 from '../screen/test/Test1';
@@ -55,17 +55,10 @@ export default function TabBar(props) {
         })}
       />
       <Tab.Screen
-        name="tab-screen1"
-        component={Test1}
+        name="tab-test"
+        component={TestStack}
         options={() => ({
-          tabBarLabel: 'test1',
-        })}
-      />
-      <Tab.Screen
-        name="tab-screen2"
-        component={Test2}
-        options={() => ({
-          tabBarLabel: 'test2',
+          tabBarLabel: 'Test-Screen',
         })}
       />
     </Tab.Navigator>
