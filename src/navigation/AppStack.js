@@ -214,7 +214,7 @@ function SettingStack({navigation}) {
 function TestStack({navigation}) {
   return (
     <Stack.Navigator
-      initialRouteName="search-screen"
+      initialRouteName="go-to"
       screenOptions={{
         headerStyle: {backgroundColor: colors.menuColor},
         headerTintColor: '#fff',
