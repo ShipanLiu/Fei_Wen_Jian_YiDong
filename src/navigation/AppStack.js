@@ -21,6 +21,11 @@ import SignatureScreen from '../screen/others/SignatureScreen';
 import SettingScreen from '../screen/others/SettingScreen';
 import MessageScreen from '../screen/chat/MessageScreen';
 import TabBar from './TabBar';
+
+import PrivateScreen from '../screen/chat/PrivateScreen';
+import SharedScreen from '../screen/chat/SharedScreen';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
+
 // import TMTest2 from '../test/TMTest2';
 // import TMTest3 from '../test/TMTest3';
 // import KnnImageClassifier from '../test/Knn-Image-Classifier';
@@ -33,19 +38,17 @@ function DocStack({navigation}) {
     <Stack.Navigator
       initialRouteName="docs"
       screenOptions={{
-        headerStyle: {backgroundColor: 'tomato'},
+        headerStyle: {backgroundColor: colors.menuColor},
         headerTintColor: '#fff',
         headerTitleAlign: 'center',
-        headerShown: false,
+        // headerShown: false,
         // headerLeft: null,
         headerLeft: ({color, size}) => (
           <Ionicons.Button
             name="ios-menu"
-            color={color}
-            backgroundColor="tomato"
-            iconStyle={{
-              color: 'pink',
-            }}
+            color={colors.white}
+            backgroundColor={colors.menuColor}
+            iconStyle={{}}
             size={30}
             onPress={() => navigation.openDrawer()}
           />
@@ -96,6 +99,56 @@ function DocStack({navigation}) {
           headerShown: false,
         })}
       />
+    </Stack.Navigator>
+  );
+}
+
+function PrivateStack({navigation}) {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerStyle: {backgroundColor: colors.menuColor},
+        headerTintColor: '#fff',
+        headerTitleAlign: 'center',
+        // headerShown: false,
+        // headerLeft: null,
+        headerLeft: ({color, size}) => (
+          <Ionicons.Button
+            name="ios-menu"
+            color={colors.white}
+            backgroundColor={colors.menuColor}
+            iconStyle={{}}
+            size={30}
+            onPress={() => navigation.openDrawer()}
+          />
+        ),
+      }}>
+      <Stack.Screen name="private" component={PrivateScreen} />
+    </Stack.Navigator>
+  );
+}
+
+function ShareStack({navigation}) {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerStyle: {backgroundColor: colors.menuColor},
+        headerTintColor: '#fff',
+        headerTitleAlign: 'center',
+        // headerShown: false,
+        // headerLeft: null,
+        headerLeft: ({color, size}) => (
+          <Ionicons.Button
+            name="ios-menu"
+            color={colors.white}
+            backgroundColor={colors.menuColor}
+            iconStyle={{}}
+            size={30}
+            onPress={() => navigation.openDrawer()}
+          />
+        ),
+      }}>
+      <Stack.Screen name="share" component={SharedScreen} />
     </Stack.Navigator>
   );
 }
@@ -154,6 +207,7 @@ function SettingStack({navigation}) {
   );
 }
 
+//  like the TopBar in Fileee DashBoard
 function HomeTopBar() {
   return (
     <TopTab.Navigator
@@ -181,4 +235,4 @@ function HomeTopBar() {
   );
 }
 
-export {DocStack, SettingStack, HomeTopBar};
+export {DocStack, PrivateStack, ShareStack, SettingStack, HomeTopBar};

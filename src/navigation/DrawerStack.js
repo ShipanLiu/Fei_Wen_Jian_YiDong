@@ -46,11 +46,11 @@ const DrawerStack = () => {
       }}>
       <Drawer.Screen
         name="tabBar"
-        component={HomeTopBar}
+        component={TabBar}
         headerTitleAlign="center"
         options={{
           title: 'Dashboard',
-          // headerShown: false,
+          headerShown: false,
         }}
       />
       <Drawer.Screen

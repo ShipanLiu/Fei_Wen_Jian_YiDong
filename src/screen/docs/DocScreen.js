@@ -55,6 +55,7 @@ import {useIsFocused} from '@react-navigation/native';
 import AppButton from '../../components/AppButton';
 import imagePicker from '../../hooks/imagePicker';
 import {DimensionsWidth, DimensionsHeight} from '../../utils/dimension';
+import colors from '../../utils/colors';
 
 export default function DocScreen({navigation, route}) {
   const [allKeys, setAllKeys] = useState(null);
@@ -153,7 +154,11 @@ export default function DocScreen({navigation, route}) {
         />
       </View>
 
-      <ActionButton buttonColor="#2e64e5">
+      <ActionButton
+        buttonColor={colors.menuColor}
+        renderIcon={() => (
+          <Icon name="camera-outline" size={25} color={colors.white} />
+        )}>
         <ActionButton.Item
           buttonColor="#9b59b6"
           title="Take Photo"

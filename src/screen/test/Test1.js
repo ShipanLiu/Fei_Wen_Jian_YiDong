@@ -79,6 +79,7 @@ export default function Test1(props) {
       <View style={styles.imageWrapper}>
         <TouchableOpacity
           onPress={() => {
+            console.log(index);
             carouselRef.current.scrollToIndex(index);
             setBackground({
               uri: item.image,
@@ -128,7 +129,7 @@ export default function Test1(props) {
               inActiveOpacity={0.6}
             />
           </View>
-          <Text style={styles.titleText}>Recent Viewed</Text>
+          {/* <Text style={styles.titleText}>Recent Viewed</Text>
           <View style={styles.carouselContainerView}>
             <Carousel
               style={styles.carousel}
@@ -172,7 +173,7 @@ export default function Test1(props) {
               inActiveScale={0.95}
               inActiveOpacity={0.6}
             />
-          </View>
+          </View> */}
           <Text>jier</Text>
           {/* info part */}
           {/* <View style={styles.movieInfoContainer}>
@@ -215,6 +216,7 @@ const styles = StyleSheet.create({
   },
   imageBg: {
     flex: 1,
+    /* normally width: null, height: null */
     width: '100%',
     height: null,
     opacity: 1,
