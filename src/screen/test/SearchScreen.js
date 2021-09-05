@@ -11,8 +11,10 @@ import {Button} from 'react-native-paper';
 
 export default function SearchScreen(props) {
   return (
-    <SafeAreaView style={styles.container}>
-      <Text>SearchScreen</Text>
+    <SafeAreaView style={{flex: 1}}>
+      <View style={styles.container}>
+        <Text>SearchScreen</Text>
+      </View>
     </SafeAreaView>
   );
 }
@@ -20,7 +22,6 @@ export default function SearchScreen(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: '#050505',
   },
 });

@@ -211,13 +211,37 @@ function SettingStack({navigation}) {
   );
 }
 
-function TestStack() {
+function TestStack({navigation}) {
   return (
-    <Stack.Navigator initialRouteName="go-to">
+    <Stack.Navigator
+      initialRouteName="search-screen"
+      screenOptions={{
+        headerStyle: {backgroundColor: colors.menuColor},
+        headerTintColor: '#fff',
+        headerTitleAlign: 'center',
+        // headerShown: false,
+        // headerLeft: null,
+        headerLeft: ({color, size}) => (
+          <Ionicons.Button
+            name="ios-menu"
+            color={colors.white}
+            backgroundColor={colors.menuColor}
+            iconStyle={{}}
+            size={30}
+            onPress={() => navigation.openDrawer()}
+          />
+        ),
+      }}>
       <Stack.Screen name="go-to" component={Test2} />
       <Stack.Screen name="common-screen" component={CommonScreen} />
       <Stack.Screen name="premium-screen" component={PremiumScreen} />
-      <Stack.Screen name="search-screen" component={SearchScreen} />
+      <Stack.Screen
+        name="search-screen"
+        component={SearchScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
     </Stack.Navigator>
   );
 }

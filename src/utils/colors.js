@@ -5,13 +5,14 @@ export default {
   //  gray mute
   mGray: '#6e6969',
   // light gray(normally for background)
-  lGray: '#f8f4f4',
+  lGray: '#ECECEE',
   dGray: '#0c0c0c',
   // flydocs project color
   textGray: '#777',
   menuColor: '#82BF93',
   black: '#000',
   white: '#fff',
+  backgroundBlack: '#050505',
 };
 
 /*
