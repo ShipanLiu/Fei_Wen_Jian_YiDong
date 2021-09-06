@@ -27,22 +27,32 @@ export default function Test2({navigation}) {
     <SafeAreaView style={{flex: 1}}>
       <View style={styles.container}>
         <Button
+          uppercase={false}
           style={styles.button}
           mode="contained"
           onPress={() => navigation.navigate('common-screen')}>
           Common Screen
         </Button>
         <Button
+          uppercase={false}
           style={styles.button}
           mode="contained"
           onPress={() => navigation.navigate('premium-screen')}>
           Premium Screen
         </Button>
         <Button
+          uppercase={false}
           style={styles.button}
           mode="contained"
           onPress={() => navigation.navigate('search-screen')}>
           Search Screen
+        </Button>
+        <Button
+          uppercase={false}
+          style={styles.button}
+          mode="contained"
+          onPress={() => navigation.navigate('bottom-sheet')}>
+          bottom sheet
         </Button>
       </View>
     </SafeAreaView>

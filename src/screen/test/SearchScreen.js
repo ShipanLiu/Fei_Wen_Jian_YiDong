@@ -211,6 +211,7 @@ export default function SearchScreen(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    // backgroundColor: colors.menuColor,
     backgroundColor: colors.backgroundBlack,
   },
   headerContainer: {

@@ -21,12 +21,13 @@ import SignatureScreen from '../screen/others/SignatureScreen';
 import SettingScreen from '../screen/others/SettingScreen';
 import MessageScreen from '../screen/chat/MessageScreen';
 import TabBar from './TabBar';
+import PrivateScreen from '../screen/chat/PrivateScreen';
+import SharedScreen from '../screen/chat/SharedScreen';
 import CommonScreen from '../screen/test/CommonScreen';
 import PremiumScreen from '../screen/test/PremiumScreen';
 import SearchScreen from '../screen/test/SearchScreen';
+import BottomSheet from '../screen/test/BottomSheet';
 
-import PrivateScreen from '../screen/chat/PrivateScreen';
-import SharedScreen from '../screen/chat/SharedScreen';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import Test2 from '../screen/test/Test2';
 
@@ -214,7 +215,7 @@ function SettingStack({navigation}) {
 function TestStack({navigation}) {
   return (
     <Stack.Navigator
-      initialRouteName="go-to"
+      initialRouteName="bottom-sheet"
       screenOptions={{
         headerStyle: {backgroundColor: colors.menuColor},
         headerTintColor: '#fff',
@@ -235,6 +236,7 @@ function TestStack({navigation}) {
       <Stack.Screen name="go-to" component={Test2} />
       <Stack.Screen name="common-screen" component={CommonScreen} />
       <Stack.Screen name="premium-screen" component={PremiumScreen} />
+      <Stack.Screen name="bottom-sheet" component={BottomSheet} />
       <Stack.Screen
         name="search-screen"
         component={SearchScreen}
