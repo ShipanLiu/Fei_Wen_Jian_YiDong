@@ -17,9 +17,29 @@ import Feather from 'react-native-vector-icons/Feather';
 import * as ImagePicker from 'expo-image-picker';
 import BottomSheet from 'reanimated-bottom-sheet';
 import Animated from 'react-native-reanimated';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {connect} from 'react-redux';
 
-export default function EditProfileScreen({navigation}) {
+import {UPDATEPROFILE} from '../../reducers/profile/actions';
+import _SignatureScreen from '../others/SignatureScreen';
+
+const mapStateToProps = (state, props) => {
+  // const {avatarSrc, userName, email, phone} = state.profileReducer;
+  // return {avatarSrc, userName, email, phone};
+  return {...state.profileReducer};
+};
+
+const mapDispatchToProps = (dispatch, props) => ({
+  updateProfile: newProfileObj => {
+    console.log(typeof newProfileObj);
+    dispatch({
+      type: UPDATEPROFILE,
+      payload: newProfileObj,
+    });
+  },
+});
+function EditProfileScreen(props) {
+  const {navigation} = props;
+
   const [userInfoObj, setUserInfoObj] = useState({
     userName: null,
     phone: null,
@@ -33,46 +53,7 @@ export default function EditProfileScreen({navigation}) {
   useEffect(() => {
     getLibraryPermission();
     getCameraPermission();
-    getUserInfo();
   }, []);
-
-  const getUserInfo = async () => {
-    try {
-      const allKeys = await AsyncStorage.getAllKeys();
-      //  if the profile key already exists
-      if (allKeys.includes('profile')) {
-        const value = await AsyncStorage.getItem('profile');
-        const parsedUserInfoObj = JSON.parse(value);
-        setUserInfoObj(preValue => ({
-          ...preValue,
-          avatarSrc: parsedUserInfoObj.avatarSrc,
-        }));
-        setUserInfoObj(preValue => ({
-          ...preValue,
-          userName: parsedUserInfoObj.userName,
-        }));
-        setUserInfoObj(preValue => ({
-          ...preValue,
-          email: parsedUserInfoObj.email,
-        }));
-        setUserInfoObj(preValue => ({
-          ...preValue,
-          phone: parsedUserInfoObj.phone,
-        }));
-      } else {
-        //  if the profile key haven't been set, the set a default value
-        setUserInfoObj({
-          avatarSrc:
-            'https://upload.wikimedia.org/wikipedia/commons/9/9a/Gull_portrait_ca_usa.jpg',
-          userName: null,
-          mail: null,
-          phone: null,
-        });
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const getLibraryPermission = async () => {
     try {
@@ -130,8 +111,7 @@ export default function EditProfileScreen({navigation}) {
 
   const handleSubmit = async () => {
     try {
-      const jsonValue = JSON.stringify(userInfoObj);
-      AsyncStorage.setItem('profile', jsonValue);
+      props.updateProfile(userInfoObj);
       navigation.navigate('tabBar');
       navigation.openDrawer();
     } catch (error) {
@@ -140,7 +120,7 @@ export default function EditProfileScreen({navigation}) {
   };
 
   const handleTest = () => {
-    console.log(userInfoObj);
+    console.log(props);
   };
 
   //  the inner of bottomSheet
@@ -233,7 +213,7 @@ export default function EditProfileScreen({navigation}) {
             </View>
           </TouchableOpacity>
           <Text style={{marginTop: 10, fontSize: 18, fontWeight: 'bold'}}>
-            {userInfoObj.userName}
+            {props.userName}
           </Text>
         </View>
 
@@ -244,7 +224,7 @@ export default function EditProfileScreen({navigation}) {
               setUserInfoObj(preValue => ({...preValue, userName: value}))
             }
             value={userInfoObj.userName}
-            placeholder={userInfoObj.userName ? '' : 'User Name'}
+            placeholder="User Name"
             placeholderTextColor="#666666"
             autoCorrect={false}
             style={[
@@ -263,7 +243,7 @@ export default function EditProfileScreen({navigation}) {
               setUserInfoObj(preValue => ({...preValue, phone: value}))
             }
             value={userInfoObj.phone}
-            placeholder={userInfoObj.phone ? '' : 'Phone'}
+            placeholder="Phone"
             placeholderTextColor="#666666"
             keyboardType="number-pad"
             autoCorrect={false}
@@ -282,7 +262,7 @@ export default function EditProfileScreen({navigation}) {
               setUserInfoObj(preValue => ({...preValue, email: value}))
             }
             value={userInfoObj.email}
-            placeholder={userInfoObj.phone ? '' : 'Emial'}
+            placeholder="Emial"
             placeholderTextColor="#666666"
             keyboardType="email-address"
             autoCorrect={false}
@@ -392,3 +372,10 @@ const styles = StyleSheet.create({
     color: '#05375a',
   },
 });
+
+const _EditProfileScreen = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(EditProfileScreen);
+
+export default _EditProfileScreen;

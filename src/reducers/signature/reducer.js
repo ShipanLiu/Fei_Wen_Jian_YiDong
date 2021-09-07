@@ -1,4 +1,4 @@
-import {SWITCH, REMOVE} from './actions';
+import {REMOVESIGNATURE, SWITCHSIGNATURE} from './actions';
 
 const initialState = {
   signature: '',
@@ -6,9 +6,7 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case SWITCH: {
-      // const {signature} = action.payload;
-      // return {signature};
+    case SWITCHSIGNATURE: {
       // action.payload is an plain object
       return action.payload;
     }
@@ -18,3 +16,15 @@ const reducer = (state = initialState, action) => {
 };
 
 export {reducer};
+
+/*
+
+  import {UPDATE} from './actions'
+const initialState = {
+  avatarSrc:
+    'https://upload.wikimedia.org/wikipedia/commons/9/9a/Gull_portrait_ca_usa.jpg',
+  userName: 'unknown',
+  email: 'unknown@unknown.com',
+  phone: '00000000'
+};
+*/

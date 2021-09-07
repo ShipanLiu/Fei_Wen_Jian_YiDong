@@ -11,58 +11,38 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {connect} from 'react-redux';
 
-export default function ProfileScreen({navigation}) {
-  const [avatarSrc, setAvatarSrc] = useState(null);
-  const [userName, setUserName] = useState(null);
-  const [email, setEmail] = useState(null);
-  const [phone, setPhone] = useState(null);
+const mapStateToProps = (state, props) => {
+  const {avatarSrc, userName, email, phone} = state.profileReducer;
+  return {avatarSrc, userName, email, phone};
+};
 
-  useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      getUserInfo();
-    });
-    return unsubscribe;
-  }, [navigation]);
-
-  const getUserInfo = async () => {
-    try {
-      const allKeys = await AsyncStorage.getAllKeys();
-      if (allKeys.includes('profile')) {
-        const value = await AsyncStorage.getItem('profile');
-        const userInfoObj = JSON.parse(value);
-        setAvatarSrc(userInfoObj.avatarSrc);
-        setUserName(userInfoObj.userName);
-        setEmail(userInfoObj.email);
-        setPhone(userInfoObj.phone);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+function ProfileScreen(props) {
+  const {navigation} = props;
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.userInfoContainer}>
         <Avatar.Image
           source={{
-            uri: avatarSrc,
+            uri: props.avatarSrc,
           }}
           size={80}
         />
         <View style={styles.userNameWrapper}>
-          <Title style={styles.titleStyle}>{userName}</Title>
+          <Title style={styles.titleStyle}>{props.userName}</Title>
         </View>
       </View>
       {/* location email area */}
       <View style={styles.subInformation}>
         <View style={styles.row}>
           <Icon name="phone" color="#777777" size={20} />
-          <Text style={{color: '#777777', marginLeft: 20}}>{phone}</Text>
+          <Text style={{color: '#777777', marginLeft: 20}}>{props.phone}</Text>
         </View>
         <View style={styles.row}>
           <Icon name="email" color="#777777" size={20} />
-          <Text style={{color: '#777777', marginLeft: 20}}>{email}</Text>
+          <Text style={{color: '#777777', marginLeft: 20}}>{props.email}</Text>
         </View>
       </View>
       {/* file amount area */}
@@ -183,3 +163,7 @@ const styles = StyleSheet.create({
     lineHeight: 26,
   },
 });
+
+const _ProfileScreen = connect(mapStateToProps, null)(ProfileScreen);
+
+export default _ProfileScreen;

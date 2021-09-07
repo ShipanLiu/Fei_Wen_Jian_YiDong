@@ -12,13 +12,13 @@ import {Button} from 'react-native-paper';
 import Signature from 'react-native-signature-canvas';
 import {connect} from 'react-redux';
 
-import {SWITCH} from '../../reducers/signature/actions';
+import {SWITCHSIGNATURE} from '../../reducers/signature/actions';
 import {DimensionsHeight, DimensionsWidth} from '../../utils/dimension';
 
 const mapDispatchToProps = (dispatch, props) => ({
   switchSignature: newSignature => {
     dispatch({
-      type: SWITCH,
+      type: SWITCHSIGNATURE,
       payload: {
         signature: newSignature,
       },

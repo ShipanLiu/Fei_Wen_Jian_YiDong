@@ -24,33 +24,14 @@ import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import IonIcon from 'react-native-vector-icons/Octicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {connect} from 'react-redux';
 
-export default function DrawerContent(props) {
-  const [avatarSrc, setAvatarSrc] = useState(
-    'https://upload.wikimedia.org/wikipedia/commons/9/9a/Gull_portrait_ca_usa.jpg',
-  );
-  const [userName, setUserName] = useState('Unknown');
-  const [email, setEmail] = useState('unknown@unknown.com');
+const mapStateToProps = (state, props) => {
+  const {avatarSrc, userName, email, phone} = state.profileReducer;
+  return {avatarSrc, userName, email, phone};
+};
 
-  useEffect(() => {
-    getUserInfo();
-  });
-
-  const getUserInfo = async () => {
-    try {
-      const allKeys = await AsyncStorage.getAllKeys();
-      if (allKeys.includes('profile')) {
-        const value = await AsyncStorage.getItem('profile');
-        const parsedUserInfoObj = JSON.parse(value);
-        setAvatarSrc(parsedUserInfoObj.avatarSrc);
-        setUserName(parsedUserInfoObj.userName);
-        setEmail(parsedUserInfoObj.email);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
+function DrawerContent(props) {
   return (
     <View style={styles.container}>
       <DrawerContentScrollView {...props}>
@@ -61,13 +42,13 @@ export default function DrawerContent(props) {
             <View style={styles.userWrapper}>
               <Avatar.Image
                 source={{
-                  uri: avatarSrc,
+                  uri: props.avatarSrc,
                 }}
                 size={50}
               />
               <View style={styles.userNameWrapper}>
-                <Title style={styles.title}>{userName}</Title>
-                <Caption style={styles.caption}>{email}</Caption>
+                <Title style={styles.title}>{props.userName}</Title>
+                <Caption style={styles.caption}>{props.email}</Caption>
               </View>
             </View>
           </TouchableRipple>
@@ -203,3 +184,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
 });
+
+const _DrawerContent = connect(mapStateToProps, null)(DrawerContent);
+
+export default _DrawerContent;
