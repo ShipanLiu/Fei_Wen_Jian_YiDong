@@ -41,10 +41,10 @@ function EditProfileScreen(props) {
   const {navigation} = props;
 
   const [userInfoObj, setUserInfoObj] = useState({
-    userName: null,
-    phone: null,
-    email: null,
-    avatarSrc: null,
+    userName: props.userName,
+    phone: props.phone,
+    email: props.email,
+    avatarSrc: props.avatarSrc,
   });
 
   const bs = useRef(null);
