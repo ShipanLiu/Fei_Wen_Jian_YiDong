@@ -81,7 +81,7 @@ export default function DocScreen({navigation, route}) {
     const keyArr = await AsyncStorage.getAllKeys();
     // kick the 'profile' key out of the keyArr.
     const filteredKeyArr = keyArr.filter(
-      key => key !== 'profile' && key !== 'signature',
+      key => key !== 'profile' && key !== 'signature' && key !== 'persist:root',
     );
     setAllKeys(filteredKeyArr);
     getAllValues(filteredKeyArr);
@@ -96,8 +96,9 @@ export default function DocScreen({navigation, route}) {
     }
   };
 
-  const handleTest = () => {
-    console.log(itemArr);
+  const handleTest = async () => {
+    const keyArr = await AsyncStorage.getAllKeys();
+    console.log(keyArr);
   };
 
   const renderItem = ({item}) => {
@@ -112,8 +113,9 @@ export default function DocScreen({navigation, route}) {
         }
         style={styles.itemContainer}>
         <View style={styles.fileImageContainer}>
+          {/* show the first image as this document image */}
           <Image
-            source={{uri: JSON.parse(item[1])[0].croppedImage}}
+            source={{uri: JSON.parse(item[1])[0]?.croppedImage}}
             resizeMode="contain"
             style={styles.fileImage}
           />

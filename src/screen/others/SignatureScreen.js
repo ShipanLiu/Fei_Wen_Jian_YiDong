@@ -9,34 +9,21 @@ import {
   Modal,
 } from 'react-native';
 import {Text, Button, TouchableRipple} from 'react-native-paper';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {connect} from 'react-redux';
 
 import {DimensionsHeight} from '../../utils/dimension';
 import CreateSignature from './CreateSignature';
-import sigImage from '../../assets/mock/signature';
 
-export default function SignatureScreen(props) {
-  const [signatureArr, setSignatureArr] = useState([]);
+const mapStateToProps = (state, props) => {
+  const {signature} = state.signatureReducer;
+  return {signature: signature};
+};
+
+function SignatureScreen(props) {
   const [modalVisible, setModalVisible] = useState(false);
 
-  useEffect(() => {
-    FetchSignatureFromStore();
-  });
-
-  const FetchSignatureFromStore = async () => {
-    try {
-      const allKeys = await AsyncStorage.getAllKeys();
-      if (allKeys.includes('signature')) {
-        const jsonValue = await AsyncStorage.getItem('signature');
-        setSignatureArr(JSON.parse(jsonValue));
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   const handleTest = () => {
-    console.log(signatureArr.length);
+    console.log(props.signature);
   };
 
   return (
@@ -53,25 +40,26 @@ export default function SignatureScreen(props) {
         </Modal>
       </View>
       <View style={[styles.row, styles.buttonWrapper]}>
-        <Button mode="contained" onPress={() => setModalVisible(true)}>
-          create
+        <Button
+          mode="contained"
+          onPress={() => setModalVisible(true)}
+          uppercase={false}>
+          Switch
         </Button>
-        <Button mode="contained" onPress={handleTest}>
+        <Button mode="contained" onPress={handleTest} uppercase={false}>
           test
         </Button>
       </View>
       <View style={styles.signatureWrapper}>
-        {signatureArr.map((item, index) => (
-          <View key={index} style={styles.itemWrapper}>
-            <Image
-              resizeMode="contain"
-              source={{
-                uri: item,
-              }}
-              style={styles.itemImage}
-            />
-          </View>
-        ))}
+        <View style={styles.itemWrapper}>
+          <Image
+            resizeMode="contain"
+            source={{
+              uri: props.signature,
+            }}
+            style={styles.itemImage}
+          />
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -127,3 +115,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
 });
+
+const _SignatureScreen = connect(mapStateToProps, null)(SignatureScreen);
+
+export default _SignatureScreen;
