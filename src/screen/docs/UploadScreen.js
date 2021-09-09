@@ -9,22 +9,21 @@ image picker data format:
 
 
 add estra image:  get fileID --> display photos(+ recrop) ---> merge into Local Storage
+
+after using Redux:
+
+"totalDocs": [{"content": [Array], "fileID": "file1234566"}, {"content": [Array], "fileID": "file1631190444134"}, {"content": [Array], "fileID": "file1631190612376"}]}
+
+
+
 */
 
 import React, {useEffect, useContext, useState} from 'react';
 import {
   View,
-  Text,
-  Platform,
   StyleSheet,
   Alert,
-  ActivityIndicator,
-  Animated,
-  TextInput,
   Image,
-  ImageBackground,
-  ScrollView,
-  TouchableOpacity,
   FlatList,
   SafeAreaView,
 } from 'react-native';
@@ -32,6 +31,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import uuid from 'react-native-uuid';
 import {useIsFocused} from '@react-navigation/native';
+import {connect} from 'react-redux';
 
 import AppButton from '../../components/AppButton';
 import {DimensionsWidth, DimensionsHeight} from '../../utils/dimension';
@@ -40,8 +40,35 @@ import {extraImageContext} from '../../store/context/extraImageContext';
 import FileNameModal from '../../components/FileNameModal';
 
 import * as actions from '../../store/actions/actions';
+import {ADDNEWDOC, ADDPAGES} from '../../reducers/totalDocs/actions';
 
-export default function DocScreen({navigation, route}) {
+const mapStateToProps = (state, props) => {
+  //  so that the key 'totalDocs' will be added to totalProps
+  return {
+    totalDocs: [...state.totalDocsReducer],
+  };
+};
+
+const mapDispatchToProps = (dispatch, props) => ({
+  addToTotalDocs: obj => {
+    dispatch({
+      type: ADDNEWDOC,
+      payload: obj,
+    });
+  },
+  addExtraPages: (fileId, extraPagesArr) => {
+    dispatch({
+      type: ADDPAGES,
+      payload: {
+        fileId: fileId,
+        extraArr: extraPagesArr,
+      },
+    });
+  },
+});
+
+function UploadScreen(props) {
+  const {navigation, route} = props;
   const {state, dispatch} = useContext(ImageContext);
   const [imgArr, setImgArr] = useState([]);
   // if for extra image, the fileId exists, in other cases, it is null
@@ -62,6 +89,7 @@ export default function DocScreen({navigation, route}) {
     }
   };
 
+  //  if the user want recrop, go to recrop screen
   const handleReCrop = id => {
     if (fileId) {
       navigation.navigate('recrop', {
@@ -80,70 +108,113 @@ export default function DocScreen({navigation, route}) {
     setShowModal(true);
   };
 
-  const handleUpload = async value => {
-    try {
-      // openModal()
-      const jsonValue = JSON.stringify(value);
-      const key = `file${Date.now()}`;
-      await AsyncStorage.setItem(key, jsonValue);
-      navigation.navigate('docs', {
-        id: key,
-        index: undefined,
-        fromCamera: true,
-      });
-      dispatch({type: actions.REMOVE});
-    } catch (error) {
-      console.log(error);
-    }
+  const handleUpload = value => {
+    // openModal()
+    const key = `file${Date.now()}`;
+    //  TODO:
+    props.addToTotalDocs({
+      fileId: key,
+      content: value,
+    });
+    navigation.navigate('docs', {
+      id: key,
+      index: undefined,
+      fromCamera: true,
+    });
+    //  clear
+    dispatch({type: actions.REMOVE});
   };
 
-  const handleAddExtraImage = async value => {
-    // AsyncStorage Merge
-    try {
-      const jsonImgArr = await AsyncStorage.getItem(fileId);
-      const parsedImgArr = JSON.parse(jsonImgArr);
-      const concatArr = [...parsedImgArr, ...value];
-      Alert.alert('SAVE', 'Are you sure', [
-        {
-          text: 'Cancel',
-          onPress: () => console.log('Cancel Pressed'),
-          style: 'cancel',
+  // const handleUpload = async value => {
+  //   try {
+  //     // openModal()
+  //     const jsonValue = JSON.stringify(value);
+  //     const key = `file${Date.now()}`;
+  //     await AsyncStorage.setItem(key, jsonValue);
+  //     navigation.navigate('docs', {
+  //       id: key,
+  //       index: undefined,
+  //       fromCamera: true,
+  //     });
+  //     //  clear
+  //     dispatch({type: actions.REMOVE});
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+  // const handleAddExtraImage = async value => {
+  //   // AsyncStorage Merge
+  //   try {
+  //     const jsonImgArr = await AsyncStorage.getItem(fileId);
+  //     const parsedImgArr = JSON.parse(jsonImgArr);
+  //     const concatArr = [...parsedImgArr, ...value];
+  //     Alert.alert('SAVE', 'Are you sure', [
+  //       {
+  //         text: 'Cancel',
+  //         onPress: () => console.log('Cancel Pressed'),
+  //         style: 'cancel',
+  //       },
+  //       {
+  //         text: 'OK',
+  //         onPress: async () => {
+  //           console.log('erst: ' + imgArr);
+  //           console.log('zweite' + value);
+  //           const jsonValue = JSON.stringify(concatArr);
+  //           await AsyncStorage.setItem(fileId, jsonValue);
+  //           navigation.navigate('gallery', {
+  //             id: fileId,
+  //             fileId: fileId,
+  //             index: parsedImgArr.length - 1,
+  //           });
+  //           extraImagedispatch({type: actions.REMOVE});
+  //         },
+  //       },
+  //     ]);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+  const handleAddExtraImage = () => {
+    Alert.alert('SAVE', 'Are you sure', [
+      {
+        text: 'Cancel',
+        onPress: () => {
+          extraImagedispatch({type: actions.REMOVE});
+          console.log('Cancel Pressed');
+          //  navigation.navigate('gallery');
         },
-        {
-          text: 'OK',
-          onPress: async () => {
-            console.log('erst: ' + imgArr);
-            console.log('zweite' + value);
-            const jsonValue = JSON.stringify(concatArr);
-            await AsyncStorage.setItem(fileId, jsonValue);
-            navigation.navigate('gallery', {
-              id: fileId,
-              fileId: fileId,
-              index: parsedImgArr.length - 1,
-            });
-            extraImagedispatch({type: actions.REMOVE});
-          },
+        style: 'cancel',
+      },
+      {
+        text: 'OK',
+        onPress: () => {
+          props.addExtraPages(fileId, extraImageState);
+          navigation.navigate('gallery', {
+            id: fileId,
+            fileId: fileId,
+          });
+          //  clear the store for using next time
+          extraImagedispatch({type: actions.REMOVE});
         },
-      ]);
-    } catch (error) {
-      console.log(error);
-    }
+      },
+    ]);
   };
 
   const handleClick = () => {
+    // determine which direction
     if (fileId) {
-      handleAddExtraImage(extraImageState);
+      handleAddExtraImage();
     } else {
       handleUpload(state);
     }
   };
 
   const handleTest = () => {
-    // console.log(fileId);
-    // console.log(extraImageState);
-    // console.log(state);
-    // console.log(imgArr);
-    setShowModal(true);
+    // setShowModal(true);
+    console.log(fileId);
+    console.log(extraImageState);
   };
 
   const renderItem = ({item}) => {
@@ -223,4 +294,9 @@ const styles = StyleSheet.create({
   },
 });
 
-// const zweite =
+const _UploadScreen = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(UploadScreen);
+
+export default _UploadScreen;

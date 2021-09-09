@@ -14,14 +14,42 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useIsFocused} from '@react-navigation/native';
+import {connect} from 'react-redux';
 
 import {DimensionsHeight, DimensionsWidth} from '../../utils/dimension';
 import AppButton from '../../components/AppButton';
 import CheckBox from '@react-native-community/checkbox';
 import ActionButton from 'react-native-simple-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {DELETEPAGES, REMOVEDOC} from '../../reducers/totalDocs/actions';
 
-export default function GalleryScreen({navigation, route}) {
+const mapStateToProps = (state, props) => {
+  return {
+    totalDocs: [...state.totalDocsReducer],
+  };
+};
+
+const mapDispatchToProps = (dispatch, props) => ({
+  deleteSomePages: (selectedId, newArr) => {
+    dispatch({
+      type: DELETEPAGES,
+      payload: {
+        fileId: selectedId,
+        content: newArr,
+      },
+    });
+  },
+
+  removeFile: selectedId => {
+    dispatch({
+      type: REMOVEDOC,
+      payload: selectedId,
+    });
+  },
+});
+
+function GalleryScreen(props) {
+  const {navigation, route} = props;
   const [showCheckBox, setShowCheckBox] = useState(false);
   const [fileId, setFileId] = useState(null);
   const [imgArr, setImgArr] = useState(route.params.item);
@@ -29,41 +57,21 @@ export default function GalleryScreen({navigation, route}) {
   const flatListRef = useRef(null);
 
   //  if use [isFocused] in useEffect will cause 'Can't perform a React state update on an unmounted component'
-  const isFocused = useIsFocused();
 
   useEffect(() => {
-    let isMounted = true;
-    getImageArr(isMounted);
-    // prevent repetitive call of setState
-    return () => {
-      isMounted = false;
-    };
+    getImageArr();
   }, []);
 
-  const getImageArr = async isMounted => {
-    try {
-      const {id} = route.params;
-      setFileId(id);
-      const jsonArr = await AsyncStorage.getItem(id);
-      const imageArray = JSON.parse(jsonArr);
-      if (isMounted && imageArray) {
-        setImgArr(createNewImageArray(imageArray));
-      }
-    } catch (error) {
-      console.log(error);
-    }
+  // "totalDocs": [{"content": [Array], "fileId": "file1"}, {"content": [Array], "fileId": "file2"}]
+  const getImageArr = () => {
+    const {id} = route.params;
+    setFileId(id);
+    const selectedFile = props.totalDocs.filter(item => item.fileId === id);
+    // [{"content": [[Object], [Object]], "fileId": "file1"}]
+    setImgArr(createNewImageArray(selectedFile[0].content));
   };
 
-  const setChangesToAsyncStorage = async value => {
-    // try {
-    //   const jsonValue = JSON.stringify(value);
-    //   await AsyncStorage.setItem(fileId, jsonValue);
-    // } catch (error) {
-    //   console.log(error);
-    // }
-    console.log('async later');
-  };
-
+  //  add the check key to each imgObj in the array
   const createNewImageArray = oldImageArray => {
     return oldImageArray.map(itemObj => ({
       checked: false,
@@ -93,22 +101,21 @@ export default function GalleryScreen({navigation, route}) {
     setImgArr(newImgArr);
   };
 
+  //  TODO:   1. detete the file,   2. delete some pages in the file
   const handlePressDeleteOk = async () => {
     const newImgArr = imgArr.filter(obj => obj.checked === false);
-    // if delete all, the folder will also be deleted
+    // if delete all, the file itself will also be deleted
     if (newImgArr.length === 0) {
-      try {
-        setShowCheckBox(false);
-        setImgArr(newImgArr);
-        await AsyncStorage.removeItem(fileId);
-        navigation.navigate('docs');
-      } catch (error) {
-        console.log(error);
-      }
+      setShowCheckBox(false);
+      setImgArr(newImgArr);
+      // TODO: delete the file
+      props.removeFile(fileId);
+      navigation.navigate('docs');
     } else {
       setShowCheckBox(false);
       setImgArr(newImgArr);
-      setChangesToAsyncStorage(newImgArr);
+      // TODO:  update the selected File(delete some pages)
+      props.deleteSomePages(fileId, newImgArr);
     }
   };
 
@@ -147,7 +154,10 @@ export default function GalleryScreen({navigation, route}) {
   };
 
   const handleTest = async () => {
-    console.log(imgArr);
+    const selectedFile = props.totalDocs.filter(item => item.fileId === fileId);
+    // console.log(route.params.id);
+    // console.log(imgArr);
+    console.log(props.totalDocs[1]);
   };
 
   const renderItem = ({item, index}) => {
@@ -300,6 +310,13 @@ const styles = StyleSheet.create({
     top: 1,
   },
 });
+
+const _GalleryScreen = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(GalleryScreen);
+
+export default _GalleryScreen;
 
 const state = [
   {

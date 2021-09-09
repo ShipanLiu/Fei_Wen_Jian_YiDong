@@ -51,54 +51,54 @@ import ActionButton from 'react-native-simple-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useIsFocused} from '@react-navigation/native';
+import {connect} from 'react-redux';
 
 import AppButton from '../../components/AppButton';
 import imagePicker from '../../hooks/imagePicker';
 import {DimensionsWidth, DimensionsHeight} from '../../utils/dimension';
 import colors from '../../utils/colors';
 
-export default function DocScreen({navigation, route}) {
+const mapStateToProps = (state, props) => {
+  return {
+    totalDocs: [...state.totalDocsReducer],
+  };
+};
+
+function DocScreen(props) {
+  const {navigation, route} = props;
   const [allKeys, setAllKeys] = useState(null);
   const [itemArr, setItemArr] = useState([]);
   const flatListRef = useRef(null);
 
   const isFocused = useIsFocused();
 
-  useEffect(() => {
-    // clearAll();
-    getAllKeys();
-  }, [isFocused]);
+  // useEffect(() => {
+  //   getAllKeys();
+  // }, [isFocused]);
 
-  const clearAll = async () => {
-    try {
-      await AsyncStorage.clear();
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const getAllKeys = async () => {
+  //   const keyArr = await AsyncStorage.getAllKeys();
+  //   // kick the 'profile' key out of the keyArr.
+  //   const filteredKeyArr = keyArr.filter(
+  //     key => key !== 'profile' && key !== 'signature' && key !== 'persist:root',
+  //   );
+  //   setAllKeys(filteredKeyArr);
+  //   getAllValues(filteredKeyArr);
+  // };
 
-  const getAllKeys = async () => {
-    const keyArr = await AsyncStorage.getAllKeys();
-    // kick the 'profile' key out of the keyArr.
-    const filteredKeyArr = keyArr.filter(
-      key => key !== 'profile' && key !== 'signature' && key !== 'persist:root',
-    );
-    setAllKeys(filteredKeyArr);
-    getAllValues(filteredKeyArr);
-  };
-
-  const getAllValues = async keyArr => {
-    try {
-      const allItemArr = await AsyncStorage.multiGet(keyArr);
-      setItemArr(allItemArr);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const getAllValues = async keyArr => {
+  //   try {
+  //     const allItemArr = await AsyncStorage.multiGet(keyArr);
+  //     setItemArr(allItemArr);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   const handleTest = async () => {
-    const keyArr = await AsyncStorage.getAllKeys();
-    console.log(keyArr);
+    // const keyArr = await AsyncStorage.getAllKeys();
+    // console.log(keyArr);
+    console.log(props.totalDocs[0].content[0].croppedImage);
   };
 
   const renderItem = ({item}) => {
@@ -106,16 +106,16 @@ export default function DocScreen({navigation, route}) {
       <TouchableOpacity
         onPress={() =>
           navigation.navigate('gallery', {
-            id: item[0],
-            item: JSON.parse(item[1]),
-            length: JSON.parse(item[1]).length,
+            id: item.fileId,
+            item: item.content,
+            length: item.content.length,
           })
         }
         style={styles.itemContainer}>
         <View style={styles.fileImageContainer}>
           {/* show the first image as this document image */}
           <Image
-            source={{uri: JSON.parse(item[1])[0]?.croppedImage}}
+            source={{uri: item.content[0].croppedImage}}
             resizeMode="contain"
             style={styles.fileImage}
           />
@@ -126,12 +126,9 @@ export default function DocScreen({navigation, route}) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.userForeHead}>
-        <Text>jier</Text>
-      </View>
       <FlatList
         ref={flatListRef}
-        data={itemArr}
+        data={props.totalDocs}
         keyExtractor={item => item[0]}
         renderItem={renderItem}
         numColumns={2}
@@ -188,13 +185,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  userForeHead: {
-    backgroundColor: colors.menuColor,
-    height: '20%',
-    width: '100%',
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
-  },
   actionButtonIcon: {
     fontSize: 20,
     height: 22,
@@ -237,6 +227,10 @@ const styles = StyleSheet.create({
     width: '100%',
   },
 });
+
+const _DocScreen = connect(mapStateToProps, null)(DocScreen);
+
+export default _DocScreen;
 
 /*
   <ScrollView

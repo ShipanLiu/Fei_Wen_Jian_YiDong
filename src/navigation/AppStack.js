@@ -215,7 +215,7 @@ function SettingStack({navigation}) {
 function TestStack({navigation}) {
   return (
     <Stack.Navigator
-      initialRouteName="bottom-sheet"
+      initialRouteName="go-to"
       screenOptions={{
         headerStyle: {backgroundColor: colors.menuColor},
         headerTintColor: '#fff',

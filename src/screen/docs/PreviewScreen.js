@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useIsFocused} from '@react-navigation/native';
+import {connect} from 'react-redux';
 
 import {DimensionsHeight, DimensionsWidth} from '../../utils/dimension';
 import AppButton from '../../components/AppButton';
@@ -21,7 +22,14 @@ import AppButton from '../../components/AppButton';
 import Icon from 'react-native-vector-icons/Ionicons';
 import ActionButton from 'react-native-simple-action-button';
 
-export default function PreviewScreen({navigation, route}) {
+const mapStateToProps = (state, props) => {
+  return {
+    totalDocs: [...state.totalDocsReducer],
+  };
+};
+
+function PreviewScreen(props) {
+  const {navigation, route} = props;
   const [fileId, setFileId] = useState(null);
   const [imgArr, setImgArr] = useState(route.params.item);
   const [currentObj, setCurrentObj] = useState();
@@ -39,23 +47,17 @@ export default function PreviewScreen({navigation, route}) {
   const isFocused = useIsFocused();
 
   useEffect(() => {
-    let isMounted = true;
-    getImageArr(isMounted);
-    // prevent repetitive call of setState
-    return () => {
-      isMounted = false;
-    };
+    getImageArr();
   }, []);
 
-  const getImageArr = async isMounted => {
+  const getImageArr = async => {
     try {
       const {id} = route.params;
       setFileId(id);
-      const jsonArr = await AsyncStorage.getItem(id);
-      const imageArray = JSON.parse(jsonArr);
-      if (isMounted) {
-        setImgArr(imageArray);
-      }
+      const selectedFile = props.totalDocs.filter(
+        itemObj => itemObj.fileId === id,
+      );
+      setImgArr(selectedFile[0].content);
     } catch (error) {
       console.log(error);
     }
@@ -104,21 +106,8 @@ export default function PreviewScreen({navigation, route}) {
     }
   };
 
-  const syncChangeToStorage = () => {
-    // TODO
-    console.log('local sync');
-  };
-
-  const handleSpring = item => {
-    const clickedIndex = imgArr.indexOf(item);
-    flatListRef.current.scrollToIndex({animated: true, index: clickedIndex});
-  };
-
   const handleTest = async () => {
-    const realImgArr = await AsyncStorage.getItem(fileId);
-    console.log(JSON.parse(realImgArr));
     console.log(fileId);
-    // console.log(imgArr);
   };
 
   const renderItem = ({item}) => {
@@ -136,42 +125,8 @@ export default function PreviewScreen({navigation, route}) {
     );
   };
 
-  // const renderPreview = ({item}) => {
-  //   const {id, croppedImage} = item;
-  //   return (
-  //     <TouchableHighlight onPress={() => handleSpring(item)}>
-  //       <View
-  //         style={[
-  //           styles.previewItemWrapper,
-  //           {
-  //             borderWidth: item.id === currentObj?.item.id ? 3 : 0,
-  //             borderColor:
-  //               item.id === currentObj?.item.id ? '#05F505' : 'transparent',
-  //           },
-  //         ]}>
-  //         {/* <Text>{id}</Text> */}
-  //         <Image
-  //           source={{uri: croppedImage}}
-  //           resizeMode="cover"
-  //           style={styles.previewImage}
-  //         />
-  //       </View>
-  //     </TouchableHighlight>
-  //   );
-  // };
-
   return (
     <View style={styles.container}>
-      {/* <View style={styles.previewContainer}>
-        <FlatList
-          data={imgArr}
-          keyExtractor={item => item.id}
-          renderItem={renderPreview}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          ref={previewFlatListRef}
-        />
-      </View> */}
       <FlatList
         initialScrollIndex={route.params.index}
         ref={flatListRef}
@@ -246,6 +201,52 @@ const styles = StyleSheet.create({
     height: '100%',
   },
 });
+
+const _PreviewScreen = connect(mapStateToProps, null)(PreviewScreen);
+
+export default _PreviewScreen;
+
+// const handleSpring = item => {
+//   const clickedIndex = imgArr.indexOf(item);
+//   flatListRef.current.scrollToIndex({animated: true, index: clickedIndex});
+// };
+
+/*{
+  <View style={styles.previewContainer}>
+        <FlatList
+          data={imgArr}
+          keyExtractor={item => item.id}
+          renderItem={renderPreview}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          ref={previewFlatListRef}
+        />
+      </View>
+} */
+
+// const renderPreview = ({item}) => {
+//   const {id, croppedImage} = item;
+//   return (
+//     <TouchableHighlight onPress={() => handleSpring(item)}>
+//       <View
+//         style={[
+//           styles.previewItemWrapper,
+//           {
+//             borderWidth: item.id === currentObj?.item.id ? 3 : 0,
+//             borderColor:
+//               item.id === currentObj?.item.id ? '#05F505' : 'transparent',
+//           },
+//         ]}>
+//         {/* <Text>{id}</Text> */}
+//         <Image
+//           source={{uri: croppedImage}}
+//           resizeMode="cover"
+//           style={styles.previewImage}
+//         />
+//       </View>
+//     </TouchableHighlight>
+//   );
+// };
 
 //  flatListData(like viewableItems) = [
 //   {

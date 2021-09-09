@@ -34,6 +34,8 @@ export default function RecropScreen({navigation, route}) {
     getIdAndSetTargetImage();
   }, [isFocused]);
 
+  //  once you upload, you can't recrop again.
+  //  the extraImageState and state are ALL Before loading to Redux
   const getIdAndSetTargetImage = () => {
     const {id, fileId: targetFileId} = route.params;
     if (targetFileId) {
