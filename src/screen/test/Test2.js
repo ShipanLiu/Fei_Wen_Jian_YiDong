@@ -54,6 +54,13 @@ export default function Test2({navigation}) {
           onPress={() => navigation.navigate('bottom-sheet')}>
           bottom sheet
         </Button>
+        <Button
+          uppercase={false}
+          style={styles.button}
+          mode="contained"
+          onPress={() => navigation.navigate('bounds-detection')}>
+          bounds-detection
+        </Button>
       </View>
     </SafeAreaView>
   );

@@ -1,7 +1,9 @@
 /*
   teachable machine need 4D, while  other tensor models like mobilnet requires 3D
 
-  this file is testing teachable machine model
+  this file is testing *********teachable machine model***********
+
+
 */
 
 import React, {useState, useEffect} from 'react';

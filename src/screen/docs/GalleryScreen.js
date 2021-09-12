@@ -15,6 +15,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useIsFocused} from '@react-navigation/native';
 import {connect} from 'react-redux';
+import {useRoute} from '@react-navigation/native';
 
 import {DimensionsHeight, DimensionsWidth} from '../../utils/dimension';
 import AppButton from '../../components/AppButton';
@@ -28,6 +29,10 @@ const mapStateToProps = (state, props) => {
     totalDocs: [...state.totalDocsReducer],
   };
 };
+
+// const outsideRoute = useRoute()
+
+// const {params} = outsideRoute
 
 const mapDispatchToProps = (dispatch, props) => ({
   deleteSomePages: (selectedId, newArr) => {
@@ -58,9 +63,10 @@ function GalleryScreen(props) {
 
   //  if use [isFocused] in useEffect will cause 'Can't perform a React state update on an unmounted component'
 
+  //  TODO: won't update.   solution: use Route hooks
   useEffect(() => {
     getImageArr();
-  }, []);
+  }, [props.totalDocs]);
 
   // "totalDocs": [{"content": [Array], "fileId": "file1"}, {"content": [Array], "fileId": "file2"}]
   const getImageArr = () => {

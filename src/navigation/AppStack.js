@@ -15,7 +15,7 @@ import UploadScreen from '../screen/docs/UploadScreen';
 import RecropScreen from '../screen/docs/RecropScreen';
 import PreviewScreen from '../screen/docs/PreviewScreen';
 import GalleryScreen from '../screen/docs/GalleryScreen';
-import TeachMachineTest from '../test/TeachMachineTest';
+import TeachMachineTest from '../test/01-TeachMachineTest';
 import EditProfileScreen from '../screen/profile/EditProfileScreen';
 import SignatureScreen from '../screen/others/SignatureScreen';
 import SettingScreen from '../screen/others/SettingScreen';
@@ -30,10 +30,7 @@ import BottomSheet from '../screen/test/BottomSheet';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import Test2 from '../screen/test/Test2';
-
-// import TMTest2 from '../test/TMTest2';
-// import TMTest3 from '../test/TMTest3';
-// import KnnImageClassifier from '../test/Knn-Image-Classifier';
+import BoundsDetection from '../test/06-BoundsDetection';
 
 const Stack = createStackNavigator();
 const TopTab = createMaterialTopTabNavigator();
@@ -244,6 +241,7 @@ function TestStack({navigation}) {
           headerShown: false,
         }}
       />
+      <Stack.Screen name="bounds-detection" component={BoundsDetection} />
     </Stack.Navigator>
   );
 }
