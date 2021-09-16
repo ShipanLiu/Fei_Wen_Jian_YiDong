@@ -23,30 +23,9 @@ import PhotoManipulator from 'react-native-photo-manipulator';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-export default function ImgCropperV2(props) {
+export default function ImgCropperV2({route}) {
   const [croppedImg, setCroppedImg] = useState(null);
-
-  const imgObj = {
-    fileName: '831e827f-ff4c-46aa-b4a9-22952fdf1df7.jpeg',
-    height: 1599,
-    id: 'da50e956-0e25-4980-8340-e17ca3fbcb32',
-    localIdentifier: 40,
-    mime: 'image/jpeg',
-    path: 'content://media/external/file/40',
-    realPath:
-      '/storage/emulated/0/Download/831e827f-ff4c-46aa-b4a9-22952fdf1df7.jpeg',
-    ref: {current: null},
-    width: 899,
-  };
-
-  const position = {
-    bottomLeft: {x: 232.22337328946148, y: 1437.213149861936},
-    bottomRight: {x: 690.8702873441907, y: 1433.8660937344584},
-    height: 1599,
-    topLeft: {x: 231.4003189705036, y: 63.50644774530776},
-    topRight: {x: 686.7550681432087, y: 61.03726677806292},
-    width: 899,
-  };
+  const {image: imgObj, coordinates: position} = route.params;
 
   const cropRegion1 = {
     x: (position.bottomLeft.x + position.topLeft.x) * 0.5,
@@ -61,10 +40,13 @@ export default function ImgCropperV2(props) {
 
   const targetSize = {height: cropRegion1.height, width: cropRegion1.width};
 
+  const handleTest = () => {
+    console.log(route.params);
+  };
   const handleCrop = async () => {
     try {
       const result = await PhotoManipulator.crop(
-        imgObj.path,
+        imgObj.uri,
         cropRegion1,
         targetSize,
       );
@@ -78,6 +60,7 @@ export default function ImgCropperV2(props) {
   return (
     <View>
       <Button title="crop" onPress={handleCrop} />
+      <Button title="test" onPress={handleTest} />
       <ScrollView style={{marginTop: 10}}>
         {croppedImg ? (
           <Image

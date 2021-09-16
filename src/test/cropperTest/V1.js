@@ -14,100 +14,53 @@ import {
 } from 'react-native';
 import CustomCrop from './testCropper';
 import MultipleImagePicker from '@baronha/react-native-multiple-image-picker';
+import * as ImagePicker from 'expo-image-picker';
 import uuid from 'react-native-uuid';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 console.log(windowWidth);
 
-export default function ImgCropper() {
+export default function ImgCropper({navigation}) {
   const customCropRef = useRef(null);
-  const [initialImages, setImitialImages] = useState([
-    // {
-    //   fileName: 'IMG_9290.jpeg',
-    //   height: 3024,
-    //   id: '3bd2f66c-3dd1-4df8-a061-c4a10d6b477e',
-    //   localIdentifier: 43,
-    //   mime: 'image/jpeg',
-    //   path: 'content://media/external/file/43',
-    //   realPath: '/storage/emulated/0/Download/IMG_9290.jpeg',
-    //   width: 4032,
-    // },
-    // {
-    //   fileName: 'IMG_9289.jpeg',
-    //   height: 3024,
-    //   id: '5dd7438d-636b-4f7e-af05-9ce88b0c362a',
-    //   localIdentifier: 42,
-    //   mime: 'image/jpeg',
-    //   path: 'content://media/external/file/42',
-    //   realPath: '/storage/emulated/0/Download/IMG_9289.jpeg',
-    //   width: 4032,
-    // },
-    // {
-    //   fileName: '6fc1b57f-caf9-4908-860a-d02a37ce6b41.jpeg',
-    //   height: 1599,
-    //   id: 'b109511d-b926-41f9-9288-f47c3e2da844',
-    //   localIdentifier: 41,
-    //   mime: 'image/jpeg',
-    //   path: 'content://media/external/file/41',
-    //   realPath:
-    //     '/storage/emulated/0/Download/6fc1b57f-caf9-4908-860a-d02a37ce6b41.jpeg',
-    //   width: 899,
-    // },
-    // {
-    //   fileName: '831e827f-ff4c-46aa-b4a9-22952fdf1df7.jpeg',
-    //   height: 1599,
-    //   id: '68e5482f-5120-4deb-840e-3984d2063d6d',
-    //   localIdentifier: 40,
-    //   mime: 'image/jpeg',
-    //   path: 'content://media/external/file/40',
-    //   realPath:
-    //     '/storage/emulated/0/Download/831e827f-ff4c-46aa-b4a9-22952fdf1df7.jpeg',
-    //   width: 899,
-    // },
-  ]);
-
-  function buildImgObj(imgObj) {
-    const myRef = React.createRef();
-    return {
-      id: uuid.v4(),
-      localIdentifier: imgObj.localIdentifier,
-      path: imgObj.path,
-      realPath: imgObj.realPath,
-      fileName: imgObj.fileName,
-      mime: imgObj.mime,
-      height: imgObj.height,
-      width: imgObj.width,
-      ref: myRef,
-    };
-  }
+  const [initialImages, setImitialImages] = useState(null);
+  const [show, setShow] = useState(false);
 
   const openPicker = async () => {
     try {
-      const response = await MultipleImagePicker.openPicker({
-        isExportThumbnail: true,
-        singleSelectedMode: false,
-        usedCameraButton: false,
-        selectedColor: '#f9813a',
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [3, 4],
+        quality: 1,
       });
-      const newImageArr = response.map(imgObj => buildImgObj(imgObj));
-      console.log(newImageArr);
-      setImitialImages(newImageArr);
+      console.log(result);
+      setImitialImages({
+        uri: result.uri,
+        height: result.height,
+        width: result.width,
+      });
+      setShow(true);
     } catch (e) {
       console.log(e);
     }
   };
 
-  const crop = ref => {
-    const newCoordi = ref.current.crop();
-    // console.log(newCoordi);
-    return newCoordi;
+  const crop = () => {
+    const newCoordi = customCropRef.current.crop();
+    console.log(newCoordi);
+    navigation.navigate('test-cropper', {
+      coordinates: {
+        ...newCoordi,
+      },
+      image: {
+        ...initialImages,
+      },
+    });
   };
 
-  const handleCrop = () => {
-    const refArr = [];
-    const coordiArr = initialImages.map(imgObj => crop(imgObj.ref));
-    console.log(coordiArr);
+  const handleTest = () => {
+    console.log(initialImages);
   };
 
   return (
@@ -116,29 +69,37 @@ export default function ImgCropper() {
         horizontal={true}
         pagingEnabled
         showsHorizontalScrollIndicator={false}>
-        {initialImages?.map(imgObj => (
-          <View key={imgObj.id} style={styles.cropperContainer}>
+        <View style={styles.cropperContainer}>
+          {/* <Image
+            source={{
+              uri: 'file:///data/user/0/com.flydocs/cache/ImagePicker/1164e8ef-d147-441c-bdb0-04ebbdd446be.jpg',
+            }}
+            style={{width: 200, height: 100}}
+          /> */}
+          {show ? (
             <CustomCrop
               // updateImage={this.updateImage.bind(this)}
               // rectangleCoordinates={this.state.rectangleCoordinates}
-              initialImage={imgObj.path}
-              height={imgObj.height}
-              width={imgObj.width}
-              ref={imgObj.ref}
-              // ref={customCropRef}
+              initialImage={initialImages.uri}
+              height={initialImages.height}
+              width={initialImages.width}
+              ref={customCropRef}
               overlayColor="rgba(18,190,210, 1)"
               overlayStrokeColor="rgba(20,190,210, 1)"
               handlerColor="rgba(20,150,160, 1)"
               enablePanStrict={false}
               style={styles.cropper}
             />
-            <TouchableOpacity onPress={openPicker} style={styles.pickerBtn}>
-              <Text style={{color: 'red'}}>picker</Text>
-            </TouchableOpacity>
-          </View>
-        ))}
-        <TouchableOpacity onPress={handleCrop} style={styles.cropBtn}>
+          ) : null}
+        </View>
+        <TouchableOpacity onPress={openPicker} style={styles.pickerBtn}>
+          <Text style={{color: 'red'}}>picker</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={crop} style={styles.cropBtn}>
           <Text style={{color: 'red'}}>CROP IMAGE</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={handleTest} style={styles.testBtn}>
+          <Text style={{color: 'red'}}>test</Text>
         </TouchableOpacity>
       </ScrollView>
       <Button title="picker" onPress={openPicker} />
@@ -168,6 +129,12 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 40,
     right: 20,
+    alignSelf: 'center',
+  },
+  testBtn: {
+    position: 'absolute',
+    bottom: 40,
+    right: 150,
     alignSelf: 'center',
   },
 

@@ -2,6 +2,12 @@
  {"bottomLeft": {"x": 511, "y": 730}, "bottomRight": {"x": 507, "y": 521},
 "dimensions": {"height": 1280, "width": 720}, "topLeft": {"x": 347, "y": 721}, "topRight": {"x": 348, "y": 449}}
 
+bugs:
+
+if the coordinates are deteced, we could use convert coordinate function(createRectangle)
+
+if the coordinates are not detected, then we will use the initial coordinates, and don't have to use
+the convert coordinate function(createRectangle)
 */
 
 import React, {useState, useRef, useEffect, useContext} from 'react';
@@ -25,6 +31,7 @@ import colors from '../../utils/colors';
 import {ImageContext} from '../../store/context/ImageContext';
 import {extraImageContext} from '../../store/context/extraImageContext';
 import * as actions from '../../store/actions/actions';
+import {DimensionsHeight, DimensionsWidth} from '../../utils/dimension';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -64,17 +71,35 @@ export default function TestV1({route, navigation}) {
     });
   };
 
-  const createRectangle = data => ({
-    topLeft: data.topRight,
-    topRight: data.bottomRight,
-    bottomRight: data.bottomLeft,
-    bottomLeft: data.topLeft,
+  const createRectangle = data => {
+    if (data) {
+      return {
+        topLeft: data.topRight,
+        topRight: data.bottomRight,
+        bottomRight: data.bottomLeft,
+        bottomLeft: data.topLeft,
+      };
+    } else {
+      //  TODO:
+      // return {
+      //   topLeft: data.topRight,
+      //   topRight: data.bottomRight,
+      //   bottomRight: data.bottomLeft,
+      //   bottomLeft: data.topLeft,
+      // };
+    }
+  };
+
+  const initialRectangle = data => ({
+    topLeft: data.topLeft,
+    topRight: data.topRight,
+    bottomRight: data.bottomRight,
+    bottomLeft: data.bottomLeft,
   });
 
-  //  TODO:   调整cropper的预览。
   const getCoordination = detectedRectangle => {
     setOldCoordinates(createRectangle(detectedRectangle));
-    setSize(detectedRectangle.dimensions);
+    setSize(detectedRectangle?.dimensions);
   };
 
   const createRectRegion = position => {
@@ -134,8 +159,8 @@ export default function TestV1({route, navigation}) {
           coordinates: newCoordinates,
           initialImage: takenPhoto.initialImage,
           croppedImage: croppedImageUri,
-          height: size.height,
-          width: size.width,
+          height: size ? size.height : 1280,
+          width: size ? size.width : 720,
           ratio: rectRegion.width / rectRegion.height,
         },
       });
@@ -147,8 +172,8 @@ export default function TestV1({route, navigation}) {
           coordinates: newCoordinates,
           initialImage: takenPhoto.initialImage,
           croppedImage: croppedImageUri,
-          height: size.height,
-          width: size.width,
+          height: size ? size.height : 1280,
+          width: size ? size.width : 720,
           ratio: rectRegion.width / rectRegion.height,
         },
       });
@@ -170,7 +195,15 @@ export default function TestV1({route, navigation}) {
     }
   };
 
-  console.log(fileId);
+  const handleTest = () => {
+    console.log('jier');
+    console.log(oldCoordinates);
+    // const newCoordinates = cropperRef.current.crop();
+    // console.log(newCoordinates);
+    console.log(size);
+  };
+
+  console.log('ScannerScreen rerender 了一次');
 
   return (
     <>
@@ -185,7 +218,8 @@ export default function TestV1({route, navigation}) {
             /> */}
             {takenPhoto.initialImage && (
               <View style={styles.customCropWrapper}>
-                <View style={styles.doneButton}>
+                <View style={[styles.doneButton, {flexDirection: 'row'}]}>
+                  <Button title="test" onPress={handleTest} />
                   <TouchableOpacity onPress={handleDone}>
                     <AppIcon
                       name="check"
@@ -195,23 +229,29 @@ export default function TestV1({route, navigation}) {
                     />
                   </TouchableOpacity>
                 </View>
+                <View style={styles.customCropStyle}>
+                  <CustomCrop
+                    // updateImage={this.updateImage.bind(this)}
+                    rectangleCoordinates={oldCoordinates}
+                    initialImage={takenPhoto.initialImage}
+                    height={size ? size.height : 1280}
+                    width={size ? size.width : 720}
+                    ref={cropperRef}
+                    overlayColor="rgba(18,190,210, 1)"
+                    overlayStrokeColor="rgba(20,190,210, 1)"
+                    handlerColor="rgba(20,150,160, 1)"
+                    enablePanStrict={false}
+                  />
+                </View>
 
-                <CustomCrop
-                  // updateImage={this.updateImage.bind(this)}
-                  rectangleCoordinates={oldCoordinates}
-                  initialImage={takenPhoto.initialImage}
-                  height={size.height}
-                  width={size.width}
-                  ref={cropperRef}
-                  overlayColor="rgba(18,190,210, 1)"
-                  overlayStrokeColor="rgba(20,190,210, 1)"
-                  handlerColor="rgba(20,150,160, 1)"
-                  enablePanStrict={false}
-                />
                 <View style={styles.controlContainer}>
                   <TouchableOpacity
                     style={styles.controlIcon}
-                    onPress={() => setTakenPhoto(null)}>
+                    onPress={() => {
+                      setTakenPhoto(null);
+                      setOldCoordinates(null);
+                      setSize(null);
+                    }}>
                     <AppIcon
                       name="redo-variant"
                       size={40}
@@ -304,5 +344,11 @@ const styles = StyleSheet.create({
     top: 10,
     alignItems: 'center',
     zIndex: 100,
+  },
+  customCropStyle: {
+    flex: 1,
+    marginTop: 20,
+    marginBottom: 20,
+    borderWidth: 1,
   },
 });

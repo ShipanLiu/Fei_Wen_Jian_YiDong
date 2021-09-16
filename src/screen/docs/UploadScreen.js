@@ -69,11 +69,12 @@ const mapDispatchToProps = (dispatch, props) => ({
 
 function UploadScreen(props) {
   const {navigation, route} = props;
-  const {state, dispatch} = useContext(ImageContext);
+
   const [imgArr, setImgArr] = useState([]);
   // if for extra image, the fileId exists, in other cases, it is null
   const [fileId, setFileId] = useState();
   const [showModal, setShowModal] = useState(false);
+  const {state, dispatch} = useContext(ImageContext);
   const {state: extraImageState, dispatch: extraImagedispatch} =
     useContext(extraImageContext);
 
@@ -125,57 +126,6 @@ function UploadScreen(props) {
     dispatch({type: actions.REMOVE});
   };
 
-  // const handleUpload = async value => {
-  //   try {
-  //     // openModal()
-  //     const jsonValue = JSON.stringify(value);
-  //     const key = `file${Date.now()}`;
-  //     await AsyncStorage.setItem(key, jsonValue);
-  //     navigation.navigate('docs', {
-  //       id: key,
-  //       index: undefined,
-  //       fromCamera: true,
-  //     });
-  //     //  clear
-  //     dispatch({type: actions.REMOVE});
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  // const handleAddExtraImage = async value => {
-  //   // AsyncStorage Merge
-  //   try {
-  //     const jsonImgArr = await AsyncStorage.getItem(fileId);
-  //     const parsedImgArr = JSON.parse(jsonImgArr);
-  //     const concatArr = [...parsedImgArr, ...value];
-  //     Alert.alert('SAVE', 'Are you sure', [
-  //       {
-  //         text: 'Cancel',
-  //         onPress: () => console.log('Cancel Pressed'),
-  //         style: 'cancel',
-  //       },
-  //       {
-  //         text: 'OK',
-  //         onPress: async () => {
-  //           console.log('erst: ' + imgArr);
-  //           console.log('zweite' + value);
-  //           const jsonValue = JSON.stringify(concatArr);
-  //           await AsyncStorage.setItem(fileId, jsonValue);
-  //           navigation.navigate('gallery', {
-  //             id: fileId,
-  //             fileId: fileId,
-  //             index: parsedImgArr.length - 1,
-  //           });
-  //           extraImagedispatch({type: actions.REMOVE});
-  //         },
-  //       },
-  //     ]);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
   const handleAddExtraImage = () => {
     Alert.alert('SAVE', 'Are you sure', [
       {
@@ -214,7 +164,8 @@ function UploadScreen(props) {
   const handleTest = () => {
     // setShowModal(true);
     console.log(fileId);
-    console.log(extraImageState);
+    // console.log(extraImageState);
+    console.log(state);
   };
 
   const renderItem = ({item}) => {

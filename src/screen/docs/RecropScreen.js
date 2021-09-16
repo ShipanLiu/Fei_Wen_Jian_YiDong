@@ -17,6 +17,7 @@ import AppButton from '../../components/AppButton';
 import {ImageContext} from '../../store/context/ImageContext';
 import {extraImageContext} from '../../store/context/extraImageContext';
 import * as actions from '../../store/actions/actions';
+import {DimensionsHeight, DimensionsWidth} from '../../utils/dimension';
 
 export default function RecropScreen({navigation, route}) {
   const [id, setId] = useState(null);
@@ -138,8 +139,8 @@ export default function RecropScreen({navigation, route}) {
         <CustomCrop
           rectangleCoordinates={targetImage.coordinates}
           initialImage={targetImage.initialImage}
-          height={targetImage.height}
-          width={targetImage.width}
+          height={DimensionsHeight * 0.7}
+          width={DimensionsWidth * 0.9}
           ref={cropperRef}
           overlayColor="rgba(18,190,210, 1)"
           overlayStrokeColor="rgba(20,190,210, 1)"

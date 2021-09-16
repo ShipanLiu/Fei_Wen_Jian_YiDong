@@ -2,10 +2,10 @@ import React from 'react';
 import {LogBox} from 'react-native';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
+import {NavigationContainer} from '@react-navigation/native';
 
 import Routes from './navigation/Routes';
-import V2 from './test/cropperTest/V2';
-import V1 from './test/cropperTest/V1';
+// import TestStack from './test/cropperTest/testStack';
 import {ImageProvider} from './store/context/ImageContext';
 import {ExtraImageProvider} from './store/context/extraImageContext';
 
@@ -15,7 +15,11 @@ LogBox.ignoreLogs(['Reanimated 2']);
 
 function App() {
   return <Routes />;
-  // return <V1 />;
+  // return (
+  //   <NavigationContainer>
+  //     <TestStack />
+  //   </NavigationContainer>
+  // );
 }
 
 export default () => (
